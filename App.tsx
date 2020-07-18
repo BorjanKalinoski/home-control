@@ -1,10 +1,23 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import DevicesScreen from "./app/screens/DevicesScreen";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+} from "react-native";
+import AcRemoteScreen from "./app/screens/AcRemoteScreen";
+
+console.log("da");
+const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 0;
 
 export default function App() {
-  return <DevicesScreen />;
+  return (
+    <SafeAreaView style={styles.container}>
+      <AcRemoteScreen />
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -13,5 +26,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: statusBarHeight,
   },
 });
