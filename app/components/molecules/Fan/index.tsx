@@ -7,10 +7,10 @@ const DEFAULT_FAN_ICON_SIZE = 32;
 const Fan = (props: any) => {
   return (
     <View style={styles.container}>
-      <CustomIcon name={"fan"} fontSize={DEFAULT_FAN_ICON_SIZE} />
-      <CustomIcon name={"fan"} fontSize={DEFAULT_FAN_ICON_SIZE} />
-      <CustomIcon name={"fan"} fontSize={DEFAULT_FAN_ICON_SIZE} />
-      <CustomIcon name={"autorenew"} fontSize={DEFAULT_FAN_ICON_SIZE} />
+      <CustomIcon name={"fan"} iconSize={DEFAULT_FAN_ICON_SIZE} />
+      <CustomIcon name={"fan"} iconSize={DEFAULT_FAN_ICON_SIZE} />
+      <CustomIcon name={"fan"} iconSize={DEFAULT_FAN_ICON_SIZE} />
+      <CustomIcon name={"autorenew"} iconSize={DEFAULT_FAN_ICON_SIZE} />
     </View>
   );
 };
