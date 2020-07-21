@@ -1,14 +1,26 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import CustomIcon from "../../atoms/CustomIcon";
 import CustomText from "../../atoms/CustomText";
+const DEFAULT_ICON_SIZE = 42;
+const DEFAULT_TEXT_ICON_SIZE = 15; //ovie treba da bidat vo config file etc
 const ModeIcon = (props: any) => {
   return (
-    <View>
-      <CustomIcon name={props.name} />
-      <CustomText text={props.text} />
+    <View style={styles.container}>
+      <CustomIcon
+        name={props.name}
+        fontSize={props.iconSize ? props.iconSize : DEFAULT_ICON_SIZE}
+      />
+      <CustomText
+        text={props.text}
+        textSize={props.textSize ? props.textSize : DEFAULT_TEXT_ICON_SIZE}
+      />
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 export default ModeIcon;

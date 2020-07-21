@@ -1,44 +1,70 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Fan from "../../molecules/Fan";
-import CustomIcon from "../../atoms/CustomIcon";
 import CustomText from "../../atoms/CustomText";
 import ModeIcon from "../../molecules/ModeIcon";
-console.log("daa\n\n\n");
+const DISPLAY_ICON_SIZE = 42;
+const DISPLAY_ICON_TEXT_SIZE = 15; //ovie treba da se vo config file
 const DisplayContainer = (props: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <ModeIcon name="autorenew" text="Auto" />
-        <ModeIcon name="water" text="Dry" />
-        <ModeIcon name="snowflake" text="Cool" />
-        <ModeIcon name="fan" text="Fan" />
-        <ModeIcon name="weather-sunny" text="Heat" />
+        <ModeIcon
+          iconSize={DISPLAY_ICON_SIZE}
+          name="autorenew"
+          text="Auto"
+          textSize={DISPLAY_ICON_TEXT_SIZE}
+        />
+        <ModeIcon
+          iconSize={DISPLAY_ICON_SIZE}
+          name="water"
+          text="Dry"
+          textSize={DISPLAY_ICON_TEXT_SIZE}
+        />
+        <ModeIcon
+          iconSize={DISPLAY_ICON_SIZE}
+          name="snowflake"
+          text="Cool"
+          textSize={DISPLAY_ICON_TEXT_SIZE}
+        />
+        <ModeIcon
+          iconSize={DISPLAY_ICON_SIZE}
+          name="fan"
+          text="Fan"
+          textSize={DISPLAY_ICON_TEXT_SIZE}
+        />
+        <ModeIcon
+          iconSize={DISPLAY_ICON_SIZE}
+          name="weather-sunny"
+          text="Heat"
+          textSize={DISPLAY_ICON_TEXT_SIZE}
+        />
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.bottomRow]}>
         <Fan />
-        <CustomIcon name="network-strength-4" />
-        <CustomText text="22 &#x2103;" />
+        <ModeIcon name="engine" text="Turbo" />
+        <CustomText text="22 &#x2103;" textSize={38} />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  row: {
-    flex: 1,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "red",
-    justifyContent: "space-evenly",
-  },
   container: {
-    flex: 1,
     alignSelf: "center",
     backgroundColor: "grey",
-    width: "80%",
-    borderWidth: 3,
-    borderColor: "grey",
+    width: "90%",
+    height: 165,
+    paddingVertical: 14,
+    marginVertical: 12,
+  },
+  row: {
+    flexDirection: "row",
+    height: "60%",
+  },
+  bottomRow: {
+    paddingHorizontal: 22,
+    height: "40%",
   },
 });
 

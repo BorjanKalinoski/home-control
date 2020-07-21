@@ -13,26 +13,34 @@ import { ScrollView, Text, View, StyleSheet } from "react-native";
 import CustomIcon from "../components/atoms/CustomIcon";
 import DisplayContainer from "../components/organisms/DisplayContainer";
 import SettingsContainer from "../components/organisms/SettingsContainer";
-import InfoContainer from "../components/organisms/InfoContainer";
+import CustomText from "../components/atoms/CustomText";
 
 const AcRemoteScreen = (props: any) => {
   return (
-    <ScrollView style={styles.container}>
-      <CustomIcon name={"power"} />
+    <View style={styles.container}>
+      <CustomText text="Livingroom" />
       <DisplayContainer />
-      <SettingsContainer />
-      <InfoContainer />
-    </ScrollView>
+      <View style={styles.header}>
+        <CustomIcon name="power" />
+        <CustomIcon name="information-outline" />
+      </View>
+      {/* <SettingsContainer /> */}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: "green",
     width: "100%",
     textAlign: "center",
+    paddingVertical: 8,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "65%",
+    alignSelf: "center",
   },
 });
 

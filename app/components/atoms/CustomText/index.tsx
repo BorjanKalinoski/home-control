@@ -1,9 +1,19 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, StyleSheet } from "react-native";
+const DEFAULT_FONT_SIZE = 20; //ovie treba da se vo config file
 const CustomText = (props: any) => {
-  return <Text>{props.text}</Text>;
+  return (
+    <Text
+      style={{
+        fontSize: props.textSize ? props.textSize : DEFAULT_FONT_SIZE,
+        textAlign: "center",
+      }}
+    >
+      {props.text}
+    </Text>
+  );
 };
 
-//STIL od propsot itn itn
+//STIL od propsot itn itn, ili so css klasi?
 //ovoj tekst ke se koristi za  prikazuvanje na mode text i temperaturata
 export default CustomText;

@@ -1,26 +1,22 @@
 import React from "react";
-import { View } from "react-native";
-import CustomButton from "../../atoms/CustomButton";
-import CustomIcon from "../../atoms/CustomIcon";
+import { View, StyleSheet } from "react-native";
+import ChangeTemperature from "../../molecules/ChangeTemperature";
+import SettingsButtons from "../../molecules/SettingsButtons";
 const SettingsContainer = (props: any) => {
   return (
-    <View>
-      <View>
-        <View>
-          <CustomButton title="Mode" />
-          <CustomButton title="Fan" />
-        </View>
-        <View>
-          <CustomButton title="Turbo" />
-          <CustomButton title="Swing" />
-        </View>
-      </View>
-      <View>
-        <CustomIcon name="plus-box" />
-        <CustomIcon name="minus-box" />
-      </View>
+    <View style={styles.row}>
+      <SettingsButtons />
+      <ChangeTemperature />
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  row: {
+    flex: 1,
+    flexDirection: "row",
+    alignSelf: "center",
+    width: "80%",
+    justifyContent: "space-around",
+  },
+});
 export default SettingsContainer;
