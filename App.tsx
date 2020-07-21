@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
-import AcRemoteScreen from "./app/screens/AcRemoteScreen";
+import AcRemoteScreen from "./app/scenes/AcRemoteScreen";
 
 const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 0;
 

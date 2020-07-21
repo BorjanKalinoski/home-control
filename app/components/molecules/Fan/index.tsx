@@ -17,8 +17,8 @@ const Fan = (props: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
     alignItems: "flex-end",
+    flexDirection: "row",
   },
 });
 

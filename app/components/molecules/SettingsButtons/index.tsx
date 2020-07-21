@@ -19,14 +19,13 @@ const SettingsButtons = (props: any) => {
   );
 };
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    flex: 1,
-    // width: 150,
-    flexWrap: "wrap",
-  },
   button: {
     width: "33.333%",
+  },
+  row: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 });
 

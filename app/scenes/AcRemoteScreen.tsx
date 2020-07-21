@@ -1,30 +1,21 @@
-// import React from "react";
-// import {
-//   View,
-//   Text,
-//   SafeAreaView,
-//   Platform,
-//   StatusBar,
-//   StyleSheet,
-// } from "react-native";
-
 import React from "react";
-import { ScrollView, Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import CustomIcon from "../components/atoms/CustomIcon";
 import DisplayContainer from "../components/organisms/DisplayContainer";
-import SettingsContainer from "../components/organisms/SettingsContainer";
 import CustomText from "../components/atoms/CustomText";
-
+import SettingsContainer from "../components/organisms/SettingsContainer";
+import ChangeTemperature from "../components/molecules/ChangeTemperature";
 const AcRemoteScreen = (props: any) => {
   return (
     <View style={styles.container}>
-      <CustomText text="Livingroom" />
+      <CustomText text="Living Room" textSize={30} />
       <DisplayContainer />
       <View style={styles.header}>
-        <CustomIcon name="power" />
-        <CustomIcon name="information-outline" />
+        <CustomIcon name="power" iconSize={48} />
+        <CustomIcon name="information-outline" iconSize={48} />
       </View>
-      {/* <SettingsContainer /> */}
+      <SettingsContainer />
+      <ChangeTemperature />
     </View>
   );
 };

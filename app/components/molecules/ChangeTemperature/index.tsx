@@ -5,12 +5,12 @@ import CustomText from "../../atoms/CustomText";
 const ChangeTemperature = (props: any) => {
   return (
     <View style={styles.row}>
-      <View style={styles.column}>
-        <CustomIcon name="plus-box" />
-        <CustomIcon name="minus-box" />
+      <View style={styles.row}>
+        <CustomIcon name="plus-box" iconSize={65} />
+        <CustomIcon name="minus-box" iconSize={65} />
       </View>
       <View style={styles.column}>
-        <CustomText size={16} text="25 &#x2103;" />
+        <CustomText textSize={80} text="25 &#x2103;" />
       </View>
     </View>
   );
@@ -18,7 +18,7 @@ const ChangeTemperature = (props: any) => {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
   column: {
     height: "100%",
