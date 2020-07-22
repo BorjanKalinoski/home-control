@@ -1,22 +1,26 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-const CustomButton = ({ onPress, title }: any) => {
+import { CustomButtonProps } from "../../types/types";
+const CustomButton = ({
+  buttonContainerStyle,
+  buttonTextStyle,
+  onPress,
+  title,
+}: CustomButtonProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.5}
       onPress={onPress}
-      style={styles.buttonContainer}
+      style={[styles.buttonContainerStyle, buttonContainerStyle]}
     >
-      <Text style={styles.buttonText}>{title}</Text>
+      <Text style={[styles.buttonTextStyle, buttonTextStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({
-  buttonContainer: {
+  buttonContainerStyle: {
     elevation: 8,
-    backgroundColor: "lightgrey",
-    borderWidth: 1,
-    borderColor: "grey",
+    backgroundColor: "black",
     textAlign: "center",
     textAlignVertical: "center",
     alignItems: "center",
@@ -26,9 +30,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 80,
   },
-  buttonText: {
+  buttonTextStyle: {
     fontSize: 18,
-    color: "black",
+    textDecorationColor: "white",
+    color: "white",
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",

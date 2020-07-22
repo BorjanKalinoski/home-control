@@ -8,6 +8,7 @@ const CustomText = (props: CustomTextProps) => {
       style={{
         fontSize: props.textSize ? props.textSize : DEFAULT_FONT_SIZE,
         textAlign: "center",
+        alignSelf: "center",
       }}
     >
       {props.text}
