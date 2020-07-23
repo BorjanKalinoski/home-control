@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { CustomIconProps } from "../../types/types";
+import { CustomIconProps } from "../../../types/types";
 const DEFAULT_ICON_SIZE = 24; //izvadi gi vo config file
 const CustomIcon = (props: CustomIconProps) => {
   return (

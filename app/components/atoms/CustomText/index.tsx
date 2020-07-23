@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
-import { CustomTextProps } from "../../types/types";
+import { Text } from "react-native";
+import { CustomTextProps } from "../../../types/types";
 const DEFAULT_FONT_SIZE = 20; //ovie treba da se vo config file
 const CustomText = (props: CustomTextProps) => {
   return (

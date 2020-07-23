@@ -1,14 +1,21 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
-import AcRemoteScreen from "./app/scenes/AcRemoteScreen";
+import { StyleSheet, Platform, StatusBar } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import AcRemoteScreen from "./app/scenes/ACRemote/AcRemoteScreen";
+import DevicesScreen from "./app/scenes/DevicesScreen/DevicesScreen";
 
 const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 0;
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <AcRemoteScreen />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Devices">
+        <Stack.Screen name="Devices" component={DevicesScreen} />
+        <Stack.Screen name="Livingroom" component={AcRemoteScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

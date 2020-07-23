@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import CustomIcon from "../../atoms/CustomIcon";
 import CustomText from "../../atoms/CustomText";
-import { ModeIconProps } from "../../types/types";
+import { ModeIconProps } from "../../../types/types";
 const DEFAULT_ICON_SIZE = 42;
 const DEFAULT_TEXT_ICON_SIZE = 15; //ovie treba da bidat vo config file etc
 const ModeIcon = (props: ModeIconProps) => {

@@ -1,13 +1,17 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import CustomIcon from "../../atoms/CustomIcon";
 import CustomText from "../../atoms/CustomText";
 const ChangeTemperature = (props: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.column}>
-        <CustomIcon color={"white"} name="plus-box" iconSize={65} />
-        <CustomIcon color={"white"} name="minus-box" iconSize={65} />
+        <TouchableOpacity>
+          <CustomIcon color={"white"} name="plus-box" iconSize={65} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <CustomIcon color={"white"} name="minus-box" iconSize={65} />
+        </TouchableOpacity>
       </View>
       <CustomText textSize={70} text="25 &#x2103;" />
     </View>

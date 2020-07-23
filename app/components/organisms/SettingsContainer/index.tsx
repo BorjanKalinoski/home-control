@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     flex: 1,
-    height: 80,
+    height: 70,
   },
   row: {
     flexDirection: "row",
@@ -80,8 +80,6 @@ const styles = StyleSheet.create({
     marginVertical: 18,
     width: "90%",
     alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "green",
   },
 });
 export default SettingsContainer;
