@@ -23,7 +23,7 @@ interface CustomButtonProps {
 }
 
 interface Device {
-  id: string;
+  id?: string;
   name: string;
   type: string;
 }

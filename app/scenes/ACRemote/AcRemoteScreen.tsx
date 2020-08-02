@@ -7,9 +7,10 @@ import SettingsContainer from "../../components/organisms/SettingsContainer";
 import ChangeTemperature from "../../components/molecules/ChangeTemperature";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const AcRemoteScreen = ({ navigation, route }: any) => {
+  const { deviceName, deviceType } = route.params;
   return (
     <View style={styles.container}>
-      <CustomText text="Living Room" textSize={30} />
+      <CustomText text={deviceName} textSize={30} />
       <DisplayContainer />
       <View style={styles.header}>
         <TouchableOpacity>

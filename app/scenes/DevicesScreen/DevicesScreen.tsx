@@ -1,4 +1,4 @@
-import React, { JSXElementConstructor } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -11,40 +11,50 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import { Device } from "../../types/types";
-console.log("starting!");
+import { db } from "./../../config/config";
+
 const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 0;
 
 //treba vo zavisnost od ova, dinamicno da se kreiraat novi screens!
-const DATA: Device[] = [
-  {
-    id: "1",
-    name: "Livingroom",
-    type: "AC",
-  },
-  {
-    id: "2",
-    name: "Bedroom",
-    type: "ac",
-  },
-  {
-    id: "3",
-    name: "Mailbox",
-    type: "mail",
-  },
-];
 function DevicesScreen({ navigation, route }: any) {
-  // console.log(navigation);
-  const onDevicePressHandler = (aaa: any) => {
-    // console.log(navigator);
-    navigation.navigate("Livingroom", {
-      id: 1,
+  const [devices, setDevices] = useState([]);
+  const [deviceData, setDeviceData] = useState({
+    deviceName: "",
+    deviceType: "",
+  });
+
+  useEffect(() => {
+    db.ref("/devices").on("value", (querySnapShot) => {
+      let devices = querySnapShot.val();
+      let deviceData = { ...devices };
+      devices = Object.keys({ ...devices });
+      setDeviceData(deviceData);
+      setDevices(devices);
     });
-    // navigator.nav
+  }, []);
+
+  const onDevicePressHandler = (deviceData: any) => {
+    if (deviceData.deviceType == "ac") {
+      navigation.navigate("ACRemote", {
+        deviceName: deviceData.deviceName,
+        deviceType: deviceData.deviceType,
+      });
+    }
+    // return;
   };
   const renderItem = ({ item }: { item: Device }) => {
+    let isEnabled =
+      (Object.keys(deviceData).length === 0 && deviceData.constructor === Object
+        ? true
+        : false) || deviceData.deviceType === "mailbox";
     return (
-      <TouchableOpacity style={styles.listItem} onPress={onDevicePressHandler}>
-        <Text> {item.name} </Text>
+      <TouchableOpacity
+        style={styles.listItem}
+        onPress={onDevicePressHandler.bind(this, deviceData[item])}
+        disabled={isEnabled}
+        // activeOpacity={isEnabled ? 0.5 : 1}
+      >
+        <Text> {item}</Text>
         <Icon color={"red"} name={"air"} size={40} />
       </TouchableOpacity>
     );
@@ -54,9 +64,8 @@ function DevicesScreen({ navigation, route }: any) {
     <SafeAreaView style={styles.container}>
       <FlatList
         ListHeaderComponent={<Text style={styles.listHeader}> Devices!</Text>}
-        data={DATA}
+        data={devices}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
   );
