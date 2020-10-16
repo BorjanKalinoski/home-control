@@ -1,36 +1,8 @@
-import {AUTHENTICATE, LOGOUT} from "../actions/auth";
-import firebase from "firebase";
-import AuthCredential = firebase.auth.AuthCredential;
-// import firebase from "firebase";
-// import AuthCredential = firebase.auth.AuthCredential;
-// import AuthCredential from 'firebase/auth';
-interface User {
-    // credential:
-    user: {
-        displayName: string | null;
-        email: string | null;
-        phoneNumber: string | null;
-        photoURL: string | null;
-        providerId: string;
-        uid: string;
-    },
-    credentials?: AuthCredential;
-}
+import {AUTHENTICATE, LOGOUT} from "../../constants/actions";
 
-const initialState: User = {
-    user: {
-        displayName: null,
-        email: null,
-        phoneNumber: null,
-        photoURL: null,
-        providerId: '',
-        uid: ''
-    },
-    // credentials:{
-    //
-    // }
+const initialState = {
+    user: null
 };
-
 
 
 export default (state = initialState, action) => {
@@ -42,3 +14,5 @@ export default (state = initialState, action) => {
     }
 };
 
+
+//redux saga -> dispatch action,
