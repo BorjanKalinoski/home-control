@@ -8,13 +8,12 @@ export function* tryAuthenticate(action: any) {//moze i tuka type da se prati Si
         let userData;
         if (isLogin) {
             userData = yield call(Api.loginWithEmailAndPassword, email, password);
-        }else{
+        } else {
             userData = yield call(Api.signUpWithEmailAndPassword, email, password);
         }
+        //if errors with ios, store to asyncstorage
         yield put({type: AUTHENTICATE, userData})
     } catch (error) { //instace of firebase error
-        console.log('wawawawwa!');
-        console.log(error.code);
         //error.code
         //auth/invalid-email
         //auth/weak-password

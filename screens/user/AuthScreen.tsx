@@ -4,6 +4,7 @@ import {View,StyleSheet} from "react-native";
 import * as firebase from 'firebase';
 import {useDispatch} from "react-redux";
 import * as authActions from '../../store/actions/auth';
+import {auth} from "firebase";
 //vo drug fajl
 const firebaseConfig = {
     apiKey: "AIzaSyCUA9YLmTeGmTkQag4ixpceNYADyLlvrT8",

@@ -1,11 +1,12 @@
-import {NavigationContainer} from "@react-navigation/native";
 import React, {useEffect, useState} from "react";
+import {View, StyleSheet} from "react-native";
+import {ActivityIndicator} from "react-native-paper";
+import {auth} from "firebase";
+import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import DevicesScreen from "../screens/devices/DevicesScreen";
 import AuthScreen from "../screens/user/AuthScreen";
-import {auth} from "firebase";
-import {ActivityIndicator} from "react-native-paper";
-import {View} from "react-native";
+
 
 const Stack = createStackNavigator();
 
@@ -23,14 +24,12 @@ const MainNavigator = (props: any) => {
             setIsLoading(false);
         });
         return () => {
-            console.log('unsubscribe you moron!');
             authSub();
         };
     });
 
     if (isLoading) {
-
-        return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        return <View style={styles.center}>
             <ActivityIndicator size='large'/>
         </View>;
     }
@@ -48,5 +47,12 @@ const MainNavigator = (props: any) => {
     );
 };
 
+const styles = StyleSheet.create({
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});
 
 export default MainNavigator;
