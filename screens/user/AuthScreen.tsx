@@ -1,9 +1,10 @@
 import React, {useCallback, useState} from "react";
-import {Button, TextInput} from "react-native-paper";
+import {ActivityIndicator, Button, Text, TextInput} from "react-native-paper";
 import {View,StyleSheet} from "react-native";
 import * as firebase from 'firebase';
 import {useDispatch} from "react-redux";
 import * as authActions from '../../store/actions/auth';
+//vo drug fajl
 const firebaseConfig = {
     apiKey: "AIzaSyCUA9YLmTeGmTkQag4ixpceNYADyLlvrT8",
     authDomain: "home-control-fe934.firebaseapp.com",
@@ -22,12 +23,14 @@ if (!firebase.apps.length) {
 const AuthScreen = (props: any) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLogin, setIsLogin] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch();
 
     const onAuthHandler = useCallback(() => {
-        dispatch(authActions.tryAuthenticateWithEmailAndPassword(email, password));
-    }, [dispatch, email, password]);
+        dispatch(authActions.tryAuthenticateWithEmailAndPassword(email, password, isLogin));
+    }, [dispatch, email, password, isLogin]);
 
 
     return <View style={styles.screen}>
@@ -46,8 +49,18 @@ const AuthScreen = (props: any) => {
         />
 
         <Button mode='contained' onPress={onAuthHandler}>
-            Sign Up
+            {
+                isLoading
+                    ? <ActivityIndicator size='small'/>
+                    : isLogin
+                    ? 'Login' : 'Sign Up'
+            }
         </Button>
+        <View>
+            <Button onPress={() => setIsLogin((prevState => !prevState))}>
+                Switch to {isLogin ? 'Sign Up' : 'Login'}
+            </Button>
+        </View>
     </View>;
 };
 const styles = StyleSheet.create({
