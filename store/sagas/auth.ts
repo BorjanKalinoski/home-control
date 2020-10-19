@@ -1,8 +1,8 @@
 import * as Api from "../../api";
 import {put, call, takeEvery} from "redux-saga/effects";
-import {AUTHENTICATE, AUTHENTICATION_FAILED, TRY_AUTHENTICATE} from "../../constants/actions";
+import {AUTHENTICATION_FAILED, AUTHENTICATION_SUCCESS, TRY_AUTHENTICATE} from "../../constants/actions";
 
-export function* tryAuthenticate(action: any) {//moze i tuka type da se prati SignUp/LogIn i da ima samo if else za userData bla bla
+export function* tryAuthenticate(action: any) {
     const {email, password, isLogin} = action.payload;
     try {
         let userData;
@@ -11,15 +11,16 @@ export function* tryAuthenticate(action: any) {//moze i tuka type da se prati Si
         } else {
             userData = yield call(Api.signUpWithEmailAndPassword, email, password);
         }
-        //if errors with ios, store to asyncstorage
-        yield put({type: AUTHENTICATE, userData})
-    } catch (error) { //instace of firebase error
-        //error.code
-        //auth/invalid-email
-        //auth/weak-password
-        //auth/email-already-in-use
-        //auth/user-not-found
-
+        yield put({type: AUTHENTICATION_SUCCESS, userData})
+    } catch (error) {
+        switch (error.code) {
+            case 'auth/user-not-found':
+                error.message = 'The user does not exist.';
+                break;
+            case 'auth/too-many-requests':
+                error.message = 'Access is to this account has been temporarily disabled. Try again later.';
+                break;
+        }
 
         yield put({type: AUTHENTICATION_FAILED, error});
     }

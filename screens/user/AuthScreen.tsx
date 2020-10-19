@@ -1,73 +1,89 @@
-import React, {useCallback, useState} from "react";
-import {ActivityIndicator, Button, Text, TextInput} from "react-native-paper";
-import {View,StyleSheet} from "react-native";
-import * as firebase from 'firebase';
-import {useDispatch} from "react-redux";
+import React, { useState} from "react";
+import {Button} from "react-native-paper";
+import {View, StyleSheet, TouchableWithoutFeedback, Keyboard} from "react-native";
+import {useDispatch, useSelector} from "react-redux";
 import * as authActions from '../../store/actions/auth';
-import {auth} from "firebase";
-//vo drug fajl
-const firebaseConfig = {
-    apiKey: "AIzaSyCUA9YLmTeGmTkQag4ixpceNYADyLlvrT8",
-    authDomain: "home-control-fe934.firebaseapp.com",
-    databaseURL: "https://home-control-fe934.firebaseio.com",
-    projectId: "home-control-fe934",
-    storageBucket: "home-control-fe934.appspot.com",
-    messagingSenderId: "882537633036",
-    appId: "1:882537633036:web:07a9fcd8d5ef887d6ae529",
-    measurementId: "G-XS9N0GB1BL"
+import { Formik} from 'formik';
+import * as yup from 'yup';
+import {TextField} from "@ubaids/react-native-material-textfield";
+import ErrorMessage from "../../components/UI/ErrorMessage";
+import {CLEAR_ERRORS} from "../../constants/actions";
+const initialValues = {
+    email: '',
+    password: ''
 };
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+const validationSchema = yup.object().shape({
+    email: yup.string().email('Email is not valid').required('This field is required'),
+    password: yup.string().required('This field is required').min(6, 'Password must be at least 6 characters')
+});
 
 const AuthScreen = (props: any) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [isLogin, setIsLogin] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+    const {error, isLoading} = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
 
-    const onAuthHandler = useCallback(() => {
-        dispatch(authActions.tryAuthenticateWithEmailAndPassword(email, password, isLogin));
-    }, [dispatch, email, password, isLogin]);
+    return <Formik
+        initialValues={initialValues}
+        onSubmit={(values, actions) => {
+            const {email, password} = values;
+            // actions.resetForm();
+            dispatch(authActions.tryAuthenticateWithEmailAndPassword(email, password, isLogin));
+        }}
+        validationSchema={validationSchema}
+    >
+        {({isSubmitting, values, handleBlur, touched, isValid, handleChange, handleSubmit, errors}) => (
+            <TouchableWithoutFeedback touchSoundDisabled onPress={Keyboard.dismiss}>
+                <View style={styles.screen}>
+                    <TextField
+                        label='Email'
+                        value={values.email}
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        error={touched.email && errors.email}
+                    />
+                    <TextField
+                        label="Password"
+                        value={values.password}
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        error={touched.password && errors.password}
+                        secureTextEntry
+                    />
+                    {error && <ErrorMessage>{error.message}</ErrorMessage>}
+                    <Button
+                        mode='contained'
+                        onPress={handleSubmit}
+                        disabled={!isValid}
+                        loading={isLoading}
+                        style={styles.buttonContainer}
+                    >
+                        {isLogin ? 'Login' : 'Sign Up'}
+                    </Button>
+                    <Button
+                        onPress={() => {
+                            setIsLogin((prevState => !prevState));
+                            dispatch({type: CLEAR_ERRORS})
+                        }}
+                        disabled={isLoading}
+                        style={styles.buttonContainer}
+                    >
+                        Switch to {isLogin ? 'Sign Up' : 'Login'}
+                    </Button>
+                </View>
+            </TouchableWithoutFeedback>
 
-
-    return <View style={styles.screen}>
-        <TextInput
-            label="Email"
-            value={email}
-            onChangeText={text => setEmail(text)}
-            mode='outlined'
-        />
-        <TextInput
-            label="Password"
-            value={password}
-            onChangeText={text => setPassword(text)}
-            secureTextEntry
-            mode='outlined'
-        />
-
-        <Button mode='contained' onPress={onAuthHandler}>
-            {
-                isLoading
-                    ? <ActivityIndicator size='small'/>
-                    : isLogin
-                    ? 'Login' : 'Sign Up'
-            }
-        </Button>
-        <View>
-            <Button onPress={() => setIsLogin((prevState => !prevState))}>
-                Switch to {isLogin ? 'Sign Up' : 'Login'}
-            </Button>
-        </View>
-    </View>;
+        )}
+    </Formik>;
 };
+
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        padding: 8
+        padding: 12,
+    },
+    buttonContainer:{
+        marginVertical:8
     }
 });
 

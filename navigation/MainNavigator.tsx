@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {View, StyleSheet} from "react-native";
 import {ActivityIndicator} from "react-native-paper";
-import {auth} from "firebase";
+import {firebase} from '../firebase/config';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import DevicesScreen from "../screens/devices/DevicesScreen";
@@ -15,10 +15,10 @@ const MainNavigator = (props: any) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const authSub = auth().onAuthStateChanged(async(user) => {
+        const authSub = firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
                 setIsLoggedIn(true);
-            }else {
+            } else {
                 setIsLoggedIn(false);
             }
             setIsLoading(false);
@@ -33,7 +33,6 @@ const MainNavigator = (props: any) => {
             <ActivityIndicator size='large'/>
         </View>;
     }
-
     return (
         <NavigationContainer>
             {isLoggedIn
