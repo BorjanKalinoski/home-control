@@ -6,7 +6,6 @@ import {
 } from "../../constants/actions";
 
 const initialState = {
-    isLoggedIn: true,
     error: null,
     isLoading: false
 };
@@ -14,27 +13,25 @@ const initialState = {
 //TODO SET TYPES
 export default (state = initialState, action: any) => {
 
-    switch (action.type) {
+    const {error, type} = action;
+    switch (type) {
         case TRY_AUTHENTICATE:
             return {
                 ...state,
                 error: null,
                 isLoading: true,
-                isLoggedIn: false
             }
         case AUTHENTICATION_FAILED:
             return {
                 ...state,
-                error: action.error,
+                error,
                 isLoading: false,
-                isLoggedIn: false,
             }
         case AUTHENTICATION_SUCCESS:
             return {
                 ...state,
                 error: null,
                 isLoading: false,
-                user: true
             }
         case CLEAR_ERRORS:
             return {
@@ -46,7 +43,6 @@ export default (state = initialState, action: any) => {
         case LOGOUT:
             return {
                 ...state,
-                user: null,
                 error: null,
                 isLoading: false
             };

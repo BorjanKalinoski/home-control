@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fdecea',
         marginBottom: 6,
-
     },
     icon: {
         marginRight: 10

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {View, StyleSheet} from "react-native";
-import {ActivityIndicator} from "react-native-paper";
+import {Text,ActivityIndicator} from "react-native-paper";
 import {firebase} from '../firebase/config';
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import DevicesScreen from "../screens/devices/DevicesScreen";
 import AuthScreen from "../screens/user/AuthScreen";
-
+import AcRemoteScreen from "../old/app/scenes/ACRemote/AcRemoteScreen";
 
 const Stack = createStackNavigator();
 
@@ -30,15 +30,18 @@ const MainNavigator = (props: any) => {
 
     if (isLoading) {
         return <View style={styles.center}>
+            <Text>kur</Text>
             <ActivityIndicator size='large'/>
         </View>;
     }
+
     return (
         <NavigationContainer>
             {isLoggedIn
                 ?
                 <Stack.Navigator>
                     <Stack.Screen name="Devices" component={DevicesScreen}/>
+                    <Stack.Screen name="AcRemoteScreen" component={AcRemoteScreen}/>
                 </Stack.Navigator>
                 : <AuthScreen/>
             }

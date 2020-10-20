@@ -5,13 +5,16 @@ import {useDispatch, useSelector} from "react-redux";
 import * as authActions from '../../store/actions/auth';
 import { Formik} from 'formik';
 import * as yup from 'yup';
+// @ts-ignore
 import {TextField} from "@ubaids/react-native-material-textfield";
 import ErrorMessage from "../../components/UI/ErrorMessage";
 import {CLEAR_ERRORS} from "../../constants/actions";
+
 const initialValues = {
     email: '',
     password: ''
 };
+
 const validationSchema = yup.object().shape({
     email: yup.string().email('Email is not valid').required('This field is required'),
     password: yup.string().required('This field is required').min(6, 'Password must be at least 6 characters')
@@ -19,6 +22,7 @@ const validationSchema = yup.object().shape({
 
 const AuthScreen = (props: any) => {
     const [isLogin, setIsLogin] = useState(true);
+    // @ts-ignore state:RootState
     const {error, isLoading} = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
@@ -56,7 +60,7 @@ const AuthScreen = (props: any) => {
                         onPress={handleSubmit}
                         disabled={!isValid}
                         loading={isLoading}
-                        style={styles.buttonContainer}
+                        style={styles.button}
                     >
                         {isLogin ? 'Login' : 'Sign Up'}
                     </Button>
@@ -66,13 +70,12 @@ const AuthScreen = (props: any) => {
                             dispatch({type: CLEAR_ERRORS})
                         }}
                         disabled={isLoading}
-                        style={styles.buttonContainer}
+                        style={styles.button}
                     >
                         Switch to {isLogin ? 'Sign Up' : 'Login'}
                     </Button>
                 </View>
             </TouchableWithoutFeedback>
-
         )}
     </Formik>;
 };
@@ -82,8 +85,8 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 12,
     },
-    buttonContainer:{
-        marginVertical:8
+    button: {
+        marginVertical: 8
     }
 });
 
