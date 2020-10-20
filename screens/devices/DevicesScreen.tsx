@@ -1,8 +1,10 @@
 import React, {useEffect} from "react";
 import {FlatList, StyleSheet, TouchableOpacity, View} from "react-native";
-import {Text, List, Divider,} from "react-native-paper";
+import {List, Divider,} from "react-native-paper";
 import {useDispatch, useSelector} from "react-redux";
 import * as devicesActions from '../../store/actions/devices';
+import MailboxListItem from "../../components/UI/MailboxListItem";
+import AcListItem from "../../components/UI/AcListItem";
 
 const DevicesScreen = (props: any) => {
     const devices = useSelector(state => state.devices.devices);
@@ -14,19 +16,12 @@ const DevicesScreen = (props: any) => {
 
 
     const renderListItem = (itemData) => {
-        let item = <List.Item
-            style={styles.device}
-            title={itemData.item.name}
-            description={itemData.item.type === 'AC' ? '' : 'You have a new mail'}
-            left={props => <List.Icon icon={itemData.item.type === 'AC' ? 'air-conditioner' : 'email'}/>}
-        />;
-        if (itemData.item.type === 'AC') {
-            item = <TouchableOpacity onPress={() => props.navigation.navigate('AcRemoteScreen')}>
-                {item}
-            </TouchableOpacity>;
+        const {key, name, uid,type} = itemData.item;
+        if (type === 'MAILBOX') {
+            return <MailboxListItem path={key} name={name} uid={uid}/>;
+        } else {
+            return <AcListItem path={key} name={name} uid={uid}/>;
         }
-        return <View>{item}<Divider/></View>;
-
     };
 
     return <FlatList

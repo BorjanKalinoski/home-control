@@ -54,6 +54,7 @@ const AuthScreen = (props: any) => {
                         error={touched.password && errors.password}
                         secureTextEntry
                     />
+                    {/*TODO maybe Alert.alert instead of errormessage*/}
                     {error && <ErrorMessage>{error.message}</ErrorMessage>}
                     <Button
                         mode='contained'
