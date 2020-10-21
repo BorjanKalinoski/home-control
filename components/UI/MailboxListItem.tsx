@@ -14,10 +14,11 @@ const MailboxListItem = (props: any) => {
         });
 
         return () => {
+            console.log('warewawrarwawrawrawrawr');
             firebase.database().ref(path).off('value', (snapshot) => {
                 console.log('im logging off nigger', snapshot);
             });
-        }
+        };
     }, []);
 
     return <View>

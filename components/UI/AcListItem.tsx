@@ -7,7 +7,6 @@ const AcListItem = (props: any) => {
     const {name, type, path,} = props;
     const navigation = useNavigation();
     const onPressHandler = useCallback(() => {
-        console.log('navigation is', navigation);
         navigation.navigate('AcRemoteScreen', {
             name,
             path
@@ -15,13 +14,11 @@ const AcListItem = (props: any) => {
     }, [navigation]);
     return <TouchableOpacity onPress={onPressHandler}>
         <View>
-            <Text>
-                <List.Item
-                    // style={styles.device}
-                    title={name}
-                    left={props => <List.Icon color='blue' icon='air-conditioner'/>}
-                />;
-            </Text>
+            <List.Item
+                // style={styles.device}
+                title={name}
+                left={props => <List.Icon color='blue' icon='air-conditioner'/>}
+            />
             <Divider/>
         </View>
     </TouchableOpacity>;
