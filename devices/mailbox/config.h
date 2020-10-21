@@ -1,44 +1,30 @@
 #include "firebase_utils.h"
+//const int trigPin1 = 2;  //D4 pins
+//const int echoPin1 = 0;  //D3
+//const int trigPin2 = 14;  //D5
+//const int echoPin2 = 12;  //D6
 
-#define MODE_HEAT kTcl112AcHeat
-#define MODE_COOL kTcl112AcCool
-#define MODE_DRY kTcl112AcDry
-#define MODE_FAN kTcl112AcFan
-#define MODE_AUTO kTcl112AcAuto
-
-#define FAN_LOW kTcl112AcFanLow
-#define FAN_MED kTcl112AcFanMed
-#define FAN_HI kTcl112AcFanHigh
-#define FAN_AUTO kTcl112AcFanAuto
-
-#define SWING_OFF kTcl112AcSwingVOff
-#define SWING_ON kTcl112AcSwingVOn
-#define LEGACY_TIMING_INFO false
+const int trigPin1 = 2;  //D4 pins
+const int echoPin1 = 5;  //D3
+const int trigPin2 = 19;  //D5
+const int echoPin2 = 18  ;  //D6
 
 #define WIFI_SSID "Boki"
 #define WIFI_PASSWORD "01011962"
 #define FIREBASE_HOST "home-control-fe934.firebaseio.com"
 #define FIREBASE_AUTH "xb8aOxIGC98rd6yakBe9bPY071KcRR9A8lutj8em"
 
-#define DEVICE_NAME "Living Room Air Conditioner"
-#define DEVICE_TYPE "AC"
+#define DEVICE_NAME "UL. Nikola Vukmirovikj br. 25A"
+#define DEVICE_TYPE "MAILBOX"
 #define UID "v63Qpf3GRATe5Jgz8XPHmp2tU0E2"
-const char DEVICE_ID[21] = "-MK3zOf-KoaDLGkBwYEr";
-
-
-const uint16_t kRecvPin = 2;
-const uint16_t kIrLed = 4;  // ESP8266 GPIO pin to use. Recommended: 4 (D2).
-
-const uint8_t kTimeout = 50;
-const uint16_t kMinUnknownSize = 12;
-
+const char DEVICE_ID[21] = "-MK9iuWPpU0yC1Y_ytYq";
 
 
 void connectToWifi() {
   Serial.begin(115200);
   Serial.println("Connecting to ");
   Serial.println(WIFI_SSID);
-  WiFi.mode(WIFI_STA);
+//  WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
@@ -47,6 +33,7 @@ void connectToWifi() {
   }
   Serial.println("Wifi connected!");
 }
+
 
 void connectAndInitFirebase() {
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
@@ -62,6 +49,7 @@ void connectAndInitFirebase() {
 
   std::string path = std::string("/devices/") + std::string(DEVICE_ID);
 
+//pushJSON when initializing the device id for the first time, remove the + std from the line above;
   if (Firebase.set(firebaseData, &path[0], json))
   {
     Serial.println("PATH: " + firebaseData.dataPath());
@@ -70,8 +58,8 @@ void connectAndInitFirebase() {
     printResult(firebaseData);
     Serial.println("------------------------------------");
     Serial.println();
-    Serial.println(firebaseData.pushName());
-    Serial.println(firebaseData.dataPath() + "/" + firebaseData.pushName());
+//    Serial.println(firebaseData.pushName());
+//    Serial.println(firebaseData.dataPath() + "/" + firebaseData.pushName());
   }
   else
   {
@@ -81,11 +69,11 @@ void connectAndInitFirebase() {
     Serial.println();
     return;
   }
-
-  Firebase.setStreamCallback(firebaseData, streamCallback, streamTimeoutCallback);
-
-  if (!Firebase.beginStream(firebaseData, DEVICE_ID)) {
-    //Could not begin stream connection, then print out the error detail
-    Serial.println(firebaseData.errorReason());
-  }
+// Make sure to rerun this and we probably wont be needing this for the MAILBOX
+//  Firebase.setStreamCallback(firebaseData, streamCallback, streamTimeoutCallback);
+//
+//  if (!Firebase.beginStream(firebaseData, DEVICE_ID)) {
+//    //Could not begin stream connection, then print out the error detail
+//    Serial.println(firebaseData.errorReason());
+//  }
 }
