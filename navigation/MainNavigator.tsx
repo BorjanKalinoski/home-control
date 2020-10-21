@@ -6,7 +6,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import DevicesScreen from "../screens/devices/DevicesScreen";
 import AuthScreen from "../screens/user/AuthScreen";
-import AcRemoteScreen from "../old/app/scenes/ACRemote/AcRemoteScreen";
+import AcRemoteScreen from "../screens/devices/AcRemoteScreen";
 
 const Stack = createStackNavigator();
 
@@ -41,7 +41,10 @@ const MainNavigator = (props: any) => {
                 ?
                 <Stack.Navigator>
                     <Stack.Screen name="Devices" component={DevicesScreen}/>
-                    <Stack.Screen name="AcRemoteScreen" component={AcRemoteScreen}/>
+                    <Stack.Screen
+                        name="AcRemoteScreen"
+                        component={AcRemoteScreen}
+                        options={({ route }) => ({ title: route.params.name })}/>
                 </Stack.Navigator>
                 : <AuthScreen/>
             }

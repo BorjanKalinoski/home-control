@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {FlatList, StyleSheet, TouchableOpacity, View} from "react-native";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 import {List, Divider,} from "react-native-paper";
 import {useDispatch, useSelector} from "react-redux";
 import * as devicesActions from '../../store/actions/devices';
@@ -17,6 +17,7 @@ const DevicesScreen = (props: any) => {
 
     const renderListItem = (itemData) => {
         const {key, name, uid,type} = itemData.item;
+        console.log(itemData.item);
         if (type === 'MAILBOX') {
             return <MailboxListItem path={key} name={name} uid={uid}/>;
         } else {

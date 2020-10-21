@@ -28,9 +28,11 @@ export function* fetchDevices(action: any) {
             });
         }
 
+        const filteredDevices = devicesArray.filter(device => device.uid === firebase.auth().currentUser?.uid);
+
         yield put({
             type: FETCH_DEVICES_SUCCESS,
-            devices: devicesArray.filter(device => device.uid === firebase.auth().currentUser?.uid)
+            devices: filteredDevices
         });
 
     } catch (error) {
