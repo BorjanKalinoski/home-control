@@ -1,9 +1,8 @@
-import React, {useCallback, useReducer} from "react";
+import React, {useCallback, useEffect, useReducer, useRef} from "react";
 import {StyleSheet, Text,  View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import ModeIcon from "../../components/UI/ModeIcon";
 import SettingsButton from "../../components/UI/SettingsButton";
-import {firebase} from "../../firebase/config";
 import * as devicesActions from '../../store/actions/devices';
 import {useDispatch} from "react-redux";
 
@@ -69,11 +68,6 @@ const reducer = (state: any, action: any) => {
         default:
             return state;
     }
-
-    console.log('returning new state!');
-    const dispatch = useDispatch();
-    console.log('wea?awdas');
-    dispatch(devicesActions.submitAcState('-MK3zOf-KoaDLGkBwYEr', newState));
     return newState;
 };
 
@@ -87,15 +81,23 @@ const initialState = {
 };
 
 const AcRemoteScreen = (props: any) => {
-
     const [acState, dispatchAcState] = useReducer(reducer, initialState);
-    console.log('state is', acState);
-
+    const firstRender = useRef(true);
     const {name, path} = props.route.params;
+    const {mode, fan, power, turbo, swing, temp} = acState;
+    const dispatch = useDispatch();
+    console.log('ac state is', acState);
     const fanIconSize = 32;
+    useEffect(() => {
+        if (firstRender.current) {
+            firstRender.current = false;
+        } else {
+            dispatch(devicesActions.submitAcState('-MK3zOf-KoaDLGkBwYEr', acState));
+        }
+    }, [dispatch, acState, devicesActions.submitAcState, firstRender]);
 
 
-    const onModeChangeHandler = () => {
+    const onModeChangeHandler = useCallback(() => {
         let {mode, turbo, fan} = acState;
         if (mode === Mode.AUTO) { //TODO change da proveruva deka e posledniot element od enumeracijata
             mode = Mode.HEAT;
@@ -114,16 +116,15 @@ const AcRemoteScreen = (props: any) => {
             fan,
             turbo: (mode === Mode.HEAT || mode === Mode.COOL || mode === Mode.FAN) && turbo
         });
-    };
+    }, [dispatchAcState, acState, Mode, Fan]);
 
-    const onFanChangeHandler = () => {
+    const onFanChangeHandler = useCallback(() => {
         let {mode, fan} = acState;
         if (fan === Fan.AUTO) {
             fan = Fan.LOW;
         } else {
             fan++;
         }
-
         if (mode === Mode.DRY) {
             fan = Fan.AUTO;
         } else if (mode === Mode.FAN && fan === Fan.AUTO) {
@@ -135,44 +136,40 @@ const AcRemoteScreen = (props: any) => {
             mode,
             fan
         });
-    };
+    }, [dispatchAcState, acState, Fan, Mode]);
 
-
-
-    const onTempChangeHandler = (temp: number) => {
+    const onTempChangeHandler = useCallback((temp: number) => {
         if (temp >= 16 && temp <= 31) {
             dispatchAcState({
                 type: SET_TEMP,
                 temp
             });
         }
-    };
+    }, [dispatchAcState, acState]);
 
-    const onPowerChangeHandler = () => {
+
+    const onPowerChangeHandler = useCallback(() => {
         dispatchAcState({
             type: SET_POWER,
             power: !acState.power
         });
-    };
+    }, [dispatchAcState, acState]);
 
-    const onSwingChangeHandler = () => {
+    const onSwingChangeHandler = useCallback(() => {
         dispatchAcState({
             type: SET_SWING,
             swing: !acState.swing
         });
-    };
+    }, [dispatchAcState, acState]);
 
-    const onTurboChangeHandler = () => {
+    const onTurboChangeHandler = useCallback(() => {
         if (mode === Mode.HEAT || mode === Mode.COOL || mode === Mode.FAN) {
             dispatchAcState({
                 type: SET_TURBO,
                 turbo: !acState.turbo
             });
         }
-    };
-
-
-    const {mode, fan, power, turbo, swing, temp} = acState;
+    }, [dispatchAcState, acState, Mode]);
 
     return <View style={styles.screen}>
         <View style={styles.displayContainer}>
