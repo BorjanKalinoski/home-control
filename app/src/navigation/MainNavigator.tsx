@@ -27,9 +27,9 @@ const MainNavigator = (props: any) => {
     useEffect(() => {
         const authSub = firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                dispatch(authActions.loadUserDetails(true));
+                dispatch(authActions.isUserLoaded(true));
             } else {
-                dispatch(authActions.loadUserDetails(false));
+                dispatch(authActions.isUserLoaded(false));
             }
             setIsLoading(false);
         });
