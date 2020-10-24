@@ -4,6 +4,7 @@ import {Ionicons} from "@expo/vector-icons";
 import {ModeIcon, SettingsButton} from "../../components";
 import {devicesActions} from '../../store/actions';
 import {useDispatch} from "react-redux";
+import {globalStyles} from "../../styles";
 
 enum Mode {
     HEAT, COOL, DRY, FAN, AUTO
@@ -169,7 +170,7 @@ const AirConditionerRemoteScreen = (props: any) => {
         }
     }, [dispatchAcState, acState, Mode]);
 
-    return <View style={styles.screen}>
+    return <View style={globalStyles.container}>
         <View style={styles.displayContainer}>
             <View style={{...styles.row, ...styles.marginBottom}}>
                 <ModeIcon active={mode === Mode.HEAT} name={'md-sunny'} text={'Heat'}/>
@@ -227,10 +228,6 @@ const AirConditionerRemoteScreen = (props: any) => {
 
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        padding: 12,
-    },
     marginBottom:{
         marginBottom: 5
     },
@@ -241,7 +238,6 @@ const styles = StyleSheet.create({
         borderColor: 'green',
         paddingVertical: 16,
         paddingHorizontal: 8
-
     },
     row: {
         flexDirection: 'row'

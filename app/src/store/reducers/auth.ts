@@ -2,15 +2,18 @@ import {
     AUTHENTICATE,
     AUTHENTICATION_SUCCESS,
     AUTHENTICATION_FAILED,
-    LOAD_USER_DETAILS,
     CLEAR_AUTH_ERRORS,
-    LOGOUT
+    LOGOUT,
+    LOAD_USER,
+    LOAD_USER_SUCCESS,
+    LOAD_USER_FAILED
 } from "../actions/types";
 
 const initialState = {
     error: null,
-    isLoading: false,
-    isLoggedIn: false
+    isSubmitting: false,
+    isLoggedIn: false,
+    isLoadingUser: true
 };
 
 export default (state = initialState, action: any) => {
@@ -20,38 +23,51 @@ export default (state = initialState, action: any) => {
             return {
                 ...state,
                 error: null,
-                isLoading: true,
+                isSubmitting: true,
             };
         case AUTHENTICATION_FAILED:
             return {
                 ...state,
                 error: action.payload.error,
-                isLoading: false,
+                isSubmitting: false,
             }
         case AUTHENTICATION_SUCCESS:
             return {
                 ...state,
                 error: null,
-                isLoading: false,
-                isLoggedIn: true
+                isSubmitting: false
             }
         case CLEAR_AUTH_ERRORS:
             return {
                 ...state,
                 error: null,
-                isLoading: false
+                isSubmitting: false,
+                isLoadingUser: false
             };
         case LOGOUT:
             return {
                 ...state,
                 error: null,
-                isLoading: false,
+                isSubmitting: false,
                 isLoggedIn: false
             };
-        case LOAD_USER_DETAILS:
+        case LOAD_USER:
             return {
                 ...state,
-                isLoggedIn: action.payload.isLoggedIn
+                isLoadingUser: true,
+            }
+        case LOAD_USER_SUCCESS:
+            return {
+                ...state,
+                isLoggedIn: true,
+                isLoadingUser: false
+            };
+
+        case LOAD_USER_FAILED:
+            return {
+                ...state,
+                isLoggedIn: false,
+                isLoadingUser: false
             };
         default:
             return state;

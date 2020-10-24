@@ -18,27 +18,26 @@ const MainStackNavigator = <Stack.Navigator>
 </Stack.Navigator>;
 
 const MainNavigator = (props: any) => {
+    const {isLoggedIn, isLoadingUser} = useSelector(state => state.auth);
 
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-    const [isLoading, setIsLoading] = useState(true);
-
+    console.log('a')
     const dispatch = useDispatch();
-
     useEffect(() => {
+        // dispatch(authActions.loadUser());
+        // firebase.auth().signOut();
         const authSub = firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                dispatch(authActions.isUserLoaded(true));
+                dispatch(authActions.loadUserSuccess());
             } else {
-                dispatch(authActions.isUserLoaded(false));
+                dispatch(authActions.loadUserFailed());
             }
-            setIsLoading(false);
         });
         return () => {
             authSub();
         };
-    });
+    }, []);
 
-    if (isLoading) {
+    if (isLoadingUser) {
         return <Loading/>;
     }
 

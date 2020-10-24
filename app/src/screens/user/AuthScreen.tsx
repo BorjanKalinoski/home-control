@@ -7,6 +7,7 @@ import { Formik} from 'formik';
 import * as yup from 'yup';
 // @ts-ignore
 import {TextField} from "@ubaids/react-native-material-textfield";
+import {globalStyles} from "../../styles";
 
 const initialValues = {
     email: '',
@@ -21,7 +22,7 @@ const validationSchema = yup.object().shape({
 const AuthScreen = (props: any) => {
     const [isLoginScreen, setIsLoginScreen] = useState(true);
     // @ts-ignore state:RootState
-    const {error, isLoading} = useSelector(state => state.auth);
+    const {error, isSubmitting} = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
 
@@ -34,6 +35,8 @@ const AuthScreen = (props: any) => {
             }]
         );
     }
+    const authButtonText = isLoginScreen ? 'Login' : 'Sign Up';
+    const switchToText = `Switch to ${isLoginScreen ? 'Sign Up' : 'Login'}`;
 
     return <Formik
         initialValues={initialValues}
@@ -43,9 +46,9 @@ const AuthScreen = (props: any) => {
         }}
         validationSchema={validationSchema}
     >
-        {({isSubmitting, values, handleBlur, touched, isValid, handleChange, handleSubmit, errors}) => (
+        {({values, handleBlur, touched, isValid, handleChange, handleSubmit, errors}) => (
             <TouchableWithoutFeedback touchSoundDisabled onPress={Keyboard.dismiss}>
-                <View style={styles.screen}>
+                <View style={globalStyles.container}>
                     <TextField
                         label='Email'
                         value={values.email}
@@ -65,20 +68,20 @@ const AuthScreen = (props: any) => {
                         mode='contained'
                         onPress={handleSubmit}
                         disabled={!isValid}
-                        loading={isLoading}
+                        loading={isSubmitting}
                         style={styles.button}
                     >
-                        {isLoginScreen ? 'Login' : 'Sign Up'}
+                        {authButtonText}
                     </Button>
                     <Button
                         onPress={() => {
                             setIsLoginScreen((prevState => !prevState));
                             dispatch(authActions.clearAuthErrors());
                         }}
-                        disabled={isLoading}
+                        disabled={isSubmitting}
                         style={styles.button}
                     >
-                        Switch to {isLoginScreen ? 'Sign Up' : 'Login'}
+                        {switchToText}
                     </Button>
                 </View>
             </TouchableWithoutFeedback>
@@ -87,10 +90,6 @@ const AuthScreen = (props: any) => {
 };
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        padding: 12,
-    },
     button: {
         marginVertical: 8
     }

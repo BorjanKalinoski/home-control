@@ -1,14 +1,19 @@
 import {StyleSheet} from "react-native";
 
 export const globalStyles = StyleSheet.create({
-    screen: {
+    container: {
         flex: 1,
+        padding: 12
+    },
+    center: {
         justifyContent: 'center',
         alignContent: 'center',
-        padding: 12
     },
     noStretch: {
         flex: 0
-    }
+    },
+    row: {
+        flexDirection: 'row'
+    },
 });
 
