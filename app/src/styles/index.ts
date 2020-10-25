@@ -15,5 +15,15 @@ export const globalStyles = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },
+    marginVertical: {
+        marginVertical: 26
+    },
+    spaceBetween: {
+        justifyContent: 'space-between'
+    },
+    paddingHorizontal: {
+        paddingHorizontal: 16
+    }
 });
+
 

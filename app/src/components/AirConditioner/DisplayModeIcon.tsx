@@ -4,28 +4,41 @@ import {Text} from 'react-native-paper';
 import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 
 const DisplayModeIcon = (props: any) => {
-    const {maticon, name, text, active} = props;
+    const {isMatIcon, icon, text, isActive} = props;
     const size = props.size ? props.size : 52;
     const color = 'black';
 
     let Icon: any = Ionicons;
 
-    if (maticon) {
+    if (isMatIcon) {
         Icon = MaterialCommunityIcons;
     }
-    const activeStyle = active ? {opacity: 1} : {};
+    const active = isActive ? {opacity: 1} : {};
 
 
-    return <View style={{...props.style, ...styles.modeContainer, ...activeStyle}}>
-        <Icon size={size} color={color} name={name}/>
-        {text && <Text style={styles.text}>{text} </Text>}
+    return <View
+        style={{
+            ...props.style,
+            ...styles.modeContainer,
+            ...active
+        }}>
+        <Icon
+            name={icon}
+            size={size}
+            color={color}
+        />
+        {text
+        && <Text style={styles.text}>
+            {text}
+        </Text>
+        }
     </View>;
 };
 
 const styles = StyleSheet.create({
     modeContainer: {
-        alignItems: 'center',
         flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
         opacity: 0.1
     },
