@@ -1,11 +1,5 @@
 import {useCallback, useReducer} from "react";
-enum Mode {
-    HEAT, COOL, DRY, FAN, AUTO
-}
-
-enum Fan {
-    LOW, MED, HI, AUTO,
-}
+import {FanTypes, ModeTypes} from "../constants/air-conditioner";
 
 const SET_AC_STATE = 'SET_AC_STATE';
 
@@ -28,9 +22,9 @@ const reducer = (state: any, action: any) => {
 };
 
 const initialState = {
-    mode: Mode.HEAT,
+    mode: ModeTypes.HEAT,
     temp: 23,
-    fan: Fan.LOW,
+    fan: FanTypes.LOW,
     swing: false,
     turbo: false,
     power: false

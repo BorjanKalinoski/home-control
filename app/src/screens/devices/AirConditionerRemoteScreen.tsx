@@ -1,19 +1,10 @@
-import React, {useCallback} from "react";
+import React from "react";
 import {StyleSheet, Text,  View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {ModeIcon, SettingsButton} from "../../components";
 import {globalStyles} from "../../styles";
-import {useSubmitAirConditionerState, useAirConditionerState} from "../../hooks";
-
-enum Mode {
-    HEAT, COOL, DRY, FAN, AUTO
-}
-const modeLength = Object.keys(Mode).length / 2;
-
-enum Fan {
-    LOW, MED, HI, AUTO,
-}
-const fanLength = Object.keys(Fan).length / 2;
+import {useSubmitAirConditionerState, useAirConditionerState, useAcOnChangeHandlers} from "../../hooks";
+import {FanTypes, ModeTypes} from "../../constants/air-conditioner";
 
 const AirConditionerRemoteScreen = (props: any) => {
 
@@ -23,99 +14,37 @@ const AirConditionerRemoteScreen = (props: any) => {
     const [acState, mergeAndDispatchState] = useAirConditionerState();
     useSubmitAirConditionerState(referencePath, acState);
 
-    const {mode, fan, power, turbo, swing, temp} = acState;
+    const {mode, power, swing, fan, turbo, temp} = acState;
 
+    const {
+        onModeChangeHandler,
+        onFanChangeHandler,
+        onTempChangeHandler,
+        onBooleanChangeHandler
+    } = useAcOnChangeHandlers(mergeAndDispatchState, acState);
 
-    const isLastModeElement = (mode: number) => {
-        return (mode === modeLength - 1);
-    };
-    const isLastFanElement = (fan: number) => {
-        return (fan === fanLength - 1);
-    };
-    const onModeChangeHandler = useCallback(() => {
-        let {mode, turbo, fan} = acState;
-        if (isLastModeElement(mode)) {
-            mode = Mode.HEAT;
-        } else {
-            mode++;
-        }
-        if (mode === Mode.DRY) {
-            fan = Fan.AUTO;
-        } else if (mode === Mode.FAN && fan == Fan.AUTO) {
-            fan = Fan.MED;
-        }
-        mergeAndDispatchState({
-            mode,
-            fan,
-            turbo: (mode === Mode.HEAT || mode === Mode.COOL || mode === Mode.FAN) && turbo
-        });
-    }, [mergeAndDispatchState, acState]);
-
-    const onFanChangeHandler = useCallback(() => {
-        let {temp, turbo, power, swing, mode, fan} = acState;
-        if (isLastFanElement(fan)) {
-            fan = Fan.LOW;
-        } else {
-            fan++;
-        }
-        if (mode === Mode.DRY) {
-            fan = Fan.AUTO;
-        } else if (mode === Mode.FAN && fan === Fan.AUTO) {
-            fan = Fan.LOW
-        }
-        mergeAndDispatchState({
-            mode,
-            fan
-        });
-    }, [mergeAndDispatchState, acState]);
-
-        const onTempChangeHandler = useCallback((temp: number) => {
-            if (temp >= 16 && temp <= 31) {
-                mergeAndDispatchState({
-                    temp
-                });
-            }
-        }, [mergeAndDispatchState, acState]);
-
-
-    const onPowerChangeHandler = useCallback(() => {
-        mergeAndDispatchState({
-            power: !acState.power
-        });
-    }, [mergeAndDispatchState, acState]);
-
-    const onSwingChangeHandler = useCallback(() => {
-        mergeAndDispatchState({
-            swing: !acState.swing
-        });
-    }, [mergeAndDispatchState, acState]);
-
-    const onTurboChangeHandler = useCallback(() => {
-        if (mode === Mode.HEAT || mode === Mode.COOL || mode === Mode.FAN) {
-            mergeAndDispatchState({
-                turbo: !acState.turbo,
-            });
-        }
-    }, [mergeAndDispatchState, acState]);
 
 
     return <View style={globalStyles.container}>
         <View style={styles.displayContainer}>
             <View style={{...styles.row, ...styles.marginBottom}}>
-                <ModeIcon active={mode === Mode.HEAT} name={'md-sunny'} text={'Heat'}/>
-                <ModeIcon active={mode === Mode.COOL} name={'md-snow'} text={'Cool'}/>
-                <ModeIcon active={mode === Mode.DRY} name={'md-water'} text={'Dry'}/>
-                <ModeIcon active={mode === Mode.FAN} name={'fan'} text={'Fan'} maticon={true}/>
-                <ModeIcon active={mode === Mode.AUTO} name={'brightness-auto'} text={'Auto'} maticon={true}/>
+                <ModeIcon active={mode === ModeTypes.HEAT} name={'md-sunny'} text={'Heat'}/>
+                <ModeIcon active={mode === ModeTypes.COOL} name={'md-snow'} text={'Cool'}/>
+                <ModeIcon active={mode === ModeTypes.DRY} name={'md-water'} text={'Dry'}/>
+                <ModeIcon active={mode === ModeTypes.FAN} name={'fan'} text={'Fan'} maticon={true}/>
+                <ModeIcon active={mode === ModeTypes.AUTO} name={'brightness-auto'} text={'Auto'} maticon={true}/>
             </View>
             <View style={styles.row}>
                 <View style={styles.fanContainer}>
-                    <ModeIcon active={fan === Fan.AUTO} size={fanIconSize} name={'brightness-auto'} maticon={true}/>
-                    <ModeIcon active={fan !== Fan.AUTO} size={fanIconSize} name={'fan'} maticon={true}/>
-                    <ModeIcon active={fan !== Fan.AUTO && fan >= Fan.MED} size={fanIconSize} name={'fan'} maticon={true}/>
-                    <ModeIcon active={fan !== Fan.AUTO && fan ===Fan.HI} size={fanIconSize} name={'fan'} maticon={true}/>
+                    <ModeIcon active={fan === FanTypes.AUTO} size={fanIconSize} name={'brightness-auto'} maticon={true}/>
+                    <ModeIcon active={fan !== FanTypes.AUTO} size={fanIconSize} name={'fan'} maticon={true}/>
+                    <ModeIcon active={fan !== FanTypes.AUTO && fan >= FanTypes.MED} size={fanIconSize} name={'fan'}
+                              maticon={true}/>
+                    <ModeIcon active={fan !== FanTypes.AUTO && fan === FanTypes.HI} size={fanIconSize} name={'fan'}
+                              maticon={true}/>
                 </View>
-                <ModeIcon active={turbo} style={styles.turbo} size={40} name={'dumbbell'} text={'Turbo'} maticon={true}/>
+                <ModeIcon active={turbo} style={styles.turbo} size={40} name={'dumbbell'} text={'Turbo'}
+                          maticon={true}/>
                 <View style={styles.tempContainer}>
                     <Text style={styles.tempText}>
                         {temp} &#x2103;
@@ -127,7 +56,7 @@ const AirConditionerRemoteScreen = (props: any) => {
             <Ionicons
                 size={40}
                 name={'md-power'}
-                onPress={onPowerChangeHandler}
+                onPress={onBooleanChangeHandler.bind(this, 'power')}
             />
             <View style={{...styles.row, ...styles.tempButtonsContainer}}>
                 <Ionicons
@@ -148,16 +77,15 @@ const AirConditionerRemoteScreen = (props: any) => {
                 <SettingsButton onPress={onFanChangeHandler}>FAN</SettingsButton>
             </View>
             <View style={styles.row}>
-                <SettingsButton onPress={onTurboChangeHandler}>TURBO</SettingsButton>
-                <SettingsButton onPress={onSwingChangeHandler}>SWING</SettingsButton>
+                <SettingsButton onPress={onBooleanChangeHandler.bind(this, 'turbo')}>TURBO</SettingsButton>
+                <SettingsButton onPress={onBooleanChangeHandler.bind(this, 'swing')}>SWING</SettingsButton>
             </View>
         </View>
     </View>;
 };
 
-
 const styles = StyleSheet.create({
-    marginBottom:{
+    marginBottom: {
         marginBottom: 5
     },
     displayContainer: {
@@ -176,8 +104,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
-    turbo: {
-    },
+    turbo: {},
     tempContainer: {
         width: '30%',
         alignItems: 'center',
@@ -212,3 +139,4 @@ const styles = StyleSheet.create({
 });
 
 export default AirConditionerRemoteScreen;
+
