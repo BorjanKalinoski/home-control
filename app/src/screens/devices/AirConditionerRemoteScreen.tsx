@@ -1,104 +1,40 @@
-import React, {useCallback, useEffect, useReducer, useRef} from "react";
+import React, {useCallback} from "react";
 import {StyleSheet, Text,  View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {ModeIcon, SettingsButton} from "../../components";
-import {devicesActions} from '../../store/actions';
-import {useDispatch} from "react-redux";
 import {globalStyles} from "../../styles";
+import {useSubmitAirConditionerState, useAirConditionerState} from "../../hooks";
 
 enum Mode {
     HEAT, COOL, DRY, FAN, AUTO
 }
+const modeLength = Object.keys(Mode).length / 2;
 
-enum Fan{
+enum Fan {
     LOW, MED, HI, AUTO,
 }
-
-const SET_SWING = 'SET_SWING';
-const SET_FAN = 'SET_FAN';
-const SET_MODE = 'SET_MODE';
-const SET_TEMP = 'SET_TEMP';
-const SET_POWER = 'SET_POWER';
-const SET_TURBO = 'SET_TURBO';
-
-const reducer = (state: any, action: any) => {
-    const {temp, turbo, power, swing, mode, fan} = action;
-
-    let newState;
-    switch (action.type) {
-        case SET_TEMP:
-            newState = {
-                ...state,
-                temp
-            };
-            break;
-        case SET_POWER:
-            newState = {
-                ...state,
-                power
-            };
-            break;
-        case SET_SWING:
-            newState = {
-                ...state,
-                swing
-            };
-            break;
-        case SET_TURBO:
-            newState = {
-                ...state,
-                turbo
-            };
-            break;
-        case SET_FAN:
-            newState = {
-                ...state,
-                mode,
-                fan
-            };
-            break;
-        case SET_MODE:
-            newState = {
-                ...state,
-                mode,
-                fan,
-                turbo
-            };
-            break;
-        default:
-            return state;
-    }
-    return newState;
-};
-
-const initialState = {
-    mode: Mode.HEAT,
-    temp: 23,
-    fan: Fan.LOW,
-    swing: false,
-    turbo: false,
-    power: false
-};
+const fanLength = Object.keys(Fan).length / 2;
 
 const AirConditionerRemoteScreen = (props: any) => {
-    const [acState, dispatchAcState] = useReducer(reducer, initialState);
-    const firstRender = useRef(true);
+
     const {title, referencePath} = props.route.params;
-    const {mode, fan, power, turbo, swing, temp} = acState;
-    const dispatch = useDispatch();
     const fanIconSize = 32;
-    useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = false;
-        } else {
-            dispatch(devicesActions.submitAcState(referencePath, acState));
-        }
-    }, [dispatch, acState, devicesActions.submitAcState, firstRender]);
+
+    const [acState, mergeAndDispatchState] = useAirConditionerState();
+    useSubmitAirConditionerState(referencePath, acState);
+
+    const {mode, fan, power, turbo, swing, temp} = acState;
 
 
+    const isLastModeElement = (mode: number) => {
+        return (mode === modeLength - 1);
+    };
+    const isLastFanElement = (fan: number) => {
+        return (fan === fanLength - 1);
+    };
     const onModeChangeHandler = useCallback(() => {
         let {mode, turbo, fan} = acState;
-        if (mode === Mode.AUTO) { //TODO change da proveruva deka e posledniot element od enumeracijata
+        if (isLastModeElement(mode)) {
             mode = Mode.HEAT;
         } else {
             mode++;
@@ -108,18 +44,16 @@ const AirConditionerRemoteScreen = (props: any) => {
         } else if (mode === Mode.FAN && fan == Fan.AUTO) {
             fan = Fan.MED;
         }
-
-        dispatchAcState({
-            type: SET_MODE,
+        mergeAndDispatchState({
             mode,
             fan,
             turbo: (mode === Mode.HEAT || mode === Mode.COOL || mode === Mode.FAN) && turbo
         });
-    }, [dispatchAcState, acState, Mode, Fan]);
+    }, [mergeAndDispatchState, acState]);
 
     const onFanChangeHandler = useCallback(() => {
-        let {mode, fan} = acState;
-        if (fan === Fan.AUTO) {
+        let {temp, turbo, power, swing, mode, fan} = acState;
+        if (isLastFanElement(fan)) {
             fan = Fan.LOW;
         } else {
             fan++;
@@ -129,46 +63,41 @@ const AirConditionerRemoteScreen = (props: any) => {
         } else if (mode === Mode.FAN && fan === Fan.AUTO) {
             fan = Fan.LOW
         }
-
-        dispatchAcState({
-            type: SET_FAN,
+        mergeAndDispatchState({
             mode,
             fan
         });
-    }, [dispatchAcState, acState, Fan, Mode]);
+    }, [mergeAndDispatchState, acState]);
 
-    const onTempChangeHandler = useCallback((temp: number) => {
-        if (temp >= 16 && temp <= 31) {
-            dispatchAcState({
-                type: SET_TEMP,
-                temp
-            });
-        }
-    }, [dispatchAcState, acState]);
+        const onTempChangeHandler = useCallback((temp: number) => {
+            if (temp >= 16 && temp <= 31) {
+                mergeAndDispatchState({
+                    temp
+                });
+            }
+        }, [mergeAndDispatchState, acState]);
 
 
     const onPowerChangeHandler = useCallback(() => {
-        dispatchAcState({
-            type: SET_POWER,
+        mergeAndDispatchState({
             power: !acState.power
         });
-    }, [dispatchAcState, acState]);
+    }, [mergeAndDispatchState, acState]);
 
     const onSwingChangeHandler = useCallback(() => {
-        dispatchAcState({
-            type: SET_SWING,
+        mergeAndDispatchState({
             swing: !acState.swing
         });
-    }, [dispatchAcState, acState]);
+    }, [mergeAndDispatchState, acState]);
 
     const onTurboChangeHandler = useCallback(() => {
         if (mode === Mode.HEAT || mode === Mode.COOL || mode === Mode.FAN) {
-            dispatchAcState({
-                type: SET_TURBO,
-                turbo: !acState.turbo
+            mergeAndDispatchState({
+                turbo: !acState.turbo,
             });
         }
-    }, [dispatchAcState, acState, Mode]);
+    }, [mergeAndDispatchState, acState]);
+
 
     return <View style={globalStyles.container}>
         <View style={styles.displayContainer}>

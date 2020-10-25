@@ -8,6 +8,7 @@ import {globalStyles} from "../../styles";
 const DevicesScreen = (props: any) => {
     // @ts-ignore
     const {devices, isLoading} = useSelector(state => state.devices);
+
     const dispatch = useDispatch();
 
     useEffect(() => {

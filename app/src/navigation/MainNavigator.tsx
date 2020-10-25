@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
@@ -10,22 +10,24 @@ import {AirConditionerRemoteScreen, DevicesScreen, AuthScreen} from "../screens"
 const Stack = createStackNavigator();
 
 const MainStackNavigator = <Stack.Navigator>
-    <Stack.Screen name="Devices" component={DevicesScreen}/>
+    <Stack.Screen
+        name="Devices"
+        component={DevicesScreen}
+    />
     <Stack.Screen
         name="AirConditionerRemote"
         component={AirConditionerRemoteScreen}
-        options={({route}) => ({title: route?.params?.title})}/>
+        options={({route}) => ({title: route?.params?.title})}
+    />
 </Stack.Navigator>;
 
 const MainNavigator = (props: any) => {
     const {isLoggedIn, isLoadingUser} = useSelector(state => state.auth);
 
-    console.log('a')
     const dispatch = useDispatch();
+
     useEffect(() => {
-        // dispatch(authActions.loadUser());
-        // firebase.auth().signOut();
-        const authSub = firebase.auth().onAuthStateChanged(async (user) => {
+        const authSub = firebase.auth().onIdTokenChanged(async (user) => {
             if (user) {
                 dispatch(authActions.loadUserSuccess());
             } else {
