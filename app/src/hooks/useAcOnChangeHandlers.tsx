@@ -49,7 +49,7 @@ export default function useAcOnChangeHandlers(mergeAndDispatchState: any, state:
         }
     }, [mergeAndDispatchState, state]);
 
-    const onBooleanChangeHandler = useCallback((action: any) => {
+    const onBooleanChangeHandler = useCallback((action: 'turbo' | 'swing' | 'power') => {
         const {mode} = state;
         if (action !== 'turbo') {
             mergeAndDispatchState({

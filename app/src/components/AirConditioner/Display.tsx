@@ -1,13 +1,14 @@
 import React from "react";
 import {StyleSheet, Text, View} from "react-native";
-import {DisplayModeIcon} from "../index";
 import {FanTypes, ModeTypes} from "../../constants/air-conditioner";
 import {globalStyles} from "../../styles";
+import DisplayModeIcon from "./DisplayModeIcon";
 
 const fanIconSize = 36;
 
 const Display = (props: any) => {
     const {mode, fan, turbo, temp, swing} = props;
+    console.log('mode is', mode);
 
     return <View style={styles.displayContainer}>
         <View style={{...globalStyles.row, ...styles.marginBottom}}>

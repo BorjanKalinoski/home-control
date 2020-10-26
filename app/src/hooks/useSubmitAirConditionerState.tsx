@@ -10,7 +10,7 @@ export default function useSubmitAirConditionerState(referencePath: string, acSt
         if (componentDidMount.current) {
             componentDidMount.current = false;
         } else {
-            dispatch(devicesActions.submitAcState(referencePath, acState));
+            // dispatch(devicesActions.submitAcState(referencePath, acState));
         }
     }, [acState, componentDidMount]);
 }

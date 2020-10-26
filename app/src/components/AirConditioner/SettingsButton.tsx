@@ -1,26 +1,37 @@
 import React from "react";
-import {StyleSheet} from "react-native";
-import {Text} from "react-native-paper";
+import {Button} from "react-native-paper";
+import {StyleSheet, TouchableOpacity} from "react-native";
 
 const SettingsButton = (props: any) => {
-    return <Text
+    const {text, style} = props;
+
+    return <Button
+        mode='contained'
+        compact
+        uppercase
+        color={'#ccc'}
+        style={{...styles.button, ...style}}
+        labelStyle={styles.text}
         onPress={props.onPress}
-        style={styles.settingsButton}
     >
-        {props.children}
-    </Text>;
+        {text}
+    </Button>;
 };
 
 const styles = StyleSheet.create({
-    settingsButton: {
+    container: {
+        width: '50%'
+    },
+    button: {
+        borderRadius: 0,
+        width: '50%',
         borderWidth: 1,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        paddingVertical: 10,
+        borderColor: 'grey',
+        padding: 5
+    },
+    text: {
         fontSize: 20,
-        fontWeight: "bold"
+        fontWeight: 'bold'
     }
 });
 

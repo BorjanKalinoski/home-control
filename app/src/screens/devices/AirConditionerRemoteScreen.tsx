@@ -1,11 +1,9 @@
 import React from "react";
-import {StyleSheet, Text, View} from "react-native";
-import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
-import {SettingsButton, Display, DisplayModeIcon} from "../../components";
+import {StyleSheet, View} from "react-native";
+import {SettingsButton, Display} from "../../components";
 import {globalStyles} from "../../styles";
 import {useSubmitAirConditionerState, useAirConditionerState, useAcOnChangeHandlers} from "../../hooks";
-import {Button} from "react-native-paper";
-import PowerAndTempButtons from "../../components/AirConditioner/PowerAndTempButtons";
+import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 
 const AirConditionerRemoteScreen = (props: any) => {
 
@@ -22,112 +20,95 @@ const AirConditionerRemoteScreen = (props: any) => {
         onBooleanChangeHandler
     } = useAcOnChangeHandlers(mergeAndDispatchState, acState);
 
-    console.log('2MAGNUM3!');
 
     return <View style={globalStyles.container}>
-        <Display temp={temp} mode={mode} fan={fan} turbo={turbo}/>
-        <PowerAndTempButtons/>
-        <View style={{...styles.settingsContainer}}>
-            <View style={{width: '100%', ...globalStyles.row}}>
-                <Button
-                    mode='contained'
-                    style={{
-                        width: '50%',
-                        borderRadius: 0,
-                    }}
-                >
-                    MODE
-                </Button>
-                <Button
-                    mode='contained'
-                    style={{
-                        borderRadius: 0,
-                        width: '50%'
-                    }}
-                >FAN</Button>
+        <Display temp={temp} mode={mode} fan={fan} turbo={turbo} swing={swing}/>
+        <View style={styles.powerAndTempButtonsRow}>
+            <MaterialCommunityIcons
+                style={styles.powerButton}
+                color='black'
+                size={50}
+                name='power'
+                onPress={onBooleanChangeHandler.bind(this, 'power')}
+            />
+            <View style={{...globalStyles.row, ...styles.tempButtonsContainer}}>
+                <Ionicons
+                    size={50}
+                    name='ios-arrow-down'
+                    style={styles.tempButton}
+                    onPress={onTempChangeHandler.bind(this, temp - 1)}
+                />
+                <Ionicons
+                    size={50}
+                    name='ios-arrow-up'
+                    style={styles.tempButton}
+                    onPress={onTempChangeHandler.bind(this, temp + 1)}
+                />
             </View>
-            <View style={{width: '100%', ...globalStyles.row}}>
-                <Button
-                    mode='contained'
-                    style={{
-                        width: '50%',
-                        borderRadius: 0,
-                    }}
-                >
-                    SWING
-                </Button>
-                <Button
-                    mode='contained'
-                    style={{
-                        borderRadius: 0,
-                        width: '50%'
-                    }}
-                >TURBO</Button>
+        </View>
+        <View style={{...styles.settingsContainer}}>
+            <View style={styles.settingsButtonRow}>
+                <SettingsButton
+                    text='mode'
+                    style={{borderTopLeftRadius: 10}}
+                    onPress={onModeChangeHandler}
+                />
+                <SettingsButton
+                    text='fan'
+                    style={{borderTopRightRadius: 10}}
+                    onPress={onFanChangeHandler}
+                />
+            </View>
+            <View style={styles.settingsButtonRow}>
+                <SettingsButton
+                    text='swing'
+                    style={{borderBottomLeftRadius: 10}}
+                    onPress={onBooleanChangeHandler.bind(this, 'swing')}
+                />
+                <SettingsButton
+                    text='turbo'
+                    style={{borderBottomRightRadius: 10}}
+                    onPress={onBooleanChangeHandler.bind(this, 'turbo')}
+                />
             </View>
         </View>
     </View>;
-
-
-
-    // return <View style={globalStyles.container}>
-    //     <View style={{...styles.row, ...styles.powerRowContainer}}>
-    //         <Ionicons
-    //             size={40}
-    //             name={'md-power'}
-    //             onPress={onBooleanChangeHandler.bind(this, 'power')}
-    //         />
-    //         <View style={{...styles.row, ...styles.tempButtonsContainer}}>
-    //             <Ionicons
-    //                 onPress={onTempChangeHandler.bind(this, temp + 1)}
-    //                 style={styles.tempButton}
-    //                 name={'ios-arrow-up'} size={40}
-    //             />
-    //             <Ionicons
-    //                 onPress={onTempChangeHandler.bind(this, temp + -1)}
-    //                 style={styles.tempButton}
-    //                 name={'ios-arrow-down'} size={40}
-    //             />
-    //         </View>
-    //     </View>
-    //     <View style={styles.settingsContainer}>
-    //         <View style={styles.row}>
-    //             <SettingsButton onPress={onModeChangeHandler}>MODE</SettingsButton>
-    //             <SettingsButton onPress={onFanChangeHandler}>FAN</SettingsButton>
-    //         </View>
-    //         <View style={styles.row}>
-    //             <SettingsButton onPress={onBooleanChangeHandler.bind(this, 'turbo')}>TURBO</SettingsButton>
-    //             <SettingsButton onPress={onBooleanChangeHandler.bind(this, 'swing')}>SWING</SettingsButton>
-    //         </View>
-    //     </View>
-    // </View>;
 };
 
 const styles = StyleSheet.create({
-    powerAndTempButtonsContainer: {
+    powerAndTempButtonsRow: {
         ...globalStyles.row,
-        ...globalStyles.marginVertical,
-        ...globalStyles.spaceBetween,
-        ...globalStyles.paddingHorizontal
+        marginVertical: 20,
+        justifyContent: 'space-between',
+        paddingHorizontal: 16
+    },
+    powerButton: {
+        backgroundColor: '#ccc',
+        borderRadius: 25,
+        elevation: 3,
+        borderWidth: 1,
+        borderColor: 'grey'
     },
     tempButtonsContainer: {
         backgroundColor: '#ccc',
-        width: '35%',
-        borderLeftWidth: 1,
+        width: '40%',
     },
     tempButton: {
         flex: 1,
         textAlign: 'center',
         borderWidth: 1,
-        borderLeftWidth: 0,
-
+        borderColor: 'grey',
     },
     settingsContainer: {
         width: '100%',
-        borderWidth: 2
+        borderRadius: 10,
+        borderColor: '#ccc',
+        elevation: 3
     },
-
-
+    settingsButtonRow: {
+        ...globalStyles.row,
+        width: '100%'
+    },
 });
 
 export default AirConditionerRemoteScreen;
-
