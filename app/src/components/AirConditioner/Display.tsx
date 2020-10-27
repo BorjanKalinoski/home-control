@@ -7,8 +7,7 @@ import DisplayModeIcon from "./DisplayModeIcon";
 const fanIconSize = 36;
 
 const Display = (props: any) => {
-    const {mode, fan, turbo, temp, swing} = props;
-    console.log('mode is', mode);
+    const {mode, fan, turbo, temp, swing} = props.state;
 
     return <View style={styles.displayContainer}>
         <View style={{...globalStyles.row, ...styles.marginBottom}}>

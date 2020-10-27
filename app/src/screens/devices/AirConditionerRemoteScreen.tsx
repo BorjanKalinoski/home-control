@@ -9,9 +9,10 @@ const AirConditionerRemoteScreen = (props: any) => {
 
     const {title, referencePath} = props.route.params;
     const [acState, mergeAndDispatchState] = useAirConditionerState();
+    console.log('ac state', acState);
     useSubmitAirConditionerState(referencePath, acState);
 
-    const {mode, power, swing, fan, turbo, temp} = acState;
+    const {temp} = acState;
 
     const {
         onModeChangeHandler,
@@ -22,7 +23,9 @@ const AirConditionerRemoteScreen = (props: any) => {
 
 
     return <View style={globalStyles.container}>
-        <Display temp={temp} mode={mode} fan={fan} turbo={turbo} swing={swing}/>
+        <Display
+            state={acState}
+        />
         <View style={styles.powerAndTempButtonsRow}>
             <MaterialCommunityIcons
                 style={styles.powerButton}

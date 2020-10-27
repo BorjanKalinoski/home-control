@@ -2,7 +2,7 @@ import {useEffect, useRef} from "react";
 import {useDispatch} from "react-redux";
 import {devicesActions} from "../store/actions";
 
-export default function useSubmitAirConditionerState(referencePath: string, acState: any) {
+export default function useSubmitAirConditionerState(path: string, state: any) {
     const componentDidMount = useRef(true);
     const dispatch = useDispatch();
 
@@ -10,7 +10,7 @@ export default function useSubmitAirConditionerState(referencePath: string, acSt
         if (componentDidMount.current) {
             componentDidMount.current = false;
         } else {
-            // dispatch(devicesActions.submitAcState(referencePath, acState));
+            dispatch(devicesActions.submitAirConditionerState(path, state));
         }
-    }, [acState, componentDidMount]);
+    }, [state, componentDidMount]);
 }

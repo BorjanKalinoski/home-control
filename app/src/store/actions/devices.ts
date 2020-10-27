@@ -4,10 +4,10 @@ export const fetchDevices = () => ({
     type: FETCH_DEVICES,
 });
 
-export const submitAcState = (devicePath: string, acState: any) => ({
+export const submitAirConditionerState = (path: string, state: any) => ({
     type: SUBMIT_AC_STATE,
     payload: {
-        devicePath,
-        acState
+        path,
+        state
     }
 });

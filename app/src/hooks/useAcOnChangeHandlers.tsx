@@ -6,7 +6,7 @@ const isTurboModeAvailable = (mode: number): boolean => {
     return (mode === ModeTypes.HEAT || mode === ModeTypes.COOL || mode === ModeTypes.FAN);
 };
 
-const resetFanOnStateChange = (mode: number, fan: number): number => {
+const resetFanOnModeChange = (fan: number, mode: number): number => {
     if (mode === ModeTypes.DRY) {
         return FanTypes.AUTO;
     } else if (mode === ModeTypes.FAN && fan == FanTypes.AUTO) {
@@ -21,25 +21,26 @@ export default function useAcOnChangeHandlers(mergeAndDispatchState: any, state:
         let {mode, turbo, fan} = state;
 
         mode = incrementOrResetEnumValue(mode, ModeTypes);
-        fan = resetFanOnStateChange(mode, fan);
+        fan = resetFanOnModeChange(fan,mode);
         mergeAndDispatchState({
             mode,
             fan,
             turbo: isTurboModeAvailable(mode) && turbo
         });
-    }, [mergeAndDispatchState, state]);
+    }, [mergeAndDispatchState, state.mode, state.fan, state.turbo]);
 
     const onFanChangeHandler = useCallback(() => {
-        let {mode, fan} = state;
+        let fan;
+        fan = incrementOrResetEnumValue(state.fan, FanTypes);
+        fan = resetFanOnModeChange(fan, state.mode);
+        if (fan !== state.fan) {
+            mergeAndDispatchState({
+                mode: state.mode,
+                fan
+            });
+        }
+    }, [mergeAndDispatchState, state.mode, state.fan]);
 
-        fan = incrementOrResetEnumValue(fan, FanTypes);
-        fan = resetFanOnStateChange(mode, fan);
-
-        mergeAndDispatchState({
-            mode,
-            fan
-        });
-    }, [mergeAndDispatchState, state]);
 
     const onTempChangeHandler = useCallback((temp: number) => {
         if (temp >= 16 && temp <= 31) {
@@ -47,7 +48,7 @@ export default function useAcOnChangeHandlers(mergeAndDispatchState: any, state:
                 temp
             });
         }
-    }, [mergeAndDispatchState, state]);
+    }, [mergeAndDispatchState]);
 
     const onBooleanChangeHandler = useCallback((action: 'turbo' | 'swing' | 'power') => {
         const {mode} = state;
@@ -60,7 +61,7 @@ export default function useAcOnChangeHandlers(mergeAndDispatchState: any, state:
                 [action]: !state[action]
             });
         }
-    }, [mergeAndDispatchState, state]);
+    }, [mergeAndDispatchState, state.mode]);
 
     return {
         onTempChangeHandler,

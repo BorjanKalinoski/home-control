@@ -8,7 +8,6 @@ const reducer = (state: any, action: any) => {
     switch (action.type) {
         case SET_AC_STATE:
             return {
-                ...state,
                 temp,
                 turbo,
                 power,
@@ -37,7 +36,7 @@ export default function useAirConditionerState() {
     const mergeAndDispatchState = useCallback((newState: any) => {
         const mergedState = Object.assign(state, newState, {type: SET_AC_STATE});
         dispatch(mergedState);
-    }, [state]);
+    }, [state, dispatch]);
 
     return [state, mergeAndDispatchState];
 };

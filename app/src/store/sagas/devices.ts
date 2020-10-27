@@ -60,9 +60,10 @@ export function* fetchDevices(action: any) {
 }
 
 export function* submitAcState(action: any) {
-    const {devicePath, acState} = action.payload;
-    try{
-        const response = yield firebase.database().ref(devicePath).set(acState);
+    const {path, state} = action.payload;
+    try {
+        const response = yield call(Api.submitAirConditionerState, path, state);
+        console.log('response nigga is ', response);
     } catch (e) {
         console.log('wawaawawawaw!', e);
     }
