@@ -1,9 +1,7 @@
-import React, {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React from "react";
+import {useSelector} from "react-redux";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
-import firebase from '../firebase';
-import {authActions} from '../store/actions';
 import {Loading} from "../components";
 import {AirConditionerRemoteScreen, DevicesScreen, AuthScreen} from "../screens";
 
@@ -23,21 +21,6 @@ const MainStackNavigator = <Stack.Navigator>
 
 const MainNavigator = (props: any) => {
     const {isLoggedIn, isLoadingUser} = useSelector(state => state.auth);
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const authSub = firebase.auth().onIdTokenChanged(async (user) => {
-            if (user) {
-                dispatch(authActions.loadUserSuccess());
-            } else {
-                dispatch(authActions.loadUserFailed());
-            }
-        });
-        return () => {
-            authSub();
-        };
-    }, []);
 
     if (isLoadingUser) {
         return <Loading/>;

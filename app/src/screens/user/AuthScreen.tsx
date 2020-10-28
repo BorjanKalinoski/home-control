@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import {Button} from "react-native-paper";
 import {View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
-import {authActions} from '../../store/actions';
+import {authActions} from '../../redux/actions';
 import { Formik} from 'formik';
 import * as yup from 'yup';
 // @ts-ignore

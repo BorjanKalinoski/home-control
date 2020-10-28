@@ -30,7 +30,7 @@ const initialState = {
     power: false
 };
 
-export default function useAirConditionerState() {
+export default function useMobileAirConditionerState() {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 

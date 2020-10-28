@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 import {useDispatch} from "react-redux";
-import {devicesActions} from "../store/actions";
+import {devicesActions} from "../redux/actions";
 
 export default function useSubmitAirConditionerState(path: string, state: any) {
     const componentDidMount = useRef(true);

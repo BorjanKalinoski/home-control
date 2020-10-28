@@ -1,23 +1,15 @@
+import {call, put, takeLatest} from "redux-saga/effects";
 import * as Api from '../../api';
-import {call, put, takeEvery, takeLatest} from "redux-saga/effects";
 import firebase from '../../firebase';
+import {FETCH_DEVICES, SUBMIT_AC_STATE} from "../actions/types";
+import {authActions, devicesActions} from "../actions";
 
-import {
-    FETCH_DEVICES,
-    FETCH_DEVICES_FAILED,
-    FETCH_DEVICES_SUCCESS,
-    LOGOUT,
-    SUBMIT_AC_STATE
-} from "../actions/types";
-
-export function* fetchDevices(action: any) {
+export function* fetchDevices() {//TODO refactor this
     try {
         let uid = firebase.auth().currentUser?.uid;
 
         if (!uid) {
-            yield put({
-                type: LOGOUT
-            });
+            yield put(authActions.logout());
             return;
         }
 
@@ -27,10 +19,7 @@ export function* fetchDevices(action: any) {
         const snapshot = yield call(Api.fetchDevices, uid);
         const devicesValue = snapshot.val();
         if (!devicesValue) {
-            yield put({
-                type: FETCH_DEVICES_SUCCESS,
-                devices: []
-            });
+            yield put(devicesActions.fetchDevicesSuccess([]));
             return;
         }
 
@@ -44,32 +33,25 @@ export function* fetchDevices(action: any) {
             });
         }
 
-        yield put({
-            type: FETCH_DEVICES_SUCCESS,
-            devices
-        });
+        //Dokolku se cuva nekakov globalen state na uredite, od tuka treba da se konfigurishe
+
+        yield put(devicesActions.fetchDevicesSuccess(devices));
 
     } catch (error) {
-        yield put({
-            type: FETCH_DEVICES_FAILED,
-            payload: {
-                error
-            }
-        });
+        yield put(devicesActions.fetchDevicesFailed(error));
     }
 }
 
 export function* submitAcState(action: any) {
     const {path, state} = action.payload;
     try {
-        const response = yield call(Api.submitAirConditionerState, path, state);
-        console.log('response nigga is ', response);
-    } catch (e) {
-        console.log('wawaawawawaw!', e);
+        yield call(Api.submitAirConditionerState, path, state);
+    } catch (error) {
+        yield put(devicesActions.submitAirConditionerStateFailed(path, error));
     }
 }
 
 export default function* watchDevices() {
-    yield takeEvery(FETCH_DEVICES, fetchDevices);
+    yield takeLatest(FETCH_DEVICES, fetchDevices);
     yield takeLatest(SUBMIT_AC_STATE, submitAcState);
 }
