@@ -1,16 +1,29 @@
 import React from "react";
 import {StyleSheet, View} from "react-native";
+import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {SettingsButton, Display} from "../../components";
 import {globalStyles} from "../../styles";
-import {useSubmitAirConditionerState, useAirConditionerState, useAcOnChangeHandlers} from "../../hooks";
-import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
+import {
+    useSubmitAirConditionerState,
+    useAirConditionerState,
+    useAcOnChangeHandlers,
+    useReceiveAirConditionerState
+} from "../../hooks";
+import {Text} from "react-native-paper";
 
+const statesAreEqual = (date1: number, date2: number): boolean => {
+    return Math.floor(date1) === Math.floor(date2);
+};
 const AirConditionerRemoteScreen = (props: any) => {
 
     const {title, referencePath} = props.route.params;
     const [acState, mergeAndDispatchState] = useAirConditionerState();
-    console.log('ac state', acState);
     useSubmitAirConditionerState(referencePath, acState);
+    const kur = useReceiveAirConditionerState(referencePath, acState); //TODO prvicniot state da go povlece od vamu
+
+    console.log('kur is', kur);
+    console.log(statesAreEqual(kur.date, acState.date)); //Spored ova znam dali se isti ili ne!
+
 
     const {temp} = acState;
 
@@ -20,7 +33,7 @@ const AirConditionerRemoteScreen = (props: any) => {
         onTempChangeHandler,
         onBooleanChangeHandler
     } = useAcOnChangeHandlers(mergeAndDispatchState, acState);
-
+    console.log('power is', acState);
 
     return <View style={globalStyles.container}>
         <Display
@@ -74,6 +87,13 @@ const AirConditionerRemoteScreen = (props: any) => {
                     onPress={onBooleanChangeHandler.bind(this, 'turbo')}
                 />
             </View>
+        </View>
+        <View>
+            {
+                statesAreEqual(kur.date, acState.date)
+                    ? <Ionicons name='md-information-circle-outline' color={'green'} size={60}/>
+                    : <Ionicons name='md-information-circle-outline' color={'yellow'} size={60}/>
+            }
         </View>
     </View>;
 };

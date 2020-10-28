@@ -13,5 +13,5 @@ export const fetchDevices = (uid: string): Promise<firebase.database.DataSnapsho
 };
 
 export const submitAirConditionerState = (path: string, state: any): Promise<any> => {
-    return firebase.database().ref(`${path}/app_to_ino`).set({...state, date: firebase.database.ServerValue.TIMESTAMP});
+    return firebase.database().ref(`${path}/app_to_ino`).set(state);
 };

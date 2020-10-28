@@ -7,85 +7,90 @@ import DisplayModeIcon from "./DisplayModeIcon";
 const fanIconSize = 36;
 
 const Display = (props: any) => {
-    const {mode, fan, turbo, temp, swing} = props.state;
+    const {mode, fan, turbo, temp, swing, power} = props.state;
+    const opacityStyle = power ? {opacity: 1} : {opacity: 0};
+
 
     return <View style={styles.displayContainer}>
-        <View style={{...globalStyles.row, ...styles.marginBottom}}>
-            <DisplayModeIcon
-                icon='md-sunny'
-                text='Heat'
-                isActive={mode === ModeTypes.HEAT}
-            />
-            <DisplayModeIcon
-                icon='md-snow'
-                text='Cool'
-                isActive={mode === ModeTypes.COOL}
-            />
-            <DisplayModeIcon
-                icon='md-water'
-                text='Dry'
-                isActive={mode === ModeTypes.DRY}
-            />
-            <DisplayModeIcon
-                isActive={mode === ModeTypes.FAN}
-                icon='fan'
-                text='Fan'
-                isMatIcon
-            />
-            <DisplayModeIcon
-                isActive={mode === ModeTypes.AUTO}
-                icon='brightness-auto'
-                text='Auto'
-                isMatIcon
-            />
-        </View>
-        <View style={globalStyles.row}>
-            <View style={styles.fanIconsContainer}>
+        <View style={opacityStyle}>
+            <View style={{...globalStyles.row, ...styles.marginBottom}}>
                 <DisplayModeIcon
-                    isActive={fan === FanTypes.AUTO}
-                    size={fanIconSize}
+                    icon='md-sunny'
+                    text='Heat'
+                    isActive={mode === ModeTypes.HEAT}
+                />
+                <DisplayModeIcon
+                    icon='md-snow'
+                    text='Cool'
+                    isActive={mode === ModeTypes.COOL}
+                />
+                <DisplayModeIcon
+                    icon='md-water'
+                    text='Dry'
+                    isActive={mode === ModeTypes.DRY}
+                />
+                <DisplayModeIcon
+                    isActive={mode === ModeTypes.FAN}
+                    icon='fan'
+                    text='Fan'
+                    isMatIcon
+                />
+                <DisplayModeIcon
+                    isActive={mode === ModeTypes.AUTO}
                     icon='brightness-auto'
-                    isMatIcon
-                />
-                <DisplayModeIcon
-                    isActive={fan !== FanTypes.AUTO}
-                    size={fanIconSize}
-                    icon='fan'
-                    isMatIcon
-                />
-                <DisplayModeIcon
-                    isActive={fan !== FanTypes.AUTO && fan >= FanTypes.MED}
-                    size={fanIconSize}
-                    icon='fan'
-                    isMatIcon
-                />
-                <DisplayModeIcon
-                    isActive={fan !== FanTypes.AUTO && fan === FanTypes.HI}
-                    size={fanIconSize}
-                    icon='fan'
+                    text='Auto'
                     isMatIcon
                 />
             </View>
-            <DisplayModeIcon
-                isActive={turbo}
-                size={40}
-                icon='dumbbell'
-                text='Turbo'
-                isMatIcon
-            />
-            <DisplayModeIcon
-                isActive={swing}
-                size={40}
-                icon='swap-vertical-bold'
-                text='Swing'
-                isMatIcon
-            />
-            <View style={styles.tempContainer}>
-                <Text style={styles.tempText}>
-                    {temp} &#x2103;
-                </Text>
+            <View style={globalStyles.row}>
+                <View style={styles.fanIconsContainer}>
+                    <DisplayModeIcon
+                        isActive={fan === FanTypes.AUTO}
+                        size={fanIconSize}
+                        icon='brightness-auto'
+                        isMatIcon
+                    />
+                    <DisplayModeIcon
+                        isActive={fan !== FanTypes.AUTO}
+                        size={fanIconSize}
+                        icon='fan'
+                        isMatIcon
+                    />
+                    <DisplayModeIcon
+                        isActive={fan !== FanTypes.AUTO && fan >= FanTypes.MED}
+                        size={fanIconSize}
+                        icon='fan'
+                        isMatIcon
+                    />
+                    <DisplayModeIcon
+                        isActive={fan !== FanTypes.AUTO && fan === FanTypes.HI}
+                        size={fanIconSize}
+                        icon='fan'
+                        isMatIcon
+                    />
+                </View>
+                <DisplayModeIcon
+                    isActive={turbo}
+                    size={40}
+                    icon='dumbbell'
+                    text='Turbo'
+                    isMatIcon
+                />
+                <DisplayModeIcon
+                    isActive={swing}
+                    size={40}
+                    icon='swap-vertical-bold'
+                    text='Swing'
+                    isMatIcon
+                />
+                <View style={styles.tempContainer}>
+                    <Text style={styles.tempText}>
+                        {temp} &#x2103;
+                    </Text>
+                </View>
             </View>
         </View>
+
     </View>;
 
 

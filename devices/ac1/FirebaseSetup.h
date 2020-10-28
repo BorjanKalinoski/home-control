@@ -2,9 +2,10 @@
 
 FirebaseData readData;
 FirebaseData writeData;
-FirebaseJson writeJson;
 FirebaseData initData;
+
 FirebaseJson initJson;
+FirebaseJson writeJson;
 
 void setupFirebase() {
 
@@ -15,24 +16,24 @@ void setupFirebase() {
   //  Firebase.setwriteSizeLimit(writeData, "tiny");
 
   //****COMMENT FROM HERE AFTER INITIAL SETUP***//
-  String path = "/devices/-MK3zOf-KoaDLGkBwYEr";
+//  String path = "/devices/-MK3zOf-KoaDLGkBwYEr";
 
-  initJson.set("type", DEVICE_TYPE);
-  initJson.set("name", DEVICE_NAME);
-  initJson.set("uid", UID);
-  //
-  if (Firebase.set(initData, path, initJson))
-  {
-    Serial.println("PATH: " + initData.dataPath());
-    Serial.println("TYPE: " + initData.dataType());
-  }
-  else
-  {
-    Serial.println("FAILED");
-    Serial.println("REASON: " + initData.errorReason());
-    Serial.println("------------------------------------");
-    Serial.println();
-  }
-  Serial.println("wa!");
+//  initJson.set("type", DEVICE_TYPE);
+//  initJson.set("name", DEVICE_NAME);
+//  initJson.set("uid", UID);
+//  //
+//  if (Firebase.set(initData, path, initJson))
+//  {
+//    Serial.println("PATH: " + initData.dataPath());
+//    Serial.println("TYPE: " + initData.dataType());
+//  }
+//  else
+//  {
+//    Serial.println("FAILED");
+//    Serial.println("REASON: " + initData.errorReason());
+//    Serial.println("------------------------------------");
+//    Serial.println();
+//  }
+//  Serial.println("wa!");
   //****COMMENT TO HERE ***//
 }

@@ -2,7 +2,7 @@
 const uint16_t kIrLed = 4;
 IRTcl112Ac ac(kIrLed);
 
-const unsigned long readInterval = 15 * 1000; //execute if every 15s
+const unsigned long readInterval = 9 * 1000; //execute if every X seconds
 unsigned long previousTime = 0;
 double prevDate = 0.0;
 bool stateHasChanged = false;
@@ -25,12 +25,15 @@ void loop() {
     Serial.println("i am doing it");
     previousTime = currentTime;
     readStateFromFirebase();
+    Serial.println("read the data ma lod");
+    Serial.println(stateHasChanged);
+    Serial.println(firstLoad);
     if (stateHasChanged && !firstLoad) {
+      Serial.println("!!!! ac.send();");
       ac.send();
       writeState();
-      stateHasChanged = false;
-    } else {
-      firstLoad = false;
     }
+    firstLoad = false;
+    stateHasChanged = false;
   }
 }

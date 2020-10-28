@@ -12,5 +12,5 @@ export default function useSubmitAirConditionerState(path: string, state: any) {
         } else {
             dispatch(devicesActions.submitAirConditionerState(path, state));
         }
-    }, [state, componentDidMount]);
+    }, [state, componentDidMount, path]);
 }
