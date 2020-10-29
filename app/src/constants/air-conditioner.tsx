@@ -1,3 +1,5 @@
+import AirConditioner from "../models/AirConditioner";
+
 export enum ModeTypes {
     HEAT,
     COOL,
@@ -11,3 +13,13 @@ export enum FanTypes {
     HI,
     AUTO,
 }
+
+export const initialAcState: AirConditioner = {
+    date: new Date().getTime(),
+    mode: ModeTypes.HEAT,
+    temp: 23,
+    fan: FanTypes.LOW,
+    swing: false,
+    turbo: false,
+    power: false
+};

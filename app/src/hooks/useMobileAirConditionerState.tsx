@@ -1,5 +1,7 @@
-import {useCallback, useReducer} from "react";
-import {FanTypes, ModeTypes} from "../constants/air-conditioner";
+import {useCallback, useEffect, useReducer, useRef} from "react";
+import {initialAcState} from "../constants/air-conditioner";
+import firebase from "../firebase";
+import AirConditioner from "../models/AirConditioner";
 const SET_AC_STATE = 'SET_AC_STATE';
 
 const reducer = (state: any, action: any) => {
@@ -13,31 +15,46 @@ const reducer = (state: any, action: any) => {
                 swing,
                 mode,
                 fan,
-                date
+                date: Math.floor(date)
             };
         default:
             return state;
     }
 };
 
-const initialState = {
-    date: new Date().getTime(),
-    mode: ModeTypes.HEAT,
-    temp: 23,
-    fan: FanTypes.LOW,
-    swing: false,
-    turbo: false,
-    power: false
-};
+export default function useMobileAirConditionerState(deviceId: string) {
 
-export default function useMobileAirConditionerState() {
+    const [state, dispatch] = useReducer(reducer, initialAcState);
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    useEffect(() => {
+        const fetchPreviousState = async () => {
+            try {
+                const snapshot = await firebase.database().ref(`${deviceId}/app_to_ino`).once('value');
+                let response: AirConditioner = snapshot.val();
 
-    const mergeAndDispatchState = useCallback((newState: any) => {
-        const mergedState = Object.assign(state, newState, {type: SET_AC_STATE, date: new Date().getTime()});
-        dispatch(mergedState);
+                if (!response) {
+                    response = initialAcState;
+                }
+                dispatch({
+                    ...response,
+                    type: SET_AC_STATE
+                });
+            } catch (e) {
+                console.log('Error fetching state from ino', e);
+                dispatch({});
+            }
+        };
+        fetchPreviousState();
+    }, []);
+
+    const modifyAndDispatchState = useCallback(async (modifiedState: any) => {
+        dispatch({
+            ...state,
+            ...modifiedState,
+            type: SET_AC_STATE,
+            date: new Date().getTime()
+        });
     }, [state, dispatch]);
 
-    return [state, mergeAndDispatchState];
+    return [state, modifyAndDispatchState];
 };

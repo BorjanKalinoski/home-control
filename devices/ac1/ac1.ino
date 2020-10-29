@@ -14,6 +14,8 @@ bool firstLoad = true;
 #include "utils.h"
 
 void setup() {
+  
+  Serial.begin(115200);
   connectToWifi();
   setupFirebase();
   ac.begin();

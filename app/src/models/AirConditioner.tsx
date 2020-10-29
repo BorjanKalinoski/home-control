@@ -1,6 +1,6 @@
 import {FanTypes, ModeTypes} from "../constants/air-conditioner";
 
-export default interface AirConditionerState {
+export default interface AirConditioner {
     date: number;
     fan: FanTypes;
     mode: ModeTypes

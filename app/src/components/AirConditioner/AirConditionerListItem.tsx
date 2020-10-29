@@ -3,12 +3,12 @@ import {TouchableOpacity, View} from "react-native";
 import {Divider, List} from "react-native-paper";
 
 const AirConditionerListItem = (props: any) => {
-    const {title, navigation, referencePath} = props;
+    const {title, navigation, deviceId} = props;
 
     const onPressHandler = useCallback(() => {
         navigation.navigate('AirConditionerRemote', {
             title,
-            referencePath
+            deviceId
         });
     }, [navigation]);
 

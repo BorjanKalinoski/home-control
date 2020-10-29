@@ -7,7 +7,7 @@ export const globalStyles = StyleSheet.create({
     },
     center: {
         justifyContent: 'center',
-        alignContent: 'center',
+        alignItems: 'center',
     },
     noStretch: {
         flex: 0

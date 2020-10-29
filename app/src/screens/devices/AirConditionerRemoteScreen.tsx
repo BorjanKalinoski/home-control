@@ -1,5 +1,5 @@
 import React from "react";
-import {Alert, StyleSheet, View} from "react-native";
+import {StyleSheet, View,Text} from "react-native";
 import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {SettingsButton, Display} from "../../components";
 import {globalStyles} from "../../styles";
@@ -10,46 +10,32 @@ import {
     useInoAirConditionerState
 } from "../../hooks";
 import {areAcStatesSynced} from "../../utils";
-import {useDispatch, useSelector} from "react-redux";
-import {devicesActions} from "../../redux/actions";
 
 
 const AirConditionerRemoteScreen = (props: any) => {
 
-    const {title, referencePath} = props.route.params;
-    const [acState, mergeAndDispatchState] = useMobileAirConditionerState();
-    useSubmitAirConditionerState(referencePath, acState);
-    const kur = useInoAirConditionerState(referencePath, acState);
+    const {deviceId} = props.route.params;
 
-    const deviceData = useSelector(state => state.devices[referencePath]);//TODO think about this how to implement
+    const [state, modifyAndDispatchState] = useMobileAirConditionerState(deviceId);
 
-    const dispatch = useDispatch();
-    if (deviceData && deviceData.error) { //TODO seperate function for Alerts like this
-        Alert.alert(
-            'Oops..',
-            deviceData.error.message,
-            [{
-                text: 'Okay',
-                onPress: () => dispatch(devicesActions.clearDeviceErrors(referencePath))
-            }]
-        );
-    }
-
-
-    const {temp} = acState;
-
-    const statesAreSynced = areAcStatesSynced(kur.date, acState.date);
+    useSubmitAirConditionerState(deviceId, state);
+    const inoState = useInoAirConditionerState(deviceId);
 
     const {
         onModeChangeHandler,
         onFanChangeHandler,
         onTempChangeHandler,
         onBooleanChangeHandler
-    } = useAcOnChangeHandlers(mergeAndDispatchState, acState);
+    } = useAcOnChangeHandlers(modifyAndDispatchState, state);
+
+    const {temp} = state;
+
+    const areStatesSynced = areAcStatesSynced(inoState.date, state.date);
+
 
     return <View style={globalStyles.container}>
         <Display
-            state={acState}
+            state={state}
         />
         <View style={styles.powerAndTempButtonsRow}>
             <MaterialCommunityIcons
@@ -100,11 +86,27 @@ const AirConditionerRemoteScreen = (props: any) => {
                 />
             </View>
         </View>
-        <View>
+        <View style={styles.infoContainer}>
             {
-                statesAreSynced
-                    ? <Ionicons name='md-information-circle-outline' color={'green'} size={60}/>
-                    : <Ionicons name='md-information-circle-outline' color={'yellow'} size={60}/>
+                areStatesSynced
+                    ? <View style={styles.info}>
+                        <Ionicons
+                            name='md-information-circle-outline'
+                            color={'green'}
+                            size={70}
+                            style={styles.infoIcon}
+                        />
+                        <Text style={styles.infoText}>Synced with device</Text>
+                    </View>
+                    : <View style={styles.info}>
+                        <Ionicons
+                            name='md-information-circle-outline'
+                            color={'yellow'}
+                            size={70}
+                            style={styles.infoIcon}
+                        />
+                        <Text style={styles.infoText}>Not synced with device</Text>
+                    </View>
             }
         </View>
     </View>;
@@ -144,6 +146,22 @@ const styles = StyleSheet.create({
         ...globalStyles.row,
         width: '100%'
     },
+    infoContainer: {
+        width: '100%',
+        ...globalStyles.row,
+        ...globalStyles.center,
+        paddingVertical: 25
+    },
+    info: {
+        ...globalStyles.row,
+        ...globalStyles.center
+    },
+    infoText:{
+        fontSize: 18
+    },
+    infoIcon:{
+        marginRight: 16
+    }
 });
 
 export default AirConditionerRemoteScreen;

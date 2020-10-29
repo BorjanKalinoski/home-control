@@ -19,7 +19,7 @@ const DevicesScreen = (props: any) => {
         if (type === 'MAILBOX') {
             return <MailboxListItem referencePath={key} title={name} uid={uid}/>;
         } else {
-            return <AirConditionerListItem navigation={props.navigation} referencePath={key} title={name} uid={uid}/>;
+            return <AirConditionerListItem navigation={props.navigation} deviceId={key} title={name} uid={uid}/>;
         }
     };
 
