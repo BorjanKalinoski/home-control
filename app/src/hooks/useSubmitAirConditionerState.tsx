@@ -15,7 +15,6 @@ export default function useSubmitAirConditionerState(deviceId: string, state: an
             if (!canSubmit.current) {
                 canSubmit.current = true;
             } else {
-                console.log('sabmit')
                 dispatch(devicesActions.submitAirConditionerState(deviceId, state));
             }
         }

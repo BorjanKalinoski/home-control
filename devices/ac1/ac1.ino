@@ -6,7 +6,7 @@ const unsigned long readInterval = 9 * 1000; //execute if every X seconds
 unsigned long previousTime = 0;
 double prevDate = 0.0;
 bool stateHasChanged = false;
-bool firstLoad = true;
+bool deviceFirstBoot = true;
 
 #include "constants.h"
 #include "WifiSetup.h"
@@ -14,7 +14,6 @@ bool firstLoad = true;
 #include "utils.h"
 
 void setup() {
-  
   Serial.begin(115200);
   connectToWifi();
   setupFirebase();
@@ -24,18 +23,14 @@ void setup() {
 void loop() {
   unsigned long currentTime = millis();
   if (currentTime - previousTime > readInterval) {
-    Serial.println("i am doing it");
     previousTime = currentTime;
     readStateFromFirebase();
-    Serial.println("read the data ma lod");
-    Serial.println(stateHasChanged);
-    Serial.println(firstLoad);
-    if (stateHasChanged && !firstLoad) {
-      Serial.println("!!!! ac.send();");
+
+    if (stateHasChanged && !deviceFirstBoot) {
       ac.send();
-      writeState();
+      writeStateToFirebase();
     }
-    firstLoad = false;
+    deviceFirstBoot = false;
     stateHasChanged = false;
   }
 }
