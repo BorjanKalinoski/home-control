@@ -14,6 +14,10 @@ float getDistance(int trigPin, int echoPin) {
   pingTime = pulseIn(echoPin, HIGH, timeOut);
   distance = (float)pingTime * soundVelocity / 2 / 10000;
 
+  Serial.println("Sensor");
+  Serial.println(trigPin);
+  Serial.println("Distance:");
+  Serial.println(distance);
   return distance;
 }
 

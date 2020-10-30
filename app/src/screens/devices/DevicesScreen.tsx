@@ -1,9 +1,10 @@
 import React, {useEffect} from "react";
-import {FlatList} from "react-native";
+import {FlatList, StyleSheet, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {devicesActions} from '../../redux/actions';
 import {MailboxListItem, AirConditionerListItem, Loading} from "../../components";
 import {globalStyles} from "../../styles";
+import {Text} from "react-native-paper";
 
 const DevicesScreen = (props: any) => {
     const {devices, isLoading} = useSelector(state => state.devices);
@@ -17,7 +18,7 @@ const DevicesScreen = (props: any) => {
     const renderListItem = (itemData: any) => {
         const {key, name, uid, type} = itemData.item;
         if (type === 'MAILBOX') {
-            return <MailboxListItem referencePath={key} title={name} uid={uid}/>;
+            return <MailboxListItem deviceId={key} title={name} uid={uid}/>;
         } else {
             return <AirConditionerListItem navigation={props.navigation} deviceId={key} title={name} uid={uid}/>;
         }
@@ -25,6 +26,12 @@ const DevicesScreen = (props: any) => {
 
     if (isLoading) {
         return <Loading style={globalStyles.noStretch}/>;
+    }
+
+    if (!devices.length) {
+        return <View style={styles.noDevicesScreen}>
+            <Text style={styles.noDevicesText}>There are no connected devices</Text>
+        </View>;
     }
 
     return <FlatList
@@ -35,5 +42,16 @@ const DevicesScreen = (props: any) => {
         onRefresh={() => dispatch(devicesActions.fetchDevices())}
     />;
 };
+
+const styles = StyleSheet.create({
+    noDevicesScreen: {
+        ...globalStyles.center,
+        paddingVertical: 40
+    },
+    noDevicesText: {
+        fontWeight: 'bold',
+        fontSize: 18
+    }
+});
 
 export default DevicesScreen;

@@ -3,6 +3,7 @@ import * as Api from '../../api';
 import firebase from '../../firebase';
 import {FETCH_DEVICES, SUBMIT_AC_STATE} from "../actions/types";
 import {authActions, devicesActions} from "../actions";
+import {mapAcStateToTclProtocol} from "../../utils";
 
 export function* fetchDevices() {//TODO refactor this
     try {
@@ -47,6 +48,7 @@ export function* submitAcState(action: any) {
     try {
         yield call(Api.submitAirConditionerState, path, state);
     } catch (error) {
+        console.log('an error has occured', error);
         yield put(devicesActions.submitAirConditionerStateFailed(path, error));
     }
 }

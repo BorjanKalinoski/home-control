@@ -2,7 +2,7 @@
 const uint16_t kIrLed = 4;
 IRTcl112Ac ac(kIrLed);
 
-const unsigned long readInterval = 9 * 1000; //execute if every X seconds
+const unsigned long readInterval = 9 * 1000; //execute every X seconds
 unsigned long previousTime = 0;
 double prevDate = 0.0;
 bool stateHasChanged = false;

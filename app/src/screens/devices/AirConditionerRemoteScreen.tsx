@@ -11,6 +11,7 @@ import {
 } from "../../hooks";
 import {areAcStatesSynced} from "../../utils";
 
+//TODO check what is causing state missmatches!
 
 const AirConditionerRemoteScreen = (props: any) => {
 

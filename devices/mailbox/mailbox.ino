@@ -4,7 +4,7 @@
 #include "utils.h"
 
 bool mail = false;
-int sleepTimeS = 3600;
+int sleepTimeS = 15;
 const int trigPin1 = 2;  //D4 pins
 const int echoPin1 = 5;  //D3
 const int trigPin2 = 19;  //D5
@@ -33,18 +33,21 @@ void loop() {
   } else if (!hasMail1 && !hasMail2) {
     mail = false;
   }
-  publishData();
-  //    ESP.deepSleep(sleepTimeS * 1000000);
+  sendStateToFirebase();
+  delay(2000);
+  ESP.deepSleep(sleepTimeS * 1000000);
 }
-void publishData() {
+void sendStateToFirebase() {
 
-  Serial.println("WR");
-  Serial.println(mail);
   writeJson.set("mail", mail);
-
-  if (Firebase.set(writeData, WRITE_PATH, writeJson)) {
-    Serial.println("Wrote at: " + writeData.dataPath());
-  } else {
-    Serial.println("Err:  " + writeData.errorReason());
+  while (true)
+  {
+    if (Firebase.set(writeData, WRITE_PATH, writeJson)) {
+      Serial.println("Wrote at: " + writeData.dataPath());
+      break;
+    } else {
+      Serial.println("Err:  " + writeData.errorReason());
+    }
   }
+
 }

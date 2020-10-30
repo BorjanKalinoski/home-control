@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import firebase from "../firebase";
 import {initialAcState} from "../constants/air-conditioner";
-import AirConditioner from "../models/AirConditioner";
+import {mapTclProtocolToAcState} from "../utils";
 
 export default function useInoAirConditionerState(deviceId: string) {
 
@@ -11,7 +11,7 @@ export default function useInoAirConditionerState(deviceId: string) {
         const referencePath = `${deviceId}/ino_to_app`;
 
         firebase.database().ref(referencePath).on('value', (snapshot) => {
-            const response: AirConditioner = snapshot.val();
+            const response = snapshot.val();
             if (response) {
                 setAcState(response);
             }
@@ -21,5 +21,5 @@ export default function useInoAirConditionerState(deviceId: string) {
             firebase.database().ref(referencePath).off('value');
         };
     }, [deviceId, firebase, setAcState]);
-    return acState;
+    return mapTclProtocolToAcState(acState);
 };
