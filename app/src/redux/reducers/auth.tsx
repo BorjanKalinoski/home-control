@@ -3,7 +3,6 @@ import {
     AUTHENTICATION_SUCCESS,
     AUTHENTICATION_FAILED,
     CLEAR_AUTH_ERRORS,
-    LOGOUT,
     LOAD_USER,
     LOAD_USER_SUCCESS,
     LOAD_USER_FAILED
@@ -44,13 +43,6 @@ export default (state = initialState, action: any) => {
                 isSubmitting: false,
                 isLoadingUser: false
             };
-        case LOGOUT:
-            return {
-                ...state,
-                error: null,
-                isSubmitting: false,
-                isLoggedIn: false
-            };
         case LOAD_USER:
             return {
                 ...state,
@@ -62,12 +54,13 @@ export default (state = initialState, action: any) => {
                 isLoggedIn: true,
                 isLoadingUser: false
             };
-
-        case LOAD_USER_FAILED:
+        case LOAD_USER_FAILED: //TODO logout niga
             return {
                 ...state,
                 isLoggedIn: false,
-                isLoadingUser: false
+                isLoadingUser: false,
+                error: null,
+                isSubmitting: false,
             };
         default:
             return state;

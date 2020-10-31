@@ -2,7 +2,8 @@ import {FanTypes, ModeTypes} from "../constants/air-conditioner";
 import AirConditioner from "../models/AirConditioner";
 
 export default (state: AirConditioner): AirConditioner => {
-    let fan, mode;
+    let fan = state.fan;
+    let mode = state.mode;
     switch (state.fan) {
         case FanTypes.AUTO:
             fan = 0;

@@ -1,23 +1,9 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {NavigationContainer} from "@react-navigation/native";
-import {createStackNavigator} from "@react-navigation/stack";
 import {Loading} from "../components";
-import {AirConditionerRemoteScreen, DevicesScreen, AuthScreen} from "../screens";
-
-const Stack = createStackNavigator();
-
-const MainStackNavigator = <Stack.Navigator>
-    <Stack.Screen
-        name="Devices"
-        component={DevicesScreen}
-    />
-    <Stack.Screen
-        name="AirConditionerRemote"
-        component={AirConditionerRemoteScreen}
-        options={({route}) => ({title: route?.params?.title})}
-    />
-</Stack.Navigator>;
+import {AuthScreen} from "../screens";
+import DrawerNavigator from "./DrawerNavigator";
 
 const MainNavigator = (props: any) => {
     const {isLoggedIn, isLoadingUser} = useSelector(state => state.auth);
@@ -28,9 +14,10 @@ const MainNavigator = (props: any) => {
 
     return (
         <NavigationContainer>
-            {isLoggedIn
-                ? MainStackNavigator
-                : <AuthScreen/>
+            {
+                isLoggedIn
+                    ? <DrawerNavigator/>
+                    : <AuthScreen/>
             }
         </NavigationContainer>
     );

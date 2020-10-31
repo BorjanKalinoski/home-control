@@ -1,0 +1,45 @@
+const DrawerContent = props => {
+    const dispatch = useDispatch();
+    return (<View style={{flex: 1}}>
+        <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+        </DrawerContentScrollView>
+        <Drawer.Section style={{marginBottom: 15, borderTopColor: '#f4f4f4', borderTopWidth: 1}}>
+            <DrawerItem
+                label='Sign Out'
+                onPress={() => {
+                    dispatch(authActions.logout());
+                }}
+                icon={props => <Ionicons
+                    name='md-log-out'
+                    size={props.size}
+                    color={props.color}
+                />}
+            />
+
+        </Drawer.Section>
+    </View>);
+};
+-------------------------
+    return <View style={{flex: 1}}>
+        <Text>Test</Text>
+        <DrawerContentScrollView {...props}>
+            <View>
+                <Text>Main content!</Text>
+            </View>
+        </DrawerContentScrollView>
+        <Drawer.Section style={{marginBottom: 15, borderTopColor: '#f4f4f4', borderTopWidth: 1}}>
+            <DrawerItem
+                label='Sign Out'
+                onPress={() => {
+                    dispatch(authActions.logout());
+                }}
+                icon={props => <Ionicons
+                    name='md-log-out'
+                    size={props.size}
+                    color={props.color}
+                />}
+            />
+
+        </Drawer.Section>
+    </View>;
