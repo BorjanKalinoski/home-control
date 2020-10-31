@@ -11,7 +11,6 @@ const MainNavigator = (props: any) => {
     if (isLoadingUser) {
         return <Loading/>;
     }
-
     return (
         <NavigationContainer>
             {

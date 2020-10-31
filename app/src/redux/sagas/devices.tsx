@@ -10,7 +10,7 @@ export function* fetchDevices() {//TODO refactor this
         let uid = firebase.auth().currentUser?.uid;
 
         if (!uid) {
-            yield put(authActions.logout());
+            yield put(authActions.signOut());
             return;
         }
 

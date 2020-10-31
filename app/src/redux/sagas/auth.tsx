@@ -1,23 +1,8 @@
 import * as Api from "../../api";
 import {put, call, takeLatest, take, fork} from "redux-saga/effects";
-import {AUTHENTICATE, LOGOUT} from "../actions/types";
-import {eventChannel} from "redux-saga";
-import firebase from "../../firebase";
-
+import {AUTHENTICATE, SIGNOUT} from "../actions/types";
 import {authActions, devicesActions} from "../actions";
-
-function createAuthChannel() {
-    return eventChannel((emit) => {
-        const unsubscribe = firebase.auth().onIdTokenChanged(user => {
-            if (user) {
-                emit({user});
-            } else {
-                emit(new Error('User not logged in'));
-            }
-        });
-        return unsubscribe;
-    });
-}
+import {createAuthChannel} from "./channels";
 
 export function* authenticate(action: any) {
     try {
@@ -49,25 +34,25 @@ function* watchAuthChannel() {
     while (true) {
         try {
             yield take(authChannel);
-            yield put(authActions.loadUserSuccess());
-            yield put(devicesActions.fetchDevices());//For development purposes only
+            yield put(authActions.authenticationSuccess());
+            yield put(devicesActions.fetchDevices());
         } catch (e) {
-            console.log('tuka a!');
-            yield put(authActions.loadUserFailed());
+            yield put(authActions.signOutSuccess());
         }
     }
 }
 
-function* logout() {
+function* signOut() {
         try{
-            yield call(Api.logout);
+            yield call(Api.signOut);
+            yield put(authActions.signOutSuccess());
         }catch (e) {
-            console.log('????');
+            yield put(authActions.signOutFailed(e));
         }
 }
 
 export default function* watchAuth() {
     yield takeLatest(AUTHENTICATE, authenticate);
-    yield takeLatest(LOGOUT, logout);
+    yield takeLatest(SIGNOUT, signOut);
     yield fork(watchAuthChannel);
 }

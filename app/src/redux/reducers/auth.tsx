@@ -2,10 +2,7 @@ import {
     AUTHENTICATE,
     AUTHENTICATION_SUCCESS,
     AUTHENTICATION_FAILED,
-    CLEAR_AUTH_ERRORS,
-    LOAD_USER,
-    LOAD_USER_SUCCESS,
-    LOAD_USER_FAILED
+    CLEAR_AUTH_ERRORS, SIGNOUT_FAILED, SIGNOUT_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
@@ -23,18 +20,23 @@ export default (state = initialState, action: any) => {
                 ...state,
                 error: null,
                 isSubmitting: true,
+                isLoggedIn: false
             };
         case AUTHENTICATION_FAILED:
             return {
                 ...state,
                 error: action.payload.error,
                 isSubmitting: false,
+                isLoggedIn: false,
+                isLoadingUser: false
             }
         case AUTHENTICATION_SUCCESS:
             return {
                 ...state,
                 error: null,
-                isSubmitting: false
+                isSubmitting: false,
+                isLoadingUser: false,
+                isLoggedIn: true
             }
         case CLEAR_AUTH_ERRORS:
             return {
@@ -43,24 +45,19 @@ export default (state = initialState, action: any) => {
                 isSubmitting: false,
                 isLoadingUser: false
             };
-        case LOAD_USER:
-            return {
-                ...state,
-                isLoadingUser: true,
-            }
-        case LOAD_USER_SUCCESS:
-            return {
-                ...state,
-                isLoggedIn: true,
-                isLoadingUser: false
-            };
-        case LOAD_USER_FAILED: //TODO logout niga
+        case SIGNOUT_SUCCESS:
             return {
                 ...state,
                 isLoggedIn: false,
                 isLoadingUser: false,
                 error: null,
                 isSubmitting: false,
+            };
+        case SIGNOUT_FAILED:
+            return {
+                ...state,
+                isLoadingUser: false,
+                error: action.payload.error,
             };
         default:
             return state;

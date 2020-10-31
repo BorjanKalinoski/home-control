@@ -8,7 +8,7 @@ export const loginWithEmailAndPassword = (email: string, password: string): Prom
     return firebase.auth().signInWithEmailAndPassword(email, password);
 };
 
-export const logout = (): Promise<void> => {
+export const signOut = (): Promise<void> => {
     return firebase.auth().signOut();
 };
 
