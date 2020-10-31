@@ -43,13 +43,14 @@ function* watchAuthChannel() {
 }
 
 function* signOut() {
-        try{
-            yield call(Api.signOut);
-            yield put(authActions.signOutSuccess());
-        }catch (e) {
-            yield put(authActions.signOutFailed(e));
-        }
+    try {
+        yield call(Api.signOut);
+        yield put(authActions.signOutSuccess());
+    } catch (e) {
+        yield put(authActions.signOutFailed(e));
+    }
 }
+
 
 export default function* watchAuth() {
     yield takeLatest(AUTHENTICATE, authenticate);

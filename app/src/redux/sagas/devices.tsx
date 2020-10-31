@@ -3,7 +3,6 @@ import * as Api from '../../api';
 import firebase from '../../firebase';
 import {FETCH_DEVICES, SUBMIT_AC_STATE} from "../actions/types";
 import {authActions, devicesActions} from "../actions";
-import {mapAcStateToTclProtocol} from "../../utils";
 
 export function* fetchDevices() {//TODO refactor this
     try {
@@ -14,11 +13,9 @@ export function* fetchDevices() {//TODO refactor this
             return;
         }
 
-        //.val() returns null if there is no data
-        //.exists() returns false if there is no data
-
         const snapshot = yield call(Api.fetchDevices, uid);
         const devicesValue = snapshot.val();
+
         if (!devicesValue) {
             yield put(devicesActions.fetchDevicesSuccess([]));
             return;
