@@ -22,6 +22,7 @@ const DrawerContent = (props: any) => {
                 label='Sign Out'
                 onPress={() => {
                     dispatch(authActions.signOut());
+                    props.navigation.closeDrawer();
                 }}
                 icon={props =>
                     <Ionicons

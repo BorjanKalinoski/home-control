@@ -1,13 +1,12 @@
 import React, { useState} from "react";
-import {Button} from "react-native-paper";
-import {View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert} from "react-native";
+import {Button, Text} from "react-native-paper";
+import {View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, KeyboardAvoidingView} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {authActions} from '../../redux/actions';
 import { Formik} from 'formik';
 import * as yup from 'yup';
 // @ts-ignore
 import {TextField} from "@ubaids/react-native-material-textfield";
-import {globalStyles} from "../../styles";
 
 const initialValues = {
     email: '',
@@ -21,7 +20,6 @@ const validationSchema = yup.object().shape({
 
 const AuthScreen = (props: any) => {
     const [isLoginScreen, setIsLoginScreen] = useState(true);
-    // @ts-ignore state:RootState
     const {error, isSubmitting} = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
@@ -35,8 +33,10 @@ const AuthScreen = (props: any) => {
             }]
         );
     }
-    const authButtonText = isLoginScreen ? 'Login' : 'Sign Up';
-    const switchToText = `Switch to ${isLoginScreen ? 'Sign Up' : 'Login'}`;
+
+    const submitButtonText = isLoginScreen ? 'Login' : 'Sign Up';
+    const switchToHelperText = isLoginScreen ? 'Don\'t have an account?' : 'Already have an account?';
+    const switchToText = isLoginScreen ? 'Sign Up' : 'Login';
 
     return <Formik
         initialValues={initialValues}
@@ -46,43 +46,48 @@ const AuthScreen = (props: any) => {
         }}
         validationSchema={validationSchema}
     >
-        {({values, handleBlur, touched, isValid, handleChange, handleSubmit, errors}) => (
+        {({values, handleBlur, touched, isValid, handleChange, handleSubmit, errors, resetForm}) => (
             <TouchableWithoutFeedback touchSoundDisabled onPress={Keyboard.dismiss}>
-                <View style={globalStyles.container}>
-                    <TextField
-                        label='Email'
-                        value={values.email}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        error={touched.email && errors.email}
-                    />
-                    <TextField
-                        label="Password"
-                        value={values.password}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        error={touched.password && errors.password}
-                        secureTextEntry
-                    />
-                    <Button
-                        mode='contained'
-                        onPress={handleSubmit}
-                        disabled={!isValid}
-                        loading={isSubmitting}
-                        style={styles.button}
-                    >
-                        {authButtonText}
-                    </Button>
-                    <Button
-                        onPress={() => {
+                <View style={styles.screen}>
+                    <View style={styles.form}>
+                        <TextField
+                            label='Email'
+                            value={values.email}
+                            onChangeText={handleChange('email')}
+                            onBlur={handleBlur('email')}
+                            error={touched.email && errors.email}
+                        />
+                        <TextField
+                            label="Password"
+                            value={values.password}
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                            error={touched.password && errors.password}
+                            secureTextEntry
+                        />
+                        <Button
+                            mode='contained'
+                            onPress={handleSubmit}
+                            disabled={!isValid}
+                            loading={isSubmitting}
+                            style={styles.button}
+                            color='#2196f3'
+                            labelStyle={{fontSize:16}}
+                        >
+                            {submitButtonText}
+                        </Button>
+                    </View>
+                    <View style={styles.helperContainer}>
+                        <Text style={styles.switchToHelperText}>
+                            {switchToHelperText}
+                        </Text>
+                        <TouchableWithoutFeedback disabled={isSubmitting} onPress={() => {
                             setIsLoginScreen((prevState => !prevState));
                             dispatch(authActions.clearAuthErrors());
-                        }}
-                        disabled={isSubmitting}
-                        style={styles.button}
-                    >
-                        {switchToText}
-                    </Button>
+                        }}>
+                            <Text style={styles.switchToText}>{switchToText}</Text>
+                        </TouchableWithoutFeedback>
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         )}
@@ -90,8 +95,28 @@ const AuthScreen = (props: any) => {
 };
 
 const styles = StyleSheet.create({
+    screen: {
+        padding: 28,
+        flex: 1
+    },
+    form: {
+        height: '50%',
+        justifyContent: 'flex-end'
+    },
     button: {
-        marginVertical: 8
+        marginTop: 28,
+    },
+    helperContainer: {
+        marginTop: 35,
+    },
+    switchToText: {
+        color: '#2196f3',
+        fontSize: 16,
+    },
+    switchToHelperText: {
+        color: '#adadad',
+        marginVertical: 10,
+        fontSize: 16
     }
 });
 
