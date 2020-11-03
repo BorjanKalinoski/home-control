@@ -1,6 +1,5 @@
 import React from "react";
-import { View} from "react-native";
-import {ActivityIndicator} from 'react-native-paper';
+import {View, ActivityIndicator} from "react-native";
 import {globalStyles} from "../../styles";
 
 const Loading = (props: any) => {
@@ -8,7 +7,7 @@ const Loading = (props: any) => {
     const size = props.size ? props.size : 'large';
 
     return <View style={{...globalStyles.container, ...globalStyles.center, ...style}}>
-        <ActivityIndicator size={size}/>
+        <ActivityIndicator color="#0000ff" size={size}/>
     </View>;
 };
 

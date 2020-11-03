@@ -8,6 +8,7 @@ import DrawerNavigator from "./DrawerNavigator";
 const MainNavigator = (props: any) => {
     const {isLoggedIn, isLoadingUser} = useSelector(state => state.auth);
 
+    console.log(isLoadingUser);
     if (isLoadingUser) {
         return <Loading/>;
     }

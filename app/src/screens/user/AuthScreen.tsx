@@ -1,12 +1,12 @@
 import React, { useState} from "react";
-import {Button, Text} from "react-native-paper";
-import {View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, KeyboardAvoidingView} from "react-native";
+import {Button, Text, Input, Icon} from "react-native-elements";
+import {View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {authActions} from '../../redux/actions';
 import { Formik} from 'formik';
 import * as yup from 'yup';
-// @ts-ignore
 import {TextField} from "@ubaids/react-native-material-textfield";
+
 
 const initialValues = {
     email: '',
@@ -20,6 +20,7 @@ const validationSchema = yup.object().shape({
 
 const AuthScreen = (props: any) => {
     const [isLoginScreen, setIsLoginScreen] = useState(true);
+    // @ts-ignore
     const {error, isSubmitting} = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
@@ -66,16 +67,12 @@ const AuthScreen = (props: any) => {
                             secureTextEntry
                         />
                         <Button
-                            mode='contained'
-                            onPress={handleSubmit}
+                            title={submitButtonText}
                             disabled={!isValid}
                             loading={isSubmitting}
-                            style={styles.button}
-                            color='#2196f3'
-                            labelStyle={{fontSize:16}}
-                        >
-                            {submitButtonText}
-                        </Button>
+                            buttonStyle={styles.button}
+                            onPress={() => handleSubmit()}
+                        />
                     </View>
                     <View style={styles.helperContainer}>
                         <Text style={styles.switchToHelperText}>
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     form: {
-        height: '50%',
+        height: '60%',
         justifyContent: 'flex-end'
     },
     button: {

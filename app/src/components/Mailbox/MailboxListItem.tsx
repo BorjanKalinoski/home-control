@@ -1,14 +1,27 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet, View} from "react-native"
-import {Divider, List} from "react-native-paper";
+import {StyleSheet, TouchableOpacity, View} from "react-native"
 import firebase from '../../firebase';
 import Loading from "../UI/Lodaing";
 import Mailbox from "../../models/Mailbox";
+import {Icon, ListItem, Text} from "react-native-elements";
+import {Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {blue, iconSize, styles, yellow} from "../../constants/list-item";
 
 const MailboxListItem = (props: any) => {
+    const {name, deviceId} = props;
+
     const [hasMail, setHasMail] = useState();
+    const [displayDeviceName, setDisplayDeviceName] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
-    const {title, deviceId} = props;
+    let displayText;
+
+    if (displayDeviceName) {
+        displayText = name;
+    } else if (hasMail) {
+        displayText = 'You have a new mail!';
+    } else {
+        displayText = 'Your mailbox is empty!';
+    }
 
     useEffect(() => {
         const path = `${deviceId}/ino_to_app`;
@@ -33,18 +46,20 @@ const MailboxListItem = (props: any) => {
         return <Loading/>;
     }
 
-    return <View>
-        <List.Item
-            title={title}
-            description={hasMail ? 'You have new mail!' : 'You have no mail!'}
-            left={(props) => <List.Icon color={hasMail ? 'yellow' : ''} icon={hasMail ? 'email' : 'mail'}/>}
-        />
-        <Divider/>
-    </View>;
+    return <TouchableOpacity onPress={() => setDisplayDeviceName((prevState => !prevState))}>
+        <ListItem
+            bottomDivider
+            containerStyle={{
+                backgroundColor: hasMail ? yellow : blue
+            }}
+        >
+            <Ionicons size={iconSize} color={hasMail ? 'white' : 'white'} name={hasMail ? 'md-mail-unread' : 'md-mail'}/>
+            <Text style={styles.text}>{displayText}</Text>
+        </ListItem>
+    </TouchableOpacity>;
 };
 
-const styles = StyleSheet.create({
-});
+
 
 export default MailboxListItem;
 

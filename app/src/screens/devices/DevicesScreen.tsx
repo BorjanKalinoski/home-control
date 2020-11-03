@@ -4,9 +4,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {devicesActions} from '../../redux/actions';
 import {MailboxListItem, AirConditionerListItem, Loading} from "../../components";
 import {globalStyles} from "../../styles";
-import {Text} from "react-native-paper";
+import {Text} from 'react-native-elements';
 
 const DevicesScreen = (props: any) => {
+    // @ts-ignore
     const {devices, isLoading} = useSelector(state => state.devices);
 
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const DevicesScreen = (props: any) => {
     const renderListItem = (itemData: any) => {
         const {key, name, uid, type} = itemData.item;
         if (type === 'MAILBOX') {
-            return <MailboxListItem deviceId={key} title={name} uid={uid}/>;
+            return <MailboxListItem deviceId={key} name={name} uid={uid}/>;
         } else {
             return <AirConditionerListItem navigation={props.navigation} deviceId={key} title={name} uid={uid}/>;
         }

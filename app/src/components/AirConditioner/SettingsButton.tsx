@@ -1,21 +1,16 @@
 import React from "react";
-import {Button} from "react-native-paper";
-import {StyleSheet, TouchableOpacity} from "react-native";
+import {Button} from "react-native-elements";
+import {StyleSheet} from "react-native";
 
 const SettingsButton = (props: any) => {
     const {text, style} = props;
 
     return <Button
-        mode='contained'
-        compact
-        uppercase
-        color={'#ccc'}
+        type='solid'
         style={{...styles.button, ...style}}
-        labelStyle={styles.text}
         onPress={props.onPress}
-    >
-        {text}
-    </Button>;
+        title={text}
+    />;
 };
 
 const styles = StyleSheet.create({

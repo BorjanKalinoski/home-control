@@ -23,7 +23,7 @@ export const globalStyles = StyleSheet.create({
     },
     paddingHorizontal: {
         paddingHorizontal: 16
-    }
+    },
 });
 
 
