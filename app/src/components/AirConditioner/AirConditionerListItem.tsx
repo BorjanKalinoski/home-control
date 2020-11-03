@@ -1,7 +1,8 @@
 import React, {useCallback} from "react";
-import {StyleSheet, TouchableOpacity} from "react-native";
+import {TouchableOpacity} from "react-native";
 import {Icon, ListItem, Text} from "react-native-elements";
-import {blue, iconSize, styles} from "../../constants/list-item";
+import { iconSize, listStyles} from "../../constants/list-item";
+import Colors from "../../constants/Colors";
 
 const AirConditionerListItem = (props: any) => {
     const {title, navigation, deviceId} = props;
@@ -16,7 +17,7 @@ const AirConditionerListItem = (props: any) => {
     return <TouchableOpacity onPress={onPressHandler}>
         <ListItem bottomDivider
                   containerStyle={{
-                      backgroundColor: blue
+                      backgroundColor: Colors.blue
                   }}
         >
             <Icon
@@ -25,7 +26,7 @@ const AirConditionerListItem = (props: any) => {
                 size={iconSize}
                 color='white'
             />
-            <Text style={styles.text}>
+            <Text style={listStyles.text}>
                 {title}
             </Text>
         </ListItem>

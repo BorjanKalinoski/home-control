@@ -1,28 +1,31 @@
 import React from "react";
 import {Button} from "react-native-elements";
 import {StyleSheet} from "react-native";
+import Colors from "../../constants/Colors";
 
 const SettingsButton = (props: any) => {
     const {text, style} = props;
 
     return <Button
         type='solid'
-        style={{...styles.button, ...style}}
+        containerStyle={styles.buttonContainer}
+        buttonStyle={{...styles.button, ...style, backgroundColor: Colors.blue}}
         onPress={props.onPress}
         title={text}
+        titleStyle={styles.text}
     />;
 };
 
 const styles = StyleSheet.create({
-    container: {
-        width: '50%'
+    buttonContainer: {
+        width: '50%',
+        borderRadius: 0
     },
     button: {
+        borderColor: 'black',
         borderRadius: 0,
-        width: '50%',
-        borderWidth: 1,
-        borderColor: 'grey',
-        padding: 5
+        borderWidth: 0.5,
+        padding: 14
     },
     text: {
         fontSize: 20,

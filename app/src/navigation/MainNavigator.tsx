@@ -5,13 +5,13 @@ import {Loading} from "../components";
 import {AuthScreen} from "../screens";
 import DrawerNavigator from "./DrawerNavigator";
 
-const MainNavigator = (props: any) => {
+const MainNavigator = (props) => {
     const {isLoggedIn, isLoadingUser} = useSelector(state => state.auth);
 
-    console.log(isLoadingUser);
     if (isLoadingUser) {
         return <Loading/>;
     }
+
     return (
         <NavigationContainer>
             {

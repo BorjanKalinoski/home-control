@@ -6,6 +6,7 @@ import {authActions} from '../../redux/actions';
 import { Formik} from 'formik';
 import * as yup from 'yup';
 import {TextField} from "@ubaids/react-native-material-textfield";
+import Colors from "../../constants/Colors";
 
 
 const initialValues = {
@@ -67,6 +68,7 @@ const AuthScreen = (props: any) => {
                             secureTextEntry
                         />
                         <Button
+
                             title={submitButtonText}
                             disabled={!isValid}
                             loading={isSubmitting}
@@ -102,12 +104,14 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 28,
+        backgroundColor: Colors.blue
     },
     helperContainer: {
         marginTop: 35,
     },
     switchToText: {
-        color: '#2196f3',
+        color: Colors.blue,
+
         fontSize: 16,
     },
     switchToHelperText: {

@@ -1,6 +1,6 @@
 import React from "react";
 import {StyleSheet, View,Text} from "react-native";
-import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
+import Colors from "../../constants/Colors";
 import {SettingsButton, Display} from "../../components";
 import {globalStyles} from "../../styles";
 import {
@@ -10,8 +10,7 @@ import {
     useInoAirConditionerState
 } from "../../hooks";
 import {areAcStatesSynced} from "../../utils";
-
-//TODO check what is causing state missmatches!
+import {Button, Icon, Tooltip} from "react-native-elements";
 
 const AirConditionerRemoteScreen = (props: any) => {
 
@@ -32,31 +31,48 @@ const AirConditionerRemoteScreen = (props: any) => {
     const {temp} = state;
 
     const areStatesSynced = areAcStatesSynced(inoState.date, state.date);
-
-
+    const settingsButtonBorderRadius = 10;
     return <View style={globalStyles.container}>
         <Display
             state={state}
         />
         <View style={styles.powerAndTempButtonsRow}>
-            <MaterialCommunityIcons
-                style={styles.powerButton}
-                color='black'
-                size={50}
-                name='power'
+            <Button
+                icon={<Icon color={'white'}
+                            name='power' type='material-community' size={35}/>}
                 onPress={onBooleanChangeHandler.bind(this, 'power')}
+                containerStyle={{borderWidth: 1, elevation: 3}}
+                buttonStyle={{backgroundColor: Colors.red, borderRadius: 50, padding: 5}}
             />
-            <View style={{...globalStyles.row, ...styles.tempButtonsContainer}}>
-                <Ionicons
-                    size={50}
-                    name='ios-arrow-down'
-                    style={styles.tempButton}
+            <View style={{...globalStyles.row, ...styles.tempContainer}}>
+                <Button
+                    buttonStyle={{
+                        ...styles.tempButton,
+                        borderTopLeftRadius: 8,
+                        borderBottomLeftRadius: 8,
+                        backgroundColor: Colors.blue
+                    }}
+                    containerStyle={{
+                        ...styles.tempButtonContainer, borderTopLeftRadius: 8,
+                        borderBottomLeftRadius: 8,
+                    }}
+                    icon={<Icon type='ionicon' color='#fff' name='ios-arrow-down' size={50}/>}
                     onPress={onTempChangeHandler.bind(this, temp - 1)}
                 />
-                <Ionicons
-                    size={50}
-                    name='ios-arrow-up'
-                    style={styles.tempButton}
+                <Button
+                    buttonStyle={{
+                        ...styles.tempButton,
+                        borderTopRightRadius: 8,
+                        borderBottomRightRadius: 8,
+                        backgroundColor: Colors.blue
+
+                    }}
+                    containerStyle={{
+                        ...styles.tempButtonContainer,
+                        borderTopRightRadius: 8,
+                        borderBottomRightRadius: 8,
+                    }}
+                    icon={<Icon type='ionicon' color='#fff' name='ios-arrow-up' size={50}/>}
                     onPress={onTempChangeHandler.bind(this, temp + 1)}
                 />
             </View>
@@ -64,51 +80,41 @@ const AirConditionerRemoteScreen = (props: any) => {
         <View style={{...styles.settingsContainer}}>
             <View style={styles.settingsButtonRow}>
                 <SettingsButton
-                    text='mode'
-                    style={{borderTopLeftRadius: 10}}
+                    text='MODE'
+                    style={{borderTopLeftRadius: settingsButtonBorderRadius, borderRightWidth: 0.5}}
                     onPress={onModeChangeHandler}
                 />
                 <SettingsButton
-                    text='fan'
-                    style={{borderTopRightRadius: 10}}
+                    text='FAN'
+                    style={{borderTopRightRadius: settingsButtonBorderRadius, borderLeftWidth: 0.5}}
                     onPress={onFanChangeHandler}
                 />
             </View>
             <View style={styles.settingsButtonRow}>
                 <SettingsButton
-                    text='swing'
-                    style={{borderBottomLeftRadius: 10}}
+                    text='SWING'
+                    style={{borderBottomLeftRadius: settingsButtonBorderRadius, borderRightWidth: 0.5}}
                     onPress={onBooleanChangeHandler.bind(this, 'swing')}
                 />
                 <SettingsButton
-                    text='turbo'
-                    style={{borderBottomRightRadius: 10}}
+                    text='TURBO'
+                    style={{borderBottomRightRadius: settingsButtonBorderRadius, borderLeftWidth: 0.5}}
                     onPress={onBooleanChangeHandler.bind(this, 'turbo')}
                 />
             </View>
         </View>
         <View style={styles.infoContainer}>
-            {
-                areStatesSynced
-                    ? <View style={styles.info}>
-                        <Ionicons
-                            name='md-information-circle-outline'
-                            color={'green'}
-                            size={70}
-                            style={styles.infoIcon}
-                        />
-                        <Text style={styles.infoText}>Synced with device</Text>
-                    </View>
-                    : <View style={styles.info}>
-                        <Ionicons
-                            name='md-information-circle-outline'
-                            color={'yellow'}
-                            size={70}
-                            style={styles.infoIcon}
-                        />
-                        <Text style={styles.infoText}>Not synced with device</Text>
-                    </View>
-            }
+            <View>
+
+                <Tooltip popover={<Text>{areStatesSynced ? 'Devices are synced!' : 'Devices are not synced!'}</Text>}>
+                    <Icon
+                        name='md-information-circle-outline'
+                        type='ionicon'
+                        size={70}
+                        color={areStatesSynced ? Colors.green : Colors.yellow}
+                    />
+                </Tooltip>
+            </View>
         </View>
     </View>;
 };
@@ -127,21 +133,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'grey'
     },
-    tempButtonsContainer: {
-        backgroundColor: '#ccc',
+    tempContainer: {
         width: '40%',
     },
     tempButton: {
+        borderRadius: 0,
         flex: 1,
-        textAlign: 'center',
         borderWidth: 1,
-        borderColor: 'grey',
+        borderColor:'black',
+        borderRightWidth: 0.5,
+        padding: 5,
+    },
+    tempButtonContainer: {
+        borderRadius: 0,
+        flex: 1,
     },
     settingsContainer: {
         width: '100%',
-        borderRadius: 10,
-        borderColor: '#ccc',
-        elevation: 3
     },
     settingsButtonRow: {
         ...globalStyles.row,
@@ -153,16 +161,6 @@ const styles = StyleSheet.create({
         ...globalStyles.center,
         paddingVertical: 25
     },
-    info: {
-        ...globalStyles.row,
-        ...globalStyles.center
-    },
-    infoText:{
-        fontSize: 18
-    },
-    infoIcon:{
-        marginRight: 16
-    }
 });
 
 export default AirConditionerRemoteScreen;

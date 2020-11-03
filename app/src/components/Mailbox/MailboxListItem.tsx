@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet, TouchableOpacity, View} from "react-native"
+import { TouchableOpacity} from "react-native"
 import firebase from '../../firebase';
 import Loading from "../UI/Lodaing";
 import Mailbox from "../../models/Mailbox";
-import {Icon, ListItem, Text} from "react-native-elements";
-import {Ionicons, MaterialIcons} from "@expo/vector-icons";
-import {blue, iconSize, styles, yellow} from "../../constants/list-item";
+import { ListItem, Text} from "react-native-elements";
+import {Ionicons} from "@expo/vector-icons";
+import {iconSize, listStyles} from "../../constants/list-item";
+import Colors from "../../constants/Colors";
 
 const MailboxListItem = (props: any) => {
     const {name, deviceId} = props;
@@ -50,11 +51,11 @@ const MailboxListItem = (props: any) => {
         <ListItem
             bottomDivider
             containerStyle={{
-                backgroundColor: hasMail ? yellow : blue
+                backgroundColor: hasMail ? Colors.yellow : Colors.blue
             }}
         >
             <Ionicons size={iconSize} color={hasMail ? 'white' : 'white'} name={hasMail ? 'md-mail-unread' : 'md-mail'}/>
-            <Text style={styles.text}>{displayText}</Text>
+            <Text style={listStyles.text}>{displayText}</Text>
         </ListItem>
     </TouchableOpacity>;
 };

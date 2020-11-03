@@ -1,6 +1,6 @@
 import {StyleSheet} from "react-native";
 
-export const styles = StyleSheet.create({
+export const listStyles = StyleSheet.create({
     text: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -9,5 +9,3 @@ export const styles = StyleSheet.create({
 });
 
 export const iconSize = 28;
-export const blue = '#007FFF';
-export const yellow = '#ffb347';
