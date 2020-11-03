@@ -126,13 +126,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 16
     },
-    powerButton: {
-        backgroundColor: '#ccc',
-        borderRadius: 25,
-        elevation: 3,
-        borderWidth: 1,
-        borderColor: 'grey'
-    },
     tempContainer: {
         width: '40%',
     },
@@ -140,7 +133,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         flex: 1,
         borderWidth: 1,
-        borderColor:'black',
+        borderColor:Colors.black,
         borderRightWidth: 0.5,
         padding: 5,
     },

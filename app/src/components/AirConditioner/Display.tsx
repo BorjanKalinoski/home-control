@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from "react-native";
 import {FanTypes, ModeTypes} from "../../constants/air-conditioner";
 import {globalStyles} from "../../styles";
 import DisplayModeIcon from "./DisplayModeIcon";
+import Colors from "../../constants/Colors";
 
 const fanIconSize = 36;
 
@@ -98,7 +99,7 @@ const Display = (props: any) => {
 
 const styles = StyleSheet.create({
     displayContainer: {
-        backgroundColor: '#ccc',
+        backgroundColor: Colors.lightGray,
         paddingVertical: 12,
         paddingHorizontal: 8,
         borderRadius: 10

@@ -1,6 +1,7 @@
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import {AirConditionerRemoteScreen, DevicesScreen} from "../screens";
+import Colors from "../constants/Colors";
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,7 @@ const DevicesStackNavigator = () => {
                     backgroundColor: 'white',
                     // backgroundColor: '#f4511e',
                 },
-                headerTintColor: 'black',
+                headerTintColor: Colors.black,
                 headerTitleStyle: {
                     fontWeight: 'bold',
                 },

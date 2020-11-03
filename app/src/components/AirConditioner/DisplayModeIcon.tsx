@@ -2,11 +2,11 @@ import React from "react";
 import {StyleSheet, View} from "react-native";
 import {Text} from 'react-native-elements';
 import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
+import Colors from "../../constants/Colors";
 
 const DisplayModeIcon = (props: any) => {
     const {isMatIcon, icon, text, isActive} = props;
     const size = props.size ? props.size : 52;
-    const color = 'black';
 
     let Icon: any = Ionicons;
 
@@ -25,7 +25,7 @@ const DisplayModeIcon = (props: any) => {
         <Icon
             name={icon}
             size={size}
-            color={color}
+            color={Colors.black}
         />
         {text
         && <Text style={styles.text}>
