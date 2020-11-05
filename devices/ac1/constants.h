@@ -7,6 +7,6 @@
 #define DEVICE_ID "-MK3zOf-KoaDLGkBwYEr"
 #define READ_PATH "/-MK3zOf-KoaDLGkBwYEr/app_to_ino"
 #define WRITE_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app"
-
+#define WRITE_DATE_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app/date"
 #define WIFI_SSID "phone"
 #define WIFI_PASSWORD "12345678"

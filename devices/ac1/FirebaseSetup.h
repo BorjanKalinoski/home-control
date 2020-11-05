@@ -3,6 +3,7 @@
 FirebaseData readData;
 FirebaseData writeData;
 FirebaseData initData;
+FirebaseData lastWriteData;
 
 FirebaseJson initJson;
 FirebaseJson writeJson;

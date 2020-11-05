@@ -3,6 +3,9 @@
 #include "FirebaseSetup.h"
 #include "utils.h"
 
+const unsigned long uS_TO_S_FACTOR = 1000000; /* Conversion factor for micro seconds to seconds */
+const unsigned long TIME_TO_SLEEP_S = 4000; /* Time ESP32 will go to sleep (in seconds) */
+
 bool mail = false;
 int sleepTimeS = 15;
 const int trigPin1 = 2;  //D4 pins
@@ -21,6 +24,7 @@ void setup() {
   pinMode(trigPin2, OUTPUT); // Sets the trigPin2 as an Output
   pinMode(echoPin2, INPUT); // Sets the echoPin2 as an Input
 
+
 }
 
 void loop() {
@@ -34,14 +38,19 @@ void loop() {
     mail = false;
   }
   sendStateToFirebase();
-  delay(2000);
-  ESP.deepSleep(sleepTimeS * 1000000);
+  Serial.println("Sleeping");
+  esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP_S * uS_TO_S_FACTOR);
+  esp_deep_sleep_start();
+
+  Serial.println("wotwot");
 }
 void sendStateToFirebase() {
 
   writeJson.set("mail", mail);
+  writeJson.set("date/.sv", "timestamp");
   while (true)
   {
+    Serial.println("Sending data");
     if (Firebase.set(writeData, WRITE_PATH, writeJson)) {
       Serial.println("Wrote at: " + writeData.dataPath());
       break;

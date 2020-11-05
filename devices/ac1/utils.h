@@ -44,16 +44,18 @@ void readStateFromFirebase() {
       }
 
       json.get(data, "date");
+
       if (data.success) {
-        if (prevDate != data.doubleValue) {
+        double flooredDate = floor(data.doubleValue);
+        if (previousDate != flooredDate) {
           stateHasChanged = true;
-          prevDate = data.doubleValue;
+          previousDate = flooredDate;
         }
       }
       break;
     } else {
-      //      Serial.println("Error reading data!");
-      //      Serial.println(readData.errorReason());
+//      Serial.println("Error reading data!");
+//      Serial.println(readData.errorReason());
     }
     delay(300);
   }
@@ -66,7 +68,7 @@ void writeStateToFirebase() {
   writeJson.set("fan", (int) ac.getFan());
   writeJson.set("temp", ac.getTemp());
   writeJson.set("turbo", ac.getTurbo());
-  writeJson.set("date", prevDate);
+  writeJson.set("date", previousDate);
 
   while (true) {
     //    Serial.println("Sending data back");
@@ -81,6 +83,23 @@ void writeStateToFirebase() {
       //      Serial.println("REASON: " + writeData.errorReason());
       //      Serial.println("------------------------------------");
       //      Serial.println();
+    }
+    delay(300);
+  }
+}
+
+void readLastWriteDate() {
+  while (true)
+  {
+    if (Firebase.getDouble(lastWriteData, WRITE_DATE_PATH)) {
+
+      if (lastWriteData.dataType() == "double") {
+        previousDate = floor(lastWriteData.doubleData());
+      }
+      break;
+    } else {
+//      Serial.println("Error reading data!");
+//      Serial.println(lastWriteData.errorReason());
     }
     delay(300);
   }

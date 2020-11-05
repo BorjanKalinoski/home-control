@@ -1,12 +1,11 @@
 #include <ir_Tcl.h>
-const uint16_t kIrLed = 4;
+const uint16_t kIrLed = D2;
 IRTcl112Ac ac(kIrLed);
 
-const unsigned long readInterval = 9 * 1000; //execute every X seconds
+const unsigned long readInterval = 50 * 1000; //execute every X seconds
 unsigned long previousTime = 0;
-double prevDate = 0.0;
+double previousDate = 0.0;
 bool stateHasChanged = false;
-bool deviceFirstBoot = true;
 
 #include "constants.h"
 #include "WifiSetup.h"
@@ -18,19 +17,24 @@ void setup() {
   connectToWifi();
   setupFirebase();
   ac.begin();
+
+  readLastWriteDate();
+  readStateFromFirebase();
+
 }
 
 void loop() {
   unsigned long currentTime = millis();
   if (currentTime - previousTime > readInterval) {
     previousTime = currentTime;
+
     readStateFromFirebase();
 
-    if (stateHasChanged && !deviceFirstBoot) {
+    if (stateHasChanged) {
       ac.send();
       writeStateToFirebase();
     }
-    deviceFirstBoot = false;
     stateHasChanged = false;
   }
+
 }
