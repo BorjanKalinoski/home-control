@@ -5,33 +5,31 @@ import {SettingsButton, Display} from "../../components";
 import {globalStyles} from "../../styles";
 import {
     useSubmitAirConditionerState,
-    useMobileAirConditionerState,
     useAcOnChangeHandlers,
-    useInoAirConditionerState
+    useAirConditionerStates,
 } from "../../hooks";
 import {areAcStatesSynced} from "../../utils";
 import {Button, Icon, Tooltip} from "react-native-elements";
 
-const AirConditionerRemoteScreen = (props: any) => {
+const AirConditionerRemoteScreen = (props) => {
 
     const {deviceId} = props.route.params;
 
-    const [state, modifyAndDispatchState] = useMobileAirConditionerState(deviceId);
+    const [{dispatch, state}, inoState] = useAirConditionerStates(deviceId);
 
     useSubmitAirConditionerState(deviceId, state);
-    const inoState = useInoAirConditionerState(deviceId);
 
     const {
         onModeChangeHandler,
         onFanChangeHandler,
         onTempChangeHandler,
         onBooleanChangeHandler
-    } = useAcOnChangeHandlers(modifyAndDispatchState, state);
+    } = useAcOnChangeHandlers(state, dispatch);
 
-    const {temp} = state;
 
     const areStatesSynced = areAcStatesSynced(inoState.date, state.date);
     const settingsButtonBorderRadius = 10;
+
     return <View style={globalStyles.container}>
         <Display
             state={state}
@@ -40,7 +38,7 @@ const AirConditionerRemoteScreen = (props: any) => {
             <Button
                 icon={<Icon color={'white'}
                             name='power' type='material-community' size={35}/>}
-                onPress={onBooleanChangeHandler.bind(this, 'power')}
+                onPress={() => onBooleanChangeHandler('power')}
                 containerStyle={{borderWidth: 1, elevation: 3}}
                 buttonStyle={{backgroundColor: Colors.red, borderRadius: 50, padding: 5}}
             />
@@ -57,7 +55,7 @@ const AirConditionerRemoteScreen = (props: any) => {
                         borderBottomLeftRadius: 8,
                     }}
                     icon={<Icon type='ionicon' color='#fff' name='ios-arrow-down' size={50}/>}
-                    onPress={onTempChangeHandler.bind(this, temp - 1)}
+                    onPress={() => onTempChangeHandler(state.temp - 1)}
                 />
                 <Button
                     buttonStyle={{
@@ -73,7 +71,7 @@ const AirConditionerRemoteScreen = (props: any) => {
                         borderBottomRightRadius: 8,
                     }}
                     icon={<Icon type='ionicon' color='#fff' name='ios-arrow-up' size={50}/>}
-                    onPress={onTempChangeHandler.bind(this, temp + 1)}
+                    onPress={() => onTempChangeHandler(state.temp + 1)}
                 />
             </View>
         </View>
@@ -94,12 +92,12 @@ const AirConditionerRemoteScreen = (props: any) => {
                 <SettingsButton
                     text='SWING'
                     style={{borderBottomLeftRadius: settingsButtonBorderRadius, borderRightWidth: 0.5}}
-                    onPress={onBooleanChangeHandler.bind(this, 'swing')}
+                    onPress={() => onBooleanChangeHandler('swing')}
                 />
                 <SettingsButton
                     text='TURBO'
                     style={{borderBottomRightRadius: settingsButtonBorderRadius, borderLeftWidth: 0.5}}
-                    onPress={onBooleanChangeHandler.bind(this, 'turbo')}
+                    onPress={() => onBooleanChangeHandler('turbo')}
                 />
             </View>
         </View>

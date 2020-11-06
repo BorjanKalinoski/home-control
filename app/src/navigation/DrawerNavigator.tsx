@@ -16,7 +16,7 @@ const DrawerNavigator = () => {
             openByDefault={false}
         >
             <Drawer.Screen name='Devices' component={DevicesStackNavigator}/>
-            <Drawer.Screen name='Profile' component={ProfileScreen}/>
+            {/*<Drawer.Screen name='Profile' component={ProfileScreen}/>*/}
         </Drawer.Navigator>
     );
 };

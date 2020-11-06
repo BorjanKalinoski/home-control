@@ -4,9 +4,11 @@ FirebaseData readData;
 FirebaseData writeData;
 FirebaseData initData;
 FirebaseData lastWriteData;
+FirebaseData writeSensorData;
 
 FirebaseJson initJson;
 FirebaseJson writeJson;
+FirebaseJson writeSensorJson;
 
 void setupFirebase() {
 
@@ -16,7 +18,7 @@ void setupFirebase() {
 
   //****COMMENT FROM HERE AFTER INITIAL SETUP***//
   //  String path = "/devices/-MK3zOf-KoaDLGkBwYEr";
-  
+
   //  initJson.set("type", DEVICE_TYPE);
   //  initJson.set("name", DEVICE_NAME);
   //  initJson.set("uid", UID);

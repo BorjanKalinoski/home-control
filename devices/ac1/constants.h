@@ -8,5 +8,5 @@
 #define READ_PATH "/-MK3zOf-KoaDLGkBwYEr/app_to_ino"
 #define WRITE_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app"
 #define WRITE_DATE_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app/date"
-#define WIFI_SSID "phone"
-#define WIFI_PASSWORD "12345678"
+#define WIFI_SSID "Boki"
+#define WIFI_PASSWORD "01011962"

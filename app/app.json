@@ -21,6 +21,10 @@
     },
     "web": {
       "favicon": "./src/./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.feit.homecontrol",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }

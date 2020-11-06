@@ -3,14 +3,13 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {AirConditionerRemoteScreen, DevicesScreen} from "../screens";
 import Colors from "../constants/Colors";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<DevicesStackParamList>();
 
 const DevicesStackNavigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{
                 headerStyle: {
-
                     backgroundColor: 'white',
                     // backgroundColor: '#f4511e',
                 },
@@ -31,6 +30,11 @@ const DevicesStackNavigator = () => {
             />
         </Stack.Navigator>
     );
+};
+
+export type DevicesStackParamList = {
+    Devices: undefined;
+    AirConditionerRemote: { title: string; deviceId: string; };
 };
 
 export default DevicesStackNavigator;

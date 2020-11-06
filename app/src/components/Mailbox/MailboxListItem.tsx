@@ -8,8 +8,7 @@ import {Ionicons} from "@expo/vector-icons";
 import {iconSize, listStyles} from "../../constants/list-item";
 import Colors from "../../constants/Colors";
 
-const MailboxListItem = (props: any) => {
-    const {name, deviceId} = props;
+const MailboxListItem = ({name, deviceId}: MailboxListItemProps) => {
 
     const [hasMail, setHasMail] = useState();
     const [displayDeviceName, setDisplayDeviceName] = useState(true);
@@ -32,7 +31,7 @@ const MailboxListItem = (props: any) => {
                 // @ts-ignore
                 setHasMail(response.mail);
                 setIsLoading(false);
-            } else{
+            } else {
                 setIsLoading(false);
             }
         });
@@ -54,12 +53,18 @@ const MailboxListItem = (props: any) => {
                 backgroundColor: hasMail ? Colors.yellow : Colors.blue
             }}
         >
-            <Ionicons size={iconSize} color={hasMail ? 'white' : 'white'} name={hasMail ? 'md-mail-unread' : 'md-mail'}/>
+            <Ionicons size={iconSize} color={hasMail ? 'white' : 'white'}
+                      name={hasMail ? 'md-mail-unread' : 'md-mail'}/>
             <Text style={listStyles.text}>{displayText}</Text>
         </ListItem>
     </TouchableOpacity>;
 };
 
+type MailboxListItemProps = {
+    name: string;
+    deviceId: string;
+    uid?: string;
+};
 
 
 export default MailboxListItem;

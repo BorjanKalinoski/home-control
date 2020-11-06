@@ -4,19 +4,21 @@ import {devicesActions} from "../redux/actions";
 
 export default function useSubmitAirConditionerState(deviceId: string, state: any) {
 
-    const componentDidMount = useRef(true);
-    const canSubmit = useRef(false);
+    const firstRender = useRef(false);
+    const secondRender = useRef(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (componentDidMount.current) {
-            componentDidMount.current = false;
-        } else {
-            if (!canSubmit.current) {
-                canSubmit.current = true;
-            } else {
-                dispatch(devicesActions.submitAirConditionerState(deviceId, state));
+        if (secondRender.current) {
+            console.log("SABMIT!");
+            // dispatch(devicesActions.submitAirConditionerState(deviceId, state));
+        }else {
+            if (!firstRender.current) {
+                firstRender.current = true;
+            } else if (!secondRender.current) {
+                secondRender.current = true;
             }
         }
-    }, [state, componentDidMount, deviceId]);
+
+    }, [state, firstRender,secondRender, secondRender,deviceId]);
 };

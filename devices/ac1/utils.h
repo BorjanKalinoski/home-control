@@ -88,7 +88,7 @@ void writeStateToFirebase() {
   }
 }
 
-void readLastWriteDate() {
+void readLastWriteDate() {//TODO change naming
   while (true)
   {
     if (Firebase.getDouble(lastWriteData, WRITE_DATE_PATH)) {

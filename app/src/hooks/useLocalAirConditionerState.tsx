@@ -1,7 +1,8 @@
-import {useCallback, useEffect, useReducer, useRef} from "react";
+import {Dispatch, useCallback, useEffect, useReducer} from "react";
 import {initialAcState} from "../constants/air-conditioner";
 import firebase from "../firebase";
-import AirConditioner from "../models/AirConditioner";
+import AirConditionerState from "../models/AirConditionerState";
+
 const SET_AC_STATE = 'SET_AC_STATE';
 
 const reducer = (state: any, action: any) => {
@@ -22,7 +23,7 @@ const reducer = (state: any, action: any) => {
     }
 };
 
-export default function useLocalAirConditionerState(deviceId: string) {
+export default function useLocalAirConditionerState(deviceId: string): [AirConditionerState, Dispatch<any>] {
 
     const [state, dispatch] = useReducer(reducer, initialAcState);
 
@@ -30,16 +31,15 @@ export default function useLocalAirConditionerState(deviceId: string) {
         const fetchPreviousState = async () => {
             try {
                 // const snapshot = await firebase.database().ref(`${deviceId}/app_to_ino`).once('value');
-                // let response: AirConditioner = snapshot.val();
-                let response = initialAcState;
-
-                if (!response) {
-                    response = initialAcState;
-                }
-                dispatch({
-                    ...response,
-                    type: SET_AC_STATE
-                });
+                // let response: AirConditionerState = snapshot.val();
+                //
+                // if (!response) {
+                //     response = initialAcState;
+                // }
+                // dispatch({
+                //     ...response,
+                //     type: SET_AC_STATE
+                // });
             } catch (e) {
                 console.log('Error fetching state from ino', e);
                 dispatch({});
@@ -48,7 +48,7 @@ export default function useLocalAirConditionerState(deviceId: string) {
         fetchPreviousState();
     }, []);
 
-    const modifyAndDispatchState = useCallback(async (modifiedState: any) => {
+    const dispatchLocalState = useCallback(async (modifiedState: any) => {
         dispatch({
             ...state,
             ...modifiedState,
@@ -57,5 +57,5 @@ export default function useLocalAirConditionerState(deviceId: string) {
         });
     }, [state, dispatch]);
 
-    return [state, modifyAndDispatchState];
+    return [state, dispatchLocalState];
 };

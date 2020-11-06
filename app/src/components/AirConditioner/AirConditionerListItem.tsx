@@ -3,9 +3,9 @@ import {TouchableOpacity} from "react-native";
 import {Icon, ListItem, Text} from "react-native-elements";
 import { iconSize, listStyles} from "../../constants/list-item";
 import Colors from "../../constants/Colors";
+import {StackNavigationProp} from "@react-navigation/stack";
 
-const AirConditionerListItem = (props: any) => {
-    const {title, navigation, deviceId} = props;
+const AirConditionerListItem = ({title, navigation, deviceId}: AirConditionerListItemProps) => {
 
     const onPressHandler = useCallback(() => {
         navigation.navigate('AirConditionerRemote', {
@@ -33,6 +33,16 @@ const AirConditionerListItem = (props: any) => {
     </TouchableOpacity>;
 };
 
+type AirConditionerListItemProps = {
+    title: string;
+    deviceId: string;
+    navigation: StackNavigationProp<{
+        AirConditionerRemote: {
+            title: string;
+            deviceId: string;
+        }
+    }>;
+};
 
 
 export default AirConditionerListItem;

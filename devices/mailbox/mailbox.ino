@@ -38,7 +38,10 @@ void loop() {
     mail = false;
   }
   sendStateToFirebase();
-  Serial.println("Sleeping");
+    
+  adc_power_off();
+  esp_wifi_stop();
+  esp_bt_controller_disable();
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP_S * uS_TO_S_FACTOR);
   esp_deep_sleep_start();
 

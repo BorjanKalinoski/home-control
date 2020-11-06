@@ -5,23 +5,27 @@ import {devicesActions} from '../../redux/actions';
 import {MailboxListItem, AirConditionerListItem, Loading} from "../../components";
 import {globalStyles} from "../../styles";
 import {Text} from 'react-native-elements';
+import Devices from "../../constants/Devices";
+import {StackNavigationProp} from "@react-navigation/stack";
 
-const DevicesScreen = (props: any) => {
+const DevicesScreen = ({navigation}: DevicesScreenProps) => {
+
+
     // @ts-ignore
     const {devices, isLoading} = useSelector(state => state.devices);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(devicesActions.fetchDevices());
+        // dispatch(devicesActions.fetchDevices());
     }, []);
 
     const renderListItem = (itemData: any) => {
         const {key, name, uid, type} = itemData.item;
-        if (type === 'MAILBOX') {
+        if (type === Devices.MAILBOX) {
             return <MailboxListItem deviceId={key} name={name} uid={uid}/>;
         } else {
-            return <AirConditionerListItem navigation={props.navigation} deviceId={key} title={name} uid={uid}/>;
+            return <AirConditionerListItem navigation={navigation} deviceId={key} title={name} uid={uid}/>;
         }
     };
 
@@ -54,5 +58,9 @@ const styles = StyleSheet.create({
         fontSize: 18
     }
 });
+
+type DevicesScreenProps={
+    navigation: StackNavigationProp<any>;
+}
 
 export default DevicesScreen;
