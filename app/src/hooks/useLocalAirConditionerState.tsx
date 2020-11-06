@@ -22,15 +22,16 @@ const reducer = (state: any, action: any) => {
     }
 };
 
-export default function useMobileAirConditionerState(deviceId: string) {
+export default function useLocalAirConditionerState(deviceId: string) {
 
     const [state, dispatch] = useReducer(reducer, initialAcState);
 
     useEffect(() => {
         const fetchPreviousState = async () => {
             try {
-                const snapshot = await firebase.database().ref(`${deviceId}/app_to_ino`).once('value');
-                let response: AirConditioner = snapshot.val();
+                // const snapshot = await firebase.database().ref(`${deviceId}/app_to_ino`).once('value');
+                // let response: AirConditioner = snapshot.val();
+                let response = initialAcState;
 
                 if (!response) {
                     response = initialAcState;
