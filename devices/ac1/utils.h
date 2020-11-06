@@ -2,7 +2,8 @@ void readStateFromFirebase() {
 
   while (true)
   {
-    if (Firebase.getJSON(readData, READ_PATH)) {
+    Serial.println("reading!");
+    if (Firebase.getJSON(readData, READ_AC_PATH)) {
 
       FirebaseJson &json = readData.jsonObject();
       FirebaseJsonData data;
@@ -46,16 +47,19 @@ void readStateFromFirebase() {
       json.get(data, "date");
 
       if (data.success) {
+        Serial.println("woowt");
         double flooredDate = floor(data.doubleValue);
         if (previousDate != flooredDate) {
           stateHasChanged = true;
           previousDate = flooredDate;
+          
+        Serial.println("true");
         }
       }
       break;
     } else {
-//      Serial.println("Error reading data!");
-//      Serial.println(readData.errorReason());
+      Serial.println("Error reading data!");
+      Serial.println(readData.errorReason());
     }
     delay(300);
   }
@@ -72,7 +76,7 @@ void writeStateToFirebase() {
 
   while (true) {
     //    Serial.println("Sending data back");
-    if (Firebase.set(writeData, WRITE_PATH, writeJson))   {
+    if (Firebase.set(writeData, WRITE_AC_PATH, writeJson))   {
       //      Serial.println("PASSED");
       //      Serial.println("PATH: " + writeData.dataPath());
       //      Serial.println("TYPE: " + writeData.dataType());
@@ -91,7 +95,7 @@ void writeStateToFirebase() {
 void readLastWriteDate() {//TODO change naming
   while (true)
   {
-    if (Firebase.getDouble(lastWriteData, WRITE_DATE_PATH)) {
+    if (Firebase.getDouble(lastWriteData, WRITE_AC_DATE_PATH)) {
 
       if (lastWriteData.dataType() == "double") {
         previousDate = floor(lastWriteData.doubleData());

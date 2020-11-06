@@ -7,7 +7,7 @@ import Colors from "../../constants/Colors";
 
 const fanIconSize = 36;
 
-const Display = (props: any) => {
+const AcDisplay = (props: any) => {
     const {mode, fan, turbo, temp, swing, power} = props.state;
     const opacityStyle = power ? {opacity: 1} : {opacity: 0};
 
@@ -124,4 +124,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Display;
+export default AcDisplay;

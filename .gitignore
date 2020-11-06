@@ -1,3 +1,5 @@
+app/google-services.json
+
 app/node_modules/**/*
 app/.expo/*
 npm-debug.*

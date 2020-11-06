@@ -1,8 +1,8 @@
 #include <ir_Tcl.h>
-const uint16_t kIrLed = D2;
+const uint16_t kIrLed = D5;
 IRTcl112Ac ac(kIrLed);
 
-const unsigned long readInterval = 1200 * 1000; //execute every X seconds
+const unsigned long readInterval = 10 * 1000; //execute every X seconds
 const unsigned long sensorWriteInterval = 10 * 1000;
 unsigned long previousTime = 0;
 unsigned long previousSensorWriteTime = 0;
@@ -21,9 +21,9 @@ void setup() {
   connectToWifi();
   setupFirebase();
   ac.begin();
-
+  initSI7021();
   readLastWriteDate();
-  readStateFromFirebase();
+  //  readStateFromFirebase();
 
 }
 
@@ -36,6 +36,7 @@ void loop() {
 
     if (stateHasChanged) {
       ac.send();
+      Serial.println("Writing!!");
       writeStateToFirebase();
     }
     stateHasChanged = false;
@@ -43,7 +44,6 @@ void loop() {
 
   if (currentTime - previousSensorWriteTime > sensorWriteInterval) {
     previousSensorWriteTime = currentTime;
-
     writeSI7021toFirebase();
   }
 

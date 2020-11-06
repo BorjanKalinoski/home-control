@@ -17,7 +17,7 @@ const DevicesScreen = ({navigation}: DevicesScreenProps) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        // dispatch(devicesActions.fetchDevices());
+        dispatch(devicesActions.fetchDevices());
     }, []);
 
     const renderListItem = (itemData: any) => {

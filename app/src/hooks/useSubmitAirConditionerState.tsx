@@ -10,8 +10,7 @@ export default function useSubmitAirConditionerState(deviceId: string, state: an
 
     useEffect(() => {
         if (secondRender.current) {
-            console.log("SABMIT!");
-            // dispatch(devicesActions.submitAirConditionerState(deviceId, state));
+            dispatch(devicesActions.submitAirConditionerState(deviceId, state));
         }else {
             if (!firstRender.current) {
                 firstRender.current = true;

@@ -10,12 +10,14 @@ import {
 } from "../../hooks";
 import {areAcStatesSynced} from "../../utils";
 import {Button, Icon, Tooltip} from "react-native-elements";
+import RoomSensor from "../../components/AirConditioner/DisplayTempAndHumidity";
+import DisplayTempAndHumidity from "../../components/AirConditioner/DisplayTempAndHumidity";
 
 const AirConditionerRemoteScreen = (props) => {
 
     const {deviceId} = props.route.params;
 
-    const [{dispatch, state}, inoState] = useAirConditionerStates(deviceId);
+    const [{state, dispatch}, inoState] = useAirConditionerStates(deviceId);
 
     useSubmitAirConditionerState(deviceId, state);
 
@@ -25,7 +27,6 @@ const AirConditionerRemoteScreen = (props) => {
         onTempChangeHandler,
         onBooleanChangeHandler
     } = useAcOnChangeHandlers(state, dispatch);
-
 
     const areStatesSynced = areAcStatesSynced(inoState.date, state.date);
     const settingsButtonBorderRadius = 10;
@@ -101,18 +102,16 @@ const AirConditionerRemoteScreen = (props) => {
                 />
             </View>
         </View>
+        <DisplayTempAndHumidity deviceId={deviceId}/>
         <View style={styles.infoContainer}>
-            <View>
-
-                <Tooltip popover={<Text>{areStatesSynced ? 'Devices are synced!' : 'Devices are not synced!'}</Text>}>
-                    <Icon
-                        name='md-information-circle-outline'
-                        type='ionicon'
-                        size={70}
-                        color={areStatesSynced ? Colors.green : Colors.yellow}
-                    />
-                </Tooltip>
-            </View>
+            <Tooltip popover={<Text>{areStatesSynced ? 'Devices are synced!' : 'Devices are not synced!'}</Text>}>
+                <Icon
+                    name='md-information-circle-outline'
+                    type='ionicon'
+                    size={70}
+                    color={areStatesSynced ? Colors.green : Colors.yellow}
+                />
+            </Tooltip>
         </View>
     </View>;
 };
