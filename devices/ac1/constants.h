@@ -8,6 +8,6 @@
 #define READ_AC_PATH "/-MK3zOf-KoaDLGkBwYEr/app_to_ino"
 #define WRITE_AC_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app/ac"
 #define WRITE_AC_DATE_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app/ac/date"
-#define WRITE_SENSOR_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app/room"
+#define WRITE_SENSOR_PATH "/-MK3zOf-KoaDLGkBwYEr/ino_to_app/sensor"
 #define WIFI_SSID "phone"
 #define WIFI_PASSWORD "12345678"

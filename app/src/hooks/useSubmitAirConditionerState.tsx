@@ -11,7 +11,7 @@ export default function useSubmitAirConditionerState(deviceId: string, state: an
     useEffect(() => {
         if (secondRender.current) {
             dispatch(devicesActions.submitAirConditionerState(deviceId, state));
-        }else {
+        } else {
             if (!firstRender.current) {
                 firstRender.current = true;
             } else if (!secondRender.current) {
@@ -19,5 +19,5 @@ export default function useSubmitAirConditionerState(deviceId: string, state: an
             }
         }
 
-    }, [state, firstRender,secondRender, secondRender,deviceId]);
+    }, [state, firstRender, secondRender, deviceId]);
 };

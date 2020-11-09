@@ -1,6 +1,7 @@
-import {useInoAirConditionerState, useLocalAirConditionerState} from "./index";
 import AirConditionerState from "../models/AirConditionerState";
 import {Dispatch} from "react";
+import useLocalAirConditionerState from "./useLocalAirConditionerState";
+import useInoAirConditionerState from "./useInoAirConditionerState";
 
 export default function useAirConditionerStates(deviceId: string): [{
     state: AirConditionerState,

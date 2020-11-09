@@ -17,7 +17,7 @@
     "@ubaids/react-native-material-textfield": "^0.16.3",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
-    "firebase": "7.9.3",
+    "firebase": "8.0.1",
     "formik": "^2.2.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",

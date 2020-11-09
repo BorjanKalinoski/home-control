@@ -10,7 +10,6 @@ import {
 } from "../../hooks";
 import {areAcStatesSynced} from "../../utils";
 import {Button, Icon, Tooltip} from "react-native-elements";
-import RoomSensor from "../../components/AirConditioner/DisplayTempAndHumidity";
 import DisplayTempAndHumidity from "../../components/AirConditioner/DisplayTempAndHumidity";
 
 const AirConditionerRemoteScreen = (props) => {

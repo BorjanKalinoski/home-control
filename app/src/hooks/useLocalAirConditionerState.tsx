@@ -30,7 +30,7 @@ export default function useLocalAirConditionerState(deviceId: string): [AirCondi
     useEffect(() => {
         const fetchPreviousState = async () => {
             try {
-                const snapshot = await firebase.database().ref(`${deviceId}/app_to_ino/ac`).once('value');
+                const snapshot = await firebase.database().ref(`${deviceId}/app_to_ino`).once('value');
                 let response: AirConditionerState = snapshot.val();
 
                 if (!response) {
