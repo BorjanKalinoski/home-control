@@ -25,7 +25,7 @@ bool detectObstacle(float distance)
 
 bool hasMail() {
   float distance1 = getDistanceFromSensor(trigPin1, echoPin1);
-  delay(2500);
+  delay(2200);
   float distance2 = getDistanceFromSensor(trigPin2, echoPin2);
 
   if (detectObstacle(distance1) || detectObstacle(distance2)) {
@@ -46,9 +46,9 @@ float getDistanceFromSensor(int trigPin, int echoPin) {
   pingTime = pulseIn(echoPin, HIGH, timeOut);
   distance = (float)pingTime * soundVelocity / 2 / 10000;
 
-  Serial.println("Sensor");
-  Serial.println(trigPin);
-  Serial.println("Distance:");
-  Serial.println(distance);
+//  Serial.println("Sensor");
+//  Serial.println(trigPin);
+//  Serial.println("Distance:");
+//  Serial.println(distance);
   return distance;
 }

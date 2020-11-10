@@ -6,10 +6,10 @@
 
 
 void setup() {
-  Serial.begin(115200);
+//  Serial.begin(115200);
   connectToWifi();
 
-  Serial.println("WOOOO");
+//  Serial.println("WOOOO");
   setupFirebase();
   initialiseSensors();
 }
