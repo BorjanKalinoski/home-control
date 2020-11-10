@@ -10,8 +10,7 @@ const DrawerContent = (props: any) => {
 
     const dispatch = useDispatch();
 
-    return (<View style={globalStyles.container}>
-
+    return (<View style={globalStyles.stretch}>
         <DrawerContentScrollView {...props}>
             <DrawerItemList {...props} />
         </DrawerContentScrollView>

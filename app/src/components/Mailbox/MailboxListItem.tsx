@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {SetStateAction, useEffect, useState} from "react";
 import { TouchableOpacity} from "react-native"
 import firebase from '../../firebase';
 import Loading from "../UI/Lodaing";
@@ -10,7 +10,7 @@ import Colors from "../../constants/Colors";
 
 const MailboxListItem = ({name, deviceId}: MailboxListItemProps) => {
 
-    const [hasMail, setHasMail] = useState();
+    const [hasMail, setHasMail]: [undefined | boolean, SetStateAction<boolean | any>] = useState();
     const [displayDeviceName, setDisplayDeviceName] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     let displayText;
@@ -28,7 +28,6 @@ const MailboxListItem = ({name, deviceId}: MailboxListItemProps) => {
         firebase.database().ref(path).on('value', (snapshot) => {
             const response: Mailbox = snapshot.val();
             if (response) {
-                // @ts-ignore
                 setHasMail(response.mail);
                 setIsLoading(false);
             } else {

@@ -1,13 +1,12 @@
-void readStateFromFirebase() {
+void readAcStateFromFirebase() {
 
   while (true)
   {
-    Serial.println("reading!");
-    if (Firebase.getJSON(readData, READ_AC_PATH)) {
+    yield();
+    if (Firebase.getJSON(firebaseData, PATH + "/app_to_ino")) {
 
-      FirebaseJson &json = readData.jsonObject();
+      FirebaseJson &json = firebaseData.jsonObject();
       FirebaseJsonData data;
-
 
       json.get(data, "fan");
 
@@ -47,65 +46,55 @@ void readStateFromFirebase() {
       json.get(data, "date");
 
       if (data.success) {
-        Serial.println("woowt");
-        double flooredDate = floor(data.doubleValue);
-        if (previousDate != flooredDate) {
+        double roundedDate = floor(data.doubleValue);
+        if (previousDate != roundedDate) {
           stateHasChanged = true;
-          previousDate = flooredDate;
-          
-        Serial.println("true");
+          previousDate = roundedDate;
         }
       }
       break;
     } else {
-      Serial.println("Error reading data!");
-      Serial.println(readData.errorReason());
+      Serial.println(firebaseData.errorReason());
     }
     delay(300);
   }
 }
 
-void writeStateToFirebase() {
-  writeJson.set("power", ac.getPower());
-  writeJson.set("mode", (int) ac.getMode());
-  writeJson.set("swing", ac.getSwingVertical());
-  writeJson.set("fan", (int) ac.getFan());
-  writeJson.set("temp", ac.getTemp());
-  writeJson.set("turbo", ac.getTurbo());
-  writeJson.set("date", previousDate);
+void writeAcStateToFirebase() {
+  firebaseJson.clear();
+  firebaseJson.set("power", ac.getPower());
+  firebaseJson.set("mode", (int) ac.getMode());
+  firebaseJson.set("swing", ac.getSwingVertical());
+  firebaseJson.set("fan", (int) ac.getFan());
+  firebaseJson.set("temp", ac.getTemp());
+  firebaseJson.set("turbo", ac.getTurbo());
+  firebaseJson.set("date", previousDate);
 
   while (true) {
-    //    Serial.println("Sending data back");
-    if (Firebase.set(writeData, WRITE_AC_PATH, writeJson))   {
-      //      Serial.println("PASSED");
-      //      Serial.println("PATH: " + writeData.dataPath());
-      //      Serial.println("TYPE: " + writeData.dataType());
+
+    yield();
+    if (Firebase.set(firebaseData, PATH + "/ino_to_app/ac", firebaseJson))   {
+      Serial.println("Wrote ac");
       break;
     }
     else {
-      //      Serial.println("FAILED");
-      //      Serial.println("REASON: " + writeData.errorReason());
-      //      Serial.println("------------------------------------");
-      //      Serial.println();
+      Serial.println("AC failed: " + firebaseData.errorReason());
     }
     delay(300);
   }
 }
 
-void readLastWriteDate() {//TODO change naming
+void readLastAcCommandDate() {//TODO change naming
   while (true)
   {
-    if (Firebase.getDouble(lastWriteData, WRITE_AC_DATE_PATH)) {
-
-      if (lastWriteData.dataType() == "double") {
-        previousDate = floor(lastWriteData.doubleData());
+    if (Firebase.getDouble(firebaseData, PATH + "/ino_to_app/ac/date")) {
+      if (firebaseData.dataType() == "double") {
+        previousDate = floor(firebaseData.doubleData());
       }
       break;
     } else {
-//      Serial.println("Error reading data!");
-//      Serial.println(lastWriteData.errorReason());
+      Serial.println("Date error:" + firebaseData.errorReason());
     }
     delay(300);
   }
-
 }

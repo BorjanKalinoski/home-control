@@ -1,17 +1,16 @@
 import React, {useEffect} from "react";
 import {FlatList, StyleSheet, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
-import {devicesActions} from '../../redux/actions';
-import {MailboxListItem, AirConditionerListItem, Loading} from "../../components";
-import {globalStyles} from "../../styles";
 import {Text} from 'react-native-elements';
-import Devices from "../../constants/Devices";
 import {StackNavigationProp} from "@react-navigation/stack";
+import Devices from "../../constants/Devices";
+import {MailboxListItem, AirConditionerListItem, Loading} from "../../components";
+import {devicesActions} from '../../redux/actions';
+import {globalStyles} from "../../styles";
+import Colors from "../../constants/Colors";
 
 const DevicesScreen = ({navigation}: DevicesScreenProps) => {
 
-
-    // @ts-ignore
     const {devices, isLoading} = useSelector(state => state.devices);
 
     const dispatch = useDispatch();
@@ -30,12 +29,12 @@ const DevicesScreen = ({navigation}: DevicesScreenProps) => {
     };
 
     if (isLoading) {
-        return <Loading style={globalStyles.noStretch}/>;
+        return <Loading />;
     }
 
     if (!devices.length) {
-        return <View style={styles.noDevicesScreen}>
-            <Text style={styles.noDevicesText}>There are no connected devices</Text>
+        return <View style={styles.container}>
+            <Text style={styles.text}>There are no connected devices</Text>
         </View>;
     }
 
@@ -49,18 +48,19 @@ const DevicesScreen = ({navigation}: DevicesScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-    noDevicesScreen: {
+    container: {
         ...globalStyles.center,
         paddingVertical: 40
     },
-    noDevicesText: {
+    text: {
         fontWeight: 'bold',
-        fontSize: 18
+        fontSize: 18,
+        color: Colors.black
     }
 });
 
-type DevicesScreenProps={
+type DevicesScreenProps = {
     navigation: StackNavigationProp<any>;
-}
+};
 
 export default DevicesScreen;

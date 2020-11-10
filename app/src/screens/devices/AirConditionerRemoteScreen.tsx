@@ -30,7 +30,7 @@ const AirConditionerRemoteScreen = (props) => {
     const areStatesSynced = areAcStatesSynced(inoState.date, state.date);
     const settingsButtonBorderRadius = 10;
 
-    return <View style={globalStyles.container}>
+    return <View style={globalStyles.stretch}>
         <Display
             state={state}
         />

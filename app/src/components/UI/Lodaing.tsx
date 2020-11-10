@@ -6,7 +6,7 @@ const Loading = (props: any) => {
     const {style} = props;
     const size = props.size ? props.size : 'large';
 
-    return <View style={{...globalStyles.container, ...globalStyles.center, ...style}}>
+    return <View style={{...globalStyles.stretch, ...globalStyles.center, ...style}}>
         <ActivityIndicator color="#0000ff" size={size}/>
     </View>;
 };

@@ -1,9 +1,9 @@
 import React, {useCallback} from "react";
 import {TouchableOpacity} from "react-native";
 import {Icon, ListItem, Text} from "react-native-elements";
-import { iconSize, listStyles} from "../../constants/list-item";
-import Colors from "../../constants/Colors";
 import {StackNavigationProp} from "@react-navigation/stack";
+import {iconSize, listStyles} from "../../constants/list-item";
+import Colors from "../../constants/Colors";
 
 const AirConditionerListItem = ({title, navigation, deviceId}: AirConditionerListItemProps) => {
 
