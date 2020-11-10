@@ -1,29 +1,27 @@
-#define MAX_DISTANCE 200
+const unsigned long uS_TO_S_FACTOR = 1000000; /* Conversion factor for micro seconds to seconds */
+const unsigned long TIME_TO_SLEEP_S = 15; /* Time ESP32 will go to sleep (in seconds) */
 
-float timeOut = MAX_DISTANCE * 60;
-int soundVelocity = 340;
+void deepSleep() {
+  esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP_S * uS_TO_S_FACTOR);
+  esp_deep_sleep_start();
+  //  adc_power_off();
+  //  esp_wifi_stop();
+  //  esp_bt_controller_disable();
 
-
-float getDistance(int trigPin, int echoPin) {
-  unsigned long pingTime;
-  float distance;
-
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  pingTime = pulseIn(echoPin, HIGH, timeOut);
-  distance = (float)pingTime * soundVelocity / 2 / 10000;
-
-  Serial.println("Sensor");
-  Serial.println(trigPin);
-  Serial.println("Distance:");
-  Serial.println(distance);
-  return distance;
 }
 
-bool hasMail(float distance)
-{
-  if (distance < 7.5 || distance > 9)
-    return true;
-  return false;
+void sendStateToFirebase(bool mail) {
+
+  firebaseJson.clear();
+  firebaseJson.set("mail", mail);
+
+  while (true) {
+    if (Firebase.set(firebaseData, PATH + "/ino_to_app", firebaseJson)) {
+      Serial.println("Wrote at: " + firebaseData.dataPath());
+      break;
+    } else {
+      Serial.println("Err: " + firebaseData.errorReason());
+    }
+    delay(300);
+  }
 }

@@ -1,10 +1,7 @@
 #include <FirebaseESP32.h>
 
-FirebaseData writeData;
-FirebaseData initData;
-
-FirebaseJson initJson;
-FirebaseJson writeJson;
+FirebaseData firebaseData;
+FirebaseJson firebaseJson;
 
 void setupFirebase() {
 
@@ -14,19 +11,19 @@ void setupFirebase() {
   //****COMMENT FROM HERE AFTER INITIAL SETUP***//
   //  String path = "/devices/-MK9iuWPpU0yC1Y_ytYq";
 
-  //  initJson.set("type", DEVICE_TYPE);
-  //  initJson.set("name", DEVICE_NAME);
-  //  initJson.set("uid", UID);
+  //  firebaseJson.set("type", DEVICE_TYPE);
+  //  firebaseJson.set("name", DEVICE_NAME);
+  //  firebaseJson.set("uid", UID);
   //  //
-  //  if (Firebase.set(initData, path, initJson))
+  //  if (Firebase.set(firebaseData, path, firebaseJson))
   //  {
-  //    Serial.println("PATH: " + initData.dataPath());
-  //    Serial.println("TYPE: " + initData.dataType());
+  //    Serial.println("PATH: " + firebaseData.dataPath());
+  //    Serial.println("TYPE: " + firebaseData.dataType());
   //  }
   //  else
   //  {
   //    Serial.println("FAILED");
-  //    Serial.println("REASON: " + initData.errorReason());
+  //    Serial.println("REASON: " + firebaseData.errorReason());
   //    Serial.println("------------------------------------");
   //    Serial.println();
   //  }
