@@ -87,6 +87,7 @@ void writeAcStateToFirebase() {
 void readLastAcCommandDate() {//TODO change naming
   while (true)
   {
+    yield();
     if (Firebase.getDouble(firebaseData, PATH + "/ino_to_app/ac/date")) {
       if (firebaseData.dataType() == "double") {
         previousDate = floor(firebaseData.doubleData());

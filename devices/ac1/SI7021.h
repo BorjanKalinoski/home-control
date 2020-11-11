@@ -78,6 +78,7 @@ void writeSI7021toFirebase() {
   firebaseJson.set("date/.sv", "timestamp");
 
   while (true) {
+    yield();
     if (Firebase.set(firebaseData, PATH + "/ino_to_app/sensor", firebaseJson))   {
       Serial.println("PASSED");
       Serial.println("PATH: " + firebaseData.dataPath());
