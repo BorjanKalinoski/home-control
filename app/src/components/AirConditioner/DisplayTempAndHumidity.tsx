@@ -50,7 +50,7 @@ const DisplayTempAndHumidity = ({deviceId}) => {
                     showIndicator
                 />
                 <Text style={tempInvalid ? {...styles.text, ...invalidStyle} : styles.text}>
-                    T: {temp}  &#x2103;
+                    T: {tempInvalid ? 'NaN' : temp} {tempInvalid ? '' : <Text>&#x2103;</Text>}
                 </Text>
             </View>
             <View style={{borderWidth: 0, alignItems: 'center'}}>
@@ -61,7 +61,7 @@ const DisplayTempAndHumidity = ({deviceId}) => {
                     showIndicator
                 />
                 <Text style={humidityInvalid ? {...styles.text, ...invalidStyle} : styles.text}>
-                    H: {humidity} %
+                    H: {humidityInvalid ? 'NaN' : `${humidity} %`}
                 </Text>
             </View>
         </View>

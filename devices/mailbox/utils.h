@@ -16,6 +16,7 @@ void sendStateToFirebase(bool mail) {
   firebaseJson.clear();
   firebaseJson.set("mail", mail);
   firebaseJson.set("date/.sv", "timestamp");
+  yield();
   while (true) {
     if (Firebase.set(firebaseData, PATH + "/ino_to_app", firebaseJson)) {
       //      Serial.println("Wrote at: " + firebaseData.dataPath());

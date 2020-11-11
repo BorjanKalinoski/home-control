@@ -33,8 +33,6 @@ float readHumidity() {
 
   // Convert the data
   float humidity  = ((data[0] * 256.0) + data[1]);
-  Serial.println("Hum!");
-  Serial.println(humidity);
   humidity = ((125 * humidity) / 65536.0) - 6;
 
   return humidity;
@@ -63,9 +61,6 @@ float readTemp() {
 
   // Convert the data
   float temp  = ((data[0] * 256.0) + data[1]);
-  Serial.println("Temp!");
-  Serial.println(temp);
-
   float cTemp = ((175.72 * temp) / 65536.0) - 46.85;
 
 
@@ -77,7 +72,7 @@ void writeSI7021toFirebase() {
   float temp = readTemp();
 
   firebaseJson.clear();
-//494344
+
   firebaseJson.set("temp", temp);
   firebaseJson.set("humidity", humidity);
   firebaseJson.set("date/.sv", "timestamp");
