@@ -14,9 +14,11 @@ const DrawerNavigator = () => {
             drawerContent={props => <DrawerContent {...props}/>}
             edgeWidth={dimensions.width}
             openByDefault={false}
+            screenOptions={{
+                headerShown: false
+            }}
         >
             <Drawer.Screen name='Devices' component={DevicesStackNavigator}/>
-            {/*<Drawer.Screen name='Profile' component={ProfileScreen}/>*/}
         </Drawer.Navigator>
     );
 };

@@ -3,7 +3,7 @@ const uint16_t kIrLed = D5;
 IRTcl112Ac ac(kIrLed);
 
 const unsigned long readInterval = 120 * 1000; //execute every X seconds
-const unsigned long sensorWriteInterval = 1600 * 1000;
+const unsigned long sensorWriteInterval = 15 * 1000;
 unsigned long previousTime = 0;
 unsigned long previousSensorWriteTime = 0;
 
