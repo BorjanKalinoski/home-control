@@ -5,24 +5,22 @@ const unsigned long TIME_TO_SLEEP_S = 4000; /* Time ESP32 will go to sleep (in s
 
 void deepSleep() {
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP_S * uS_TO_S_FACTOR);
-
   adc_power_off();
   esp_wifi_disconnect();
   esp_deep_sleep_start();
 }
 
 void sendStateToFirebase(bool mail) {
-
   firebaseJson.clear();
   firebaseJson.set("mail", mail);
   firebaseJson.set("date/.sv", "timestamp");
-  yield();
   while (true) {
-    if (Firebase.set(firebaseData, PATH + "/ino_to_app", firebaseJson)) {
-      //      Serial.println("Wrote at: " + firebaseData.dataPath());
+    yield();
+    if (Firebase.set(firebaseData, BASE_PATH + "/ino_to_app", firebaseJson)) {
+      Serial.println("Success!");
       break;
     } else {
-      //      Serial.println("Err: " + firebaseData.errorReason());
+      Serial.println("Error: " + firebaseData.errorReason());
     }
     delay(200);
   }

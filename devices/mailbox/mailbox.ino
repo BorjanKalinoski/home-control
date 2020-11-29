@@ -4,12 +4,10 @@
 #include "utils.h"
 #include "sensors.h"
 
-
 void setup() {
- Serial.begin(115200);
   connectToWifi();
   setupFirebase();
-  initialiseSensors();
+  initializeSensors();
 }
 
 void loop() {
