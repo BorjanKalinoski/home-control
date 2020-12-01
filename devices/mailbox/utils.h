@@ -1,5 +1,5 @@
 const unsigned long uS_TO_S_FACTOR = 1000000; /* Conversion factor for micro seconds to seconds */
-const unsigned long TIME_TO_SLEEP_S = 4000; /* Time ESP32 will go to sleep (in seconds) */
+const unsigned long TIME_TO_SLEEP_S = 4320; /* Time ESP32 will go to sleep (in seconds) */
 #include <esp_wifi.h>
 #include "driver/adc.h"
 

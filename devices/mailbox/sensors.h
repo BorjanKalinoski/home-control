@@ -20,7 +20,7 @@ bool detectObstacle(float distance)
 
 bool hasMail() {
   float distance1 = getDistanceFromSensor(trigPin1, echoPin1);
-  delay(2200);
+  delay(2000);
   float distance2 = getDistanceFromSensor(trigPin2, echoPin2);
 
   if (detectObstacle(distance1) || detectObstacle(distance2)) {
@@ -39,7 +39,7 @@ float getDistanceFromSensor(int trigPin, int echoPin) {
   duration = pulseIn(echoPin, HIGH);
   distance = (duration*0.0343)/2;
   return distance;
-
+}
 
   
   unsigned long pingTime;
