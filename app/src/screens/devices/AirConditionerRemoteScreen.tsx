@@ -36,13 +36,12 @@ const AirConditionerRemoteScreen = (props) => {
         />
         <View style={styles.powerAndTempButtonsRow}>
             <Button
-                icon={<Icon color={'white'}
-                            name='power' type='material-community' size={35}/>}
+                icon={<Icon color={'white'} name='power' type='material-community' size={35}/>}
                 onPress={() => onBooleanChangeHandler('power')}
                 containerStyle={{borderWidth: 1, elevation: 3}}
                 buttonStyle={{backgroundColor: Colors.red, borderRadius: 50, padding: 5}}
             />
-            <View style={{...globalStyles.row, ...styles.tempContainer}}>
+            <View style={{flexDirection: 'row', ...styles.tempContainer}}>
                 <Button
                     buttonStyle={{
                         ...styles.tempButton,
@@ -117,7 +116,7 @@ const AirConditionerRemoteScreen = (props) => {
 
 const styles = StyleSheet.create({
     powerAndTempButtonsRow: {
-        ...globalStyles.row,
+        flexDirection: 'row',
         marginVertical: 20,
         justifyContent: 'space-between',
         paddingHorizontal: 16
@@ -141,12 +140,12 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     settingsButtonRow: {
-        ...globalStyles.row,
+        flexDirection: 'row',
         width: '100%'
     },
     infoContainer: {
         width: '100%',
-        ...globalStyles.row,
+        flexDirection: 'row',
         ...globalStyles.center,
         paddingVertical: 25
     },

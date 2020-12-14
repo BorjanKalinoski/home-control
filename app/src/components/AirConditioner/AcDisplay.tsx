@@ -14,7 +14,7 @@ const AcDisplay = (props: any) => {
 
     return <View style={styles.displayContainer}>
         <View style={opacityStyle}>
-            <View style={{...globalStyles.row, ...styles.marginBottom}}>
+            <View style={{flexDirection: 'row', ...styles.marginBottom}}>
                 <DisplayModeIcon
                     icon='md-sunny'
                     text='Heat'
@@ -43,7 +43,7 @@ const AcDisplay = (props: any) => {
                     isMatIcon
                 />
             </View>
-            <View style={globalStyles.row}>
+            <View style={{flexDirection: 'row'}}>
                 <View style={styles.fanIconsContainer}>
                     <DisplayModeIcon
                         isActive={fan === FanTypes.AUTO}

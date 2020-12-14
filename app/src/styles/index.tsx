@@ -9,9 +9,6 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    row: {
-        flexDirection: 'row'
-    },
 });
 
 

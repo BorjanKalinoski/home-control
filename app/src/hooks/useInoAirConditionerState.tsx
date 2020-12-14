@@ -22,6 +22,7 @@ export default function useInoAirConditionerState(deviceId: string): AirConditio
         return () => {
             firebase.database().ref(referencePath).off('value');
         };
-    }, [deviceId, firebase, setAcState]);
+    }, [deviceId]);
+
     return mapTclProtocolToAcState(acState);
 };

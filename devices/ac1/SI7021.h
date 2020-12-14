@@ -11,6 +11,7 @@ void initSI7021() {
   Wire.endTransmission();
   delay(300);
 }
+
 float readHumidity() {
   unsigned int data[2];
   // Start I2C transmission

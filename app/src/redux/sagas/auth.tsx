@@ -6,24 +6,13 @@ import {createAuthChannel} from "./channels";
 
 export function* authenticate(action: any) {
     try {
-        const {email, password, isLoginScreen} = action.payload;
-
-        if (isLoginScreen) {
-            yield call(
-                Api.loginWithEmailAndPassword,
-                email,
-                password
-            );
-        } else {
-            yield call(
-                Api.signUpWithEmailAndPassword,
-                email,
-                password
-            );
-        }
-
+        const {email, password, isLogin} = action.payload;
+        yield call(
+            isLogin ? Api.loginWithEmailAndPassword : Api.signUpWithEmailAndPassword,
+            email,
+            password
+        );
         yield put(authActions.authenticationSuccess());
-
     } catch (error) {
         yield put(authActions.authenticationFailed(error));
     }

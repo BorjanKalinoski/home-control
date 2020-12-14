@@ -84,7 +84,7 @@ void writeAcStateToFirebase() {
   }
 }
 
-void readLastAcCommandDate() {//TODO change naming
+void readLastAcStateFromFirebase() {//TODO change naming
   while (true)
   {
     yield();

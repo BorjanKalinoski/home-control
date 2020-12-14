@@ -15,11 +15,10 @@ export default function useAirConditionerStates(deviceId: string): [{
     const inoState = useInoAirConditionerState(deviceId);
 
 
-    return [
-        {
-            state: localState,
-            dispatch: dispatchLocalState
-        },
+    return [{
+        state: localState,
+        dispatch: dispatchLocalState
+    },
         inoState
     ];
 };
