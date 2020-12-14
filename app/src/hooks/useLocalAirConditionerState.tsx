@@ -31,13 +31,13 @@ export default function useLocalAirConditionerState(deviceId: string): [AirCondi
         const fetchPreviousState = async () => {
             try {
                 const snapshot = await firebase.database().ref(`${deviceId}/app_to_ino`).once('value');
-                let response: AirConditionerState = snapshot.val();
+                let acState: AirConditionerState = snapshot.val();
 
-                if (!response) {
-                    response = initialAcState;
+                if (!acState) {
+                    acState = initialAcState;
                 }
                 dispatch({
-                    ...response,
+                    ...acState,
                     type: SET_AC_STATE
                 });
             } catch (e) {
@@ -46,12 +46,12 @@ export default function useLocalAirConditionerState(deviceId: string): [AirCondi
             }
         };
         fetchPreviousState();
-    }, []);
+    }, [deviceId]);
 
-    const dispatchLocalState = useCallback(async (modifiedState: any) => {
+    const dispatchLocalState = useCallback(async (newState: any) => {
         dispatch({
             ...state,
-            ...modifiedState,
+            ...newState,
             type: SET_AC_STATE,
             date: new Date().getTime()
         });

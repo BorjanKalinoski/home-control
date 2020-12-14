@@ -22,7 +22,7 @@ void setup() {
   setupFirebase();
   ac.begin();
   initSI7021();
-  readLastAcCommandDate();
+  readLastAcStateFromFirebase();
 }
 
 void loop() {

@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import {TextField} from "@ubaids/react-native-material-textfield";
 import Colors from "../../constants/Colors";
 
-
 const initialValues = {
     email: '',
     password: ''
@@ -20,8 +19,7 @@ const validationSchema = yup.object().shape({
 });
 
 const AuthScreen = (props: any) => {
-    const [isLoginScreen, setIsLoginScreen] = useState(true);
-    // @ts-ignore
+    const [isLogin, setIsLogin] = useState(true);
     const {error, isSubmitting} = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
@@ -36,15 +34,15 @@ const AuthScreen = (props: any) => {
         );
     }
 
-    const submitButtonText = isLoginScreen ? 'Login' : 'Sign Up';
-    const switchToHelperText = isLoginScreen ? 'Don\'t have an account?' : 'Already have an account?';
-    const switchToText = isLoginScreen ? 'Sign Up' : 'Login';
+    const submitButtonText = isLogin ? 'Login' : 'Sign Up';
+    const switchToHelperText = isLogin ? 'Don\'t have an account?' : 'Already have an account?';
+    const switchToText = isLogin ? 'Sign Up' : 'Login';
 
     return <Formik
         initialValues={initialValues}
         onSubmit={(values, actions) => {
             const {email, password} = values;
-            dispatch(authActions.authenticateWithEmailAndPassword(email, password, isLoginScreen));
+            dispatch(authActions.authenticateWithEmailAndPassword(email, password, isLogin));
         }}
         validationSchema={validationSchema}
     >
@@ -81,7 +79,7 @@ const AuthScreen = (props: any) => {
                             {switchToHelperText}
                         </Text>
                         <TouchableWithoutFeedback disabled={isSubmitting} onPress={() => {
-                            setIsLoginScreen((prevState => !prevState));
+                            setIsLogin((prevState => !prevState));
                             dispatch(authActions.clearAuthErrors());
                         }}>
                             <Text style={styles.switchToText}>{switchToText}</Text>

@@ -28,14 +28,11 @@ const MailboxListItem = ({name, deviceId}: MailboxListItemProps) => {
         firebase.database().ref(path).on('value', (snapshot) => {
             const response: Mailbox = snapshot.val();
             if (response) {
-                setHasMail(response.mail);
-                setIsLoading(false);
-            } else {
-                setIsLoading(false);
+                setHasMail(response.mail); //true or false
             }
+            setIsLoading(false);
         });
-
-        return () => {
+        return () => { //cleanup function
             firebase.database().ref(path).off('value');
         };
     }, []);

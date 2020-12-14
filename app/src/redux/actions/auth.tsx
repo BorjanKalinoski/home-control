@@ -5,16 +5,15 @@ import {
     AUTHENTICATION_FAILED,
     SIGNOUT,
     SIGNOUT_SUCCESS,
-    SIGNOUT_FAILED
+    SIGNOUT_FAILED,
 } from "./types";
 
-
-export const authenticateWithEmailAndPassword = (email: string, password: string, isLoginScreen: boolean) => ({
+export const authenticateWithEmailAndPassword = (email: string, password: string, isLogin: boolean) => ({
     type: AUTHENTICATE,
     payload: {
         email,
         password,
-        isLoginScreen
+        isLogin
     }
 });
 
